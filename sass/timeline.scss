@@ -1,0 +1,134 @@
+@import "compass";
+
+.tlFrameView{
+  @include pie-clearfix;
+}
+
+.tlLineView{
+  @include pie-clearfix;
+  float: left;
+  overflow: hidden;
+}
+
+.tlLinesWrapper{
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling:touch;
+}
+
+/* tlTimeIndicator */
+#tlTimeIndicator{
+  width: 70px;
+  height: 24px;
+  line-height: 24px;
+  color: #ddd;
+  font-size: 12px;
+  text-align: center;
+  padding-right: 10px;
+  font-weight: bold;
+  background-image: url('../img/indicator.png');
+  background-repeat: no-repeat;
+}
+
+/* tlRuler */
+$ruler_width: 30px;
+.tlRulerView{
+  float: left;
+  text-align: center;
+  font-size: 14px;
+  width: $ruler_width;
+}
+
+/* tlTimeline */
+.tlLineView.even .tlTimeline{
+  background-color: #f3f3f3;
+}
+
+.tlLineView.odd .tlTimeline{
+  background-color: #fbfbfb;
+}
+
+
+
+.tlLineView.tlEventOver .tlTimeline{
+  background-color: #FFFED6;
+}
+
+.tlTimeline{
+  float: left;
+}
+
+.tlLabelView{
+  @include pie-clearfix;
+  position: relative;
+  z-index: 1000;
+}
+
+.tlLabel{
+  font-size: 11px;
+  text-align: center;
+  height: 16px;
+  line-height: 16px;
+  color: #fff;
+  background-color: #337ab7;
+  overflow: hidden;
+  float: left;
+  @include user-select(none);
+}
+
+.tlLabel.tlHasRuler{
+  margin-left: $ruler_width;
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
+}
+
+.tlLabel.tlPrevRuler, .tlLabel.tlLast{
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+}
+
+.tlHourView{
+  border-top: 1px solid #999;
+}
+
+.tlHourView.tlHasLabel{
+  border-top: none;
+}
+
+.tlMinView._15, .tlMinView._45{
+  border-bottom: 1px dashed #ddd;
+}
+
+.tlMinView._30{
+  border-bottom: 1px solid #ccc;
+}
+
+.tlFlexibleHandle{
+  cursor: row-resize;
+  margin: 0 auto;
+  border-radius: 3px;
+  border: 2px solid #555;
+  background-color: rgba(100, 100, 100, 0.5 );
+  text-align: center;
+  font-size: 20px;
+}
+
+/* tlEventView */
+.tlEventView{
+  opacity: 0.7;
+  border-radius: 5px;
+  border: 1px solid #777;
+  text-align: center;
+  line-height: 17px;
+  overflow: hidden;
+  .tlFloating{
+    border: 2px dotted #333;
+  }
+
+  .display{
+    overflow: hidden;
+    line-height: 12px;
+    padding: 3px;
+  }
+}
