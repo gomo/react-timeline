@@ -1,6 +1,7 @@
 import ReactDOM from 'react-dom';
 import {Timeline, Time, TimeSpan, Actions} from '../index.es6';
 
+
 window.onload = () => {
 
   const lineData = [
@@ -22,6 +23,10 @@ window.onload = () => {
   ];
 
   const timeSpan = TimeSpan.create([10, 0], [25, 0]);
+
+  // Timeline.window.resize(function(){
+  //     self._linesWrapper.outerHeight(Timeline.window.height() - self._labelView.height());
+  // });
 
   var actions = new Actions(ReactDOM.render(
     <Timeline

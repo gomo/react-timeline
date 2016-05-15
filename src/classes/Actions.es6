@@ -7,4 +7,8 @@ export default class Actions
   addEvent(){
     // console.log(this.timeline.state.lineData);
   }
+
+  setFrameHeight(height){
+    this.timeline.setState({frameHeight: height});
+  }
 }

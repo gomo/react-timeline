@@ -2,43 +2,81 @@ import React from 'react';
 import TimeSpan from '../classes/TimeSpan';
 import LineView from './LineView';
 import RulerView from './RulerView';
+import classNames from 'classnames';
 
 export default class Timeline extends React.Component
 {
+  static get windowSize(){
+    const width = window.innerWidth
+    || document.documentElement.clientWidth
+    || document.body.clientWidth;
+
+    const height = window.innerHeight
+    || document.documentElement.clientHeight
+    || document.body.clientHeight;
+
+    return {width: width, height: height};
+  }
+
   constructor(props) {
     super(props);
     this.state = {
-      lineData: this.props.lineData
+      lines: [],
+      labels: [],
+      frameHeight: this.props.frameHeight
     }
+
+    const rulerInterval = 4;
+
+    //TODO 後から追加できる様にメソッドに抽出
+    props.lineData.forEach((data, index) => {
+      const labelClass = {tlLabel: true, tlHasRuler: false, tlPrevRuler: false}
+      const currentKey = index % rulerInterval;
+      if(currentKey === 0){
+        this.state.lines.push(<RulerView
+          key={'ruler_' + index}
+          minHeight={this.props.minHeight}
+          timeSpan={this.props.timeSpan}
+        />);
+
+        labelClass.tlHasRuler = true;
+      } else if(currentKey === rulerInterval - 1) {
+        labelClass.tlPrevRuler = true;
+      }
+
+      this.state.labels.push(
+        <div style={{width: this.props.lineWidth}} className={classNames(labelClass)} key={index}>{data.label}</div>
+      );
+
+      this.state.lines.push(<LineView
+        label={data.label}
+        key={data.id}
+        lineId={data.id}
+        width={this.props.lineWidth}
+        minHeight={this.props.minHeight}
+        timeSpan={this.props.timeSpan}
+        onClick={this.props.onClick}
+      />);
+    })
+  }
+
+  componentDidMount(){
+    const wrapperBounds = this.refs.linesWrapper.getBoundingClientRect();
+    const windowSize = Timeline.windowSize;
+    this.setState({frameHeight: windowSize.height - wrapperBounds.top});
+
+    window.addEventListener('resize', event => {
+      const wrapperBounds = this.refs.linesWrapper.getBoundingClientRect();
+      const windowSize = Timeline.windowSize;
+      this.setState({frameHeight: windowSize.height - wrapperBounds.top});
+    });
   }
 
   render(){
-    const lines = [];
-    this.state.lineData.forEach((data, index) => {
-      return (() => {
-        if(index % 4 === 0){
-          lines.push(<RulerView
-            key={'ruler_' + index}
-            minHeight={this.props.minHeight}
-            timeSpan={this.props.timeSpan}
-          />);
-        }
-
-        lines.push(<LineView
-          label={data.label}
-          key={data.id}
-          lineId={data.id}
-          width={this.props.lineWidth}
-          minHeight={this.props.minHeight}
-          timeSpan={this.props.timeSpan}
-          onClick={this.props.onClick}
-        />);
-      })()
-    })
-
     return (
       <div className="tlFrameView">
-        {lines}
+        <div className="tlLabelView">{this.state.labels}</div>
+        <div ref="linesWrapper" className="tlLinesWrapper" style={{height: this.state.frameHeight}}>{this.state.lines}</div>
       </div>
     );
   }
