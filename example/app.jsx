@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom';
-import {Timeline, Time, TimeSpan} from '../index.es6';
+import {Timeline, Time, TimeSpan, Actions} from '../index.es6';
 
 window.onload = () => {
 
@@ -23,13 +23,16 @@ window.onload = () => {
 
   const timeSpan = TimeSpan.create([10, 0], [25, 0]);
 
-  ReactDOM.render(
+  var actions = new Actions(ReactDOM.render(
     <Timeline
       lineData={lineData}
       timeSpan={timeSpan}
       lineWidth={62}
       minHeight={17}
+      onClick={() => {
+        actions.addEvent();
+      }}
     />,
     document.getElementById('timeline')
-  );
+  ));
 }

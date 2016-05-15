@@ -20,14 +20,9 @@ export default class HourView extends React.Component
           key={min}
           className={classNames('tlMinView', '_' + (min + 15))}
           style={minStyle}
-          onClick={e => this.onClick(e)}
         >&nbsp;</div>
       );
     }, 15)
-  }
-
-  onClick(e){
-    console.log(e.clientY, e.currentTarget.getBoundingClientRect(), e.offsetParent);
   }
 
   render(){
@@ -35,4 +30,9 @@ export default class HourView extends React.Component
       <div className="tlHourView">{this.state.minDivs}</div>
     );
   }
+}
+
+HourView.propTypes = {
+  minHeight: React.PropTypes.number.isRequired,
+  time: React.PropTypes.instanceOf(Time).isRequired
 }

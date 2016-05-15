@@ -27,9 +27,11 @@ export default class Timeline extends React.Component
         lines.push(<LineView
           label={data.label}
           key={data.id}
+          lineId={data.id}
           width={this.props.lineWidth}
           minHeight={this.props.minHeight}
           timeSpan={this.props.timeSpan}
+          onClick={this.props.onClick}
         />);
       })()
     })
@@ -49,5 +51,6 @@ Timeline.propTypes = {
     label: React.PropTypes.string.isRequired
   })).isRequired,
   lineWidth: React.PropTypes.number.isRequired,
-  minHeight: React.PropTypes.number.isRequired
+  minHeight: React.PropTypes.number.isRequired,
+  onClick: React.PropTypes.func
 }
