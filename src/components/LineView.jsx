@@ -27,7 +27,7 @@ export default class LineView extends React.Component
       const lineId = this.props.lineId
       const bounds = elem.getBoundingClientRect();
       const offsetY = e.clientY - bounds.top;
-      console.log(lineId, offsetY / bounds.height);
+      console.log(lineId, offsetY, bounds.height);
       this.props.onClick();
     }
   }
