@@ -1,27 +1,42 @@
 import React from 'react';
 import TimeSpan from '../classes/TimeSpan';
 import LineView from './LineView';
+import RulerView from './RulerView';
 
 export default class Timeline extends React.Component
 {
   constructor(props) {
     super(props);
+    this.state = {
+      lineData: this.props.lineData
+    }
   }
 
   render(){
+    const lines = [];
+    this.state.lineData.forEach((data, index) => {
+      return (() => {
+        if(index % 4 === 0){
+          lines.push(<RulerView
+            key={'ruler_' + index}
+            minHeight={this.props.minHeight}
+            timeSpan={this.props.timeSpan}
+          />);
+        }
+
+        lines.push(<LineView
+          label={data.label}
+          key={data.id}
+          width={this.props.lineWidth}
+          minHeight={this.props.minHeight}
+          timeSpan={this.props.timeSpan}
+        />);
+      })()
+    })
+
     return (
       <div className="tlFrameView">
-        {this.props.lineData.map((data, index) => {
-          return (
-            <LineView
-              label={data.label}
-              key={data.id}
-              width={this.props.lineWidth}
-              minHeight={this.props.minHeight}
-              timeSpan={this.props.timeSpan}
-            />
-          )
-        })}
+        {lines}
       </div>
     );
   }

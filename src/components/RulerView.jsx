@@ -1,7 +1,7 @@
 import React from 'react';
 import TimeSpan from '../classes/TimeSpan';
 
-export default class LineView extends React.Component
+export default class RulerView extends React.Component
 {
   constructor(props) {
     super(props);
@@ -10,7 +10,8 @@ export default class LineView extends React.Component
     }
     this.props.timeSpan.eachTime((key, time) => {
       const style = {
-        height: this.props.minHeight * 4 + 1
+        //border1pxを足す
+        height: (this.props.minHeight + 1) * 4
       }
       this.state.hours.push(
         <div key={time.getHour()} style={style}>{time.getDisplayHour()}</div>
@@ -25,7 +26,7 @@ export default class LineView extends React.Component
   }
 }
 
-LineView.propTypes = {
+RulerView.propTypes = {
   minHeight: React.PropTypes.number.isRequired,
   timeSpan: React.PropTypes.instanceOf(TimeSpan).isRequired
 }
