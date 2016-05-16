@@ -21,7 +21,6 @@ export default class LineView extends React.Component
           key={time.getHour()}
           time={time}
           minHeight={this.props.minHeight}
-          onClick={this.props.onClick}
         />
       );
     });
@@ -29,11 +28,8 @@ export default class LineView extends React.Component
 
   onClick(e){
     if(this.props.onClick){
-      const elem = e.currentTarget;
-      const lineId = this.props.lineId
-      const bounds = elem.getBoundingClientRect();
-      const offsetY = e.clientY - bounds.top;
-      console.log(lineId, offsetY, bounds.height);
+      const clickY = e.clientY - e.currentTarget.offsetTop + e.currentTarget.parentNode.scrollTop;
+      const time = this.timeline.util.topToTime(clickY);
       this.props.onClick();
     }
   }

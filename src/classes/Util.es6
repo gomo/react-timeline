@@ -33,4 +33,8 @@ export default class Util
   timeToTop(time){
     return this.lineTimeSpan.getStartTime().getDistance(time) * this.perMinHeight;
   }
+
+  topToTime(top){
+    return this.lineTimeSpan.getStartTime().addMin(top / this.perMinHeight);
+  }
 }
