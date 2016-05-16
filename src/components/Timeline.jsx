@@ -3,6 +3,7 @@ import TimeSpan from '../classes/TimeSpan';
 import LineView from './LineView';
 import RulerView from './RulerView';
 import classNames from 'classnames';
+import Lines from '../classes/Lines';
 
 export default class Timeline extends React.Component
 {
@@ -26,6 +27,8 @@ export default class Timeline extends React.Component
       frameHeight: this.props.frameHeight
     }
 
+    this.lines = new Lines();
+
     const rulerInterval = 4;
 
     //TODO 後から追加できる様にメソッドに抽出
@@ -48,7 +51,7 @@ export default class Timeline extends React.Component
         <div style={{width: this.props.lineWidth}} className={classNames(labelClass)} key={index}>{data.label}</div>
       );
 
-      this.state.lines.push(<LineView
+      var line = <LineView
         label={data.label}
         key={data.id}
         lineId={data.id}
@@ -56,19 +59,25 @@ export default class Timeline extends React.Component
         minHeight={this.props.minHeight}
         timeSpan={this.props.timeSpan}
         onClick={this.props.onClick}
-      />);
+        even={index % 2 !== 0}
+        lines={this.lines}
+      />;
+
+      this.lines[data.id] = line;
+      this.state.lines.push(line);
     })
   }
 
-  componentDidMount(){
+  fitToWindow(){
     const wrapperBounds = this.refs.linesWrapper.getBoundingClientRect();
     const windowSize = Timeline.windowSize;
     this.setState({frameHeight: windowSize.height - wrapperBounds.top});
+  }
 
+  componentDidMount(){
+    this.fitToWindow();
     window.addEventListener('resize', event => {
-      const wrapperBounds = this.refs.linesWrapper.getBoundingClientRect();
-      const windowSize = Timeline.windowSize;
-      this.setState({frameHeight: windowSize.height - wrapperBounds.top});
+      this.fitToWindow();
     });
   }
 

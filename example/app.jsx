@@ -24,20 +24,22 @@ window.onload = () => {
 
   const timeSpan = TimeSpan.create([10, 0], [25, 0]);
 
-  // Timeline.window.resize(function(){
-  //     self._linesWrapper.outerHeight(Timeline.window.height() - self._labelView.height());
-  // });
-
-  var actions = new Actions(ReactDOM.render(
+  var timeline = ReactDOM.render(
     <Timeline
       lineData={lineData}
       timeSpan={timeSpan}
       lineWidth={62}
       minHeight={17}
       onClick={() => {
-        actions.addEvent();
+        // actions.addEvent();
       }}
     />,
     document.getElementById('timeline')
-  ));
+  );
+
+  timeline.lines.addEvents([
+    {lineId: '__2', timeSpan: TimeSpan.create([11, 0], [12, 0]), color: '#FFB6B6'},
+    {lineId: '__2', timeSpan: TimeSpan.create([13, 50], [14, 30]), color: '#B8F1AC'},
+    {lineId: '__2', timeSpan: TimeSpan.create([12, 0], [13, 30]), color: '#FFDCB6'}
+  ]);
 }
