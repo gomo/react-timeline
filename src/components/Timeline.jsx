@@ -4,21 +4,10 @@ import LineView from './LineView';
 import RulerView from './RulerView';
 import classNames from 'classnames';
 import Lines from '../classes/Lines';
+import Util from '../classes/Util';
 
 export default class Timeline extends React.Component
 {
-  static get windowSize(){
-    const width = window.innerWidth
-    || document.documentElement.clientWidth
-    || document.body.clientWidth;
-
-    const height = window.innerHeight
-    || document.documentElement.clientHeight
-    || document.body.clientHeight;
-
-    return {width: width, height: height};
-  }
-
   constructor(props) {
     super(props);
     this.state = {
@@ -28,6 +17,10 @@ export default class Timeline extends React.Component
     }
 
     this.lines = new Lines();
+    this.util = new Util({
+      lineTimeSpan: this.props.timeSpan,
+      minHeight: this.props.minHeight
+    });
 
     const rulerInterval = 4;
 
@@ -51,7 +44,7 @@ export default class Timeline extends React.Component
         <div style={{width: this.props.lineWidth}} className={classNames(labelClass)} key={index}>{data.label}</div>
       );
 
-      var line = <LineView
+      this.state.lines.push(<LineView
         label={data.label}
         key={data.id}
         lineId={data.id}
@@ -60,17 +53,14 @@ export default class Timeline extends React.Component
         timeSpan={this.props.timeSpan}
         onClick={this.props.onClick}
         even={index % 2 !== 0}
-        lines={this.lines}
-      />;
-
-      this.lines[data.id] = line;
-      this.state.lines.push(line);
+        timeline={this}
+      />);
     })
   }
 
   fitToWindow(){
     const wrapperBounds = this.refs.linesWrapper.getBoundingClientRect();
-    const windowSize = Timeline.windowSize;
+    const windowSize = Util.windowSize;
     this.setState({frameHeight: windowSize.height - wrapperBounds.top});
   }
 

@@ -1,4 +1,4 @@
-export default class Actions
+export default class Lines
 {
   constructor(){
     this.lines = {};

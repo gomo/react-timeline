@@ -37,6 +37,10 @@ export default class TimeSpan
       return new TimeSpan(time, time.addMin(this.getDistance()));
   }
 
+  addMin(minute){
+    return new TimeSpan(this.getStartTime(), this.getEndTime().addMin(minute));
+  }
+
   equals(timeSpan){
       return this.getStartTime().equals(timeSpan.getStartTime()) && this.getEndTime().equals(timeSpan.getEndTime());
   }

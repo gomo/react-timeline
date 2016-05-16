@@ -2,15 +2,18 @@ import React from 'react';
 import TimeSpan from '../classes/TimeSpan';
 import HourView from './HourView';
 import EventView from './EventView';
-import Lines from '../classes/Lines';
 
 export default class LineView extends React.Component
 {
   constructor(props) {
     super(props);
+    this.timeline = this.props.timeline;
+    this.timeline.lines.setLine(this.props.lineId, this);
+
     this.state = {
       hourViews: [],
-      events: []
+      events: [],
+      lineHeight: this.timeline.util.lineHeight
     }
     this.props.timeSpan.eachTime((key, time) => {
       this.state.hourViews.push(
@@ -22,8 +25,6 @@ export default class LineView extends React.Component
         />
       );
     });
-
-    this.props.lines.setLine(this.props.lineId, this);
   }
 
   onClick(e){
@@ -49,14 +50,16 @@ export default class LineView extends React.Component
     }
     return (
       <div className="tlLineView" style={wrapperStyle} onClick={e => this.onClick(e)}>
-        <div className="tlHours">
+        <div className="tlHours" style={{height: this.state.lineHeight}}>
           {this.state.hourViews}
           {this.state.events.map(event => {
             return (
               <EventView
+                key={event.timeSpan.toString()}
                 color={event.color}
                 timeSpan={event.timeSpan}
                 display={event.display}
+                line={this}
               />
             )
           })}
@@ -74,5 +77,5 @@ LineView.propTypes = {
   lineId: React.PropTypes.string.isRequired,
   onClick: React.PropTypes.func,
   even: React.PropTypes.bool.isRequired,
-  lines: React.PropTypes.instanceOf(Lines).isRequired
+  timeline: React.PropTypes.any.isRequired
 }
