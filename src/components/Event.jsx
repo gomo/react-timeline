@@ -22,6 +22,10 @@ export default class Event extends React.Component
     this.setState({top: -this.initialBounds.top + targetTop + this.refs.eventElem.parentElement.offsetTop});
   }
 
+  toFloat(){
+
+  }
+
   render(){
     const style = {
       height: this.state.height,

@@ -30,8 +30,10 @@ window.onload = () => {
       timeSpan={timeSpan}
       lineWidth={62}
       minHeight={17}
-      onClick={() => {
-        // actions.addEvent();
+      onClick={(data) => {
+        if(data.event){
+          data.toFloat();
+        }
       }}
     />,
     document.getElementById('timeline')

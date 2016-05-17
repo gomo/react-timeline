@@ -38,8 +38,11 @@ export default class Line extends React.Component
       const top = this.getRelativeTop(e);
       const time = this.timeline.util.topToTime(top);
       const event = this.events.find(event => event.props.timeSpan.containsTime(time));
-      console.log(event);
-      this.props.onClick();
+      this.props.onClick({
+        click: e,
+        line: this,
+        event: event
+      });
     }
   }
 
