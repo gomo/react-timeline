@@ -7,6 +7,7 @@ export default class Event extends React.Component
   constructor(props) {
     super(props);
     this.line = this.props.line;
+    this.line.events.addEvent(this);
 
     this.state = {
       height: this.line.timeline.util.timeSpanToHeight(this.props.timeSpan),

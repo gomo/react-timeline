@@ -2,6 +2,7 @@ import React from 'react';
 import TimeSpan from '../classes/TimeSpan';
 import Hour from './Hour';
 import Event from './Event';
+import Events from '../classes/Events';
 
 export default class Line extends React.Component
 {
@@ -9,6 +10,8 @@ export default class Line extends React.Component
     super(props);
     this.timeline = this.props.timeline;
     this.timeline.lines.setLine(this.props.lineId, this);
+
+    this.events = new Events();
 
     this.state = {
       hours: [],
@@ -26,10 +29,16 @@ export default class Line extends React.Component
     });
   }
 
+  getRelativeTop(e){
+    return e.clientY - e.currentTarget.offsetTop + e.currentTarget.parentNode.scrollTop;
+  }
+
   onClick(e){
     if(this.props.onClick){
-      const clickY = e.clientY - e.currentTarget.offsetTop + e.currentTarget.parentNode.scrollTop;
-      const time = this.timeline.util.topToTime(clickY);
+      const top = this.getRelativeTop(e);
+      const time = this.timeline.util.topToTime(top);
+      const event = this.events.find(event => event.props.timeSpan.containsTime(time));
+      console.log(event);
       this.props.onClick();
     }
   }
