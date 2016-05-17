@@ -1,7 +1,7 @@
 import React from 'react';
 import TimeSpan from '../classes/TimeSpan';
-import LineView from './LineView';
-import RulerView from './RulerView';
+import Line from './Line';
+import Ruler from './Ruler';
 import classNames from 'classnames';
 import Lines from '../classes/Lines';
 import Util from '../classes/Util';
@@ -29,11 +29,13 @@ export default class Timeline extends React.Component
       const labelClass = {tlLabel: true, tlHasRuler: false, tlPrevRuler: false}
       const currentKey = index % rulerInterval;
       if(currentKey === 0){
-        this.state.lines.push(<RulerView
-          key={'ruler_' + index}
-          minHeight={this.props.minHeight}
-          timeSpan={this.props.timeSpan}
-        />);
+        this.state.lines.push(
+          <Ruler
+            key={'ruler_' + index}
+            minHeight={this.props.minHeight}
+            timeSpan={this.props.timeSpan}
+          />
+        );
 
         labelClass.tlHasRuler = true;
       } else if(currentKey === rulerInterval - 1) {
@@ -44,17 +46,19 @@ export default class Timeline extends React.Component
         <div style={{width: this.props.lineWidth}} className={classNames(labelClass)} key={index}>{data.label}</div>
       );
 
-      this.state.lines.push(<LineView
-        label={data.label}
-        key={data.id}
-        lineId={data.id}
-        width={this.props.lineWidth}
-        minHeight={this.props.minHeight}
-        timeSpan={this.props.timeSpan}
-        onClick={this.props.onClick}
-        even={index % 2 !== 0}
-        timeline={this}
-      />);
+      this.state.lines.push(
+        <Line
+          label={data.label}
+          key={data.id}
+          lineId={data.id}
+          width={this.props.lineWidth}
+          minHeight={this.props.minHeight}
+          timeSpan={this.props.timeSpan}
+          onClick={this.props.onClick}
+          even={index % 2 !== 0}
+          timeline={this}
+        />
+      );
     })
   }
 

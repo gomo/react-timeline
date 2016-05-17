@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import TimeSpan from '../classes/TimeSpan';
 
-export default class EventView extends React.Component
+export default class Event extends React.Component
 {
   constructor(props) {
     super(props);
@@ -37,8 +37,9 @@ export default class EventView extends React.Component
   }
 }
 
-EventView.propTypes = {
+Event.propTypes = {
   timeSpan: React.PropTypes.instanceOf(TimeSpan).isRequired,
   color: React.PropTypes.string.isRequired,
+  //TODO 循環参照になるのでimportできず。とりあえずanyでごまかしてます。
   line: React.PropTypes.any.isRequired
 }

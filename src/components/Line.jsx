@@ -1,9 +1,9 @@
 import React from 'react';
 import TimeSpan from '../classes/TimeSpan';
-import HourView from './HourView';
-import EventView from './EventView';
+import Hour from './Hour';
+import Event from './Event';
 
-export default class LineView extends React.Component
+export default class Line extends React.Component
 {
   constructor(props) {
     super(props);
@@ -11,13 +11,13 @@ export default class LineView extends React.Component
     this.timeline.lines.setLine(this.props.lineId, this);
 
     this.state = {
-      hourViews: [],
+      hours: [],
       events: [],
       lineHeight: this.timeline.util.lineHeight
     }
     this.props.timeSpan.eachTime((key, time) => {
-      this.state.hourViews.push(
-        <HourView
+      this.state.hours.push(
+        <Hour
           key={time.getHour()}
           time={time}
           minHeight={this.props.minHeight}
@@ -47,10 +47,10 @@ export default class LineView extends React.Component
     return (
       <div className="tlLineView" style={wrapperStyle} onClick={e => this.onClick(e)}>
         <div className="tlHours" style={{height: this.state.lineHeight}}>
-          {this.state.hourViews}
+          {this.state.hours}
           {this.state.events.map(event => {
             return (
-              <EventView
+              <Event
                 key={event.timeSpan.toString()}
                 color={event.color}
                 timeSpan={event.timeSpan}
@@ -65,7 +65,7 @@ export default class LineView extends React.Component
   }
 }
 
-LineView.propTypes = {
+Line.propTypes = {
   label: React.PropTypes.string.isRequired,
   width: React.PropTypes.number.isRequired,
   minHeight: React.PropTypes.number.isRequired,
@@ -73,5 +73,6 @@ LineView.propTypes = {
   lineId: React.PropTypes.string.isRequired,
   onClick: React.PropTypes.func,
   even: React.PropTypes.bool.isRequired,
+  //TODO 循環参照になるのでimportできず。とりあえずanyでごまかしてます。
   timeline: React.PropTypes.any.isRequired
 }

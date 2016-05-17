@@ -2,20 +2,20 @@ import React from 'react';
 import Time from '../classes/Time'
 import classNames from 'classnames';
 
-export default class HourView extends React.Component
+export default class Hour extends React.Component
 {
   constructor(props) {
     super(props);
 
     this.state = {
-      minDivs: []
+      minutes: []
     }
 
     const minStyle = {
       height: this.props.minHeight + 'px'
     }
     Time.eachMin((key, min) => {
-      this.state.minDivs.push(
+      this.state.minutes.push(
         <div
           key={min}
           className={classNames('tlMinView', '_' + (min + 15))}
@@ -27,12 +27,12 @@ export default class HourView extends React.Component
 
   render(){
     return (
-      <div className="tlHourView">{this.state.minDivs}</div>
+      <div className="tlHourView">{this.state.minutes}</div>
     );
   }
 }
 
-HourView.propTypes = {
+Hour.propTypes = {
   minHeight: React.PropTypes.number.isRequired,
   time: React.PropTypes.instanceOf(Time).isRequired
 }

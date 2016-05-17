@@ -1,7 +1,7 @@
 import React from 'react';
 import TimeSpan from '../classes/TimeSpan';
 
-export default class RulerView extends React.Component
+export default class Ruler extends React.Component
 {
   constructor(props) {
     super(props);
@@ -26,7 +26,7 @@ export default class RulerView extends React.Component
   }
 }
 
-RulerView.propTypes = {
+Ruler.propTypes = {
   minHeight: React.PropTypes.number.isRequired,
   timeSpan: React.PropTypes.instanceOf(TimeSpan).isRequired
 }
