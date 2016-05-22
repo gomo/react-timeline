@@ -24,16 +24,14 @@ window.onload = () => {
 
   const timeSpan = TimeSpan.create([10, 0], [25, 0]);
 
-  var timeline = ReactDOM.render(
+  const timeline = ReactDOM.render(
     <Timeline
       lineData={lineData}
       timeSpan={timeSpan}
       lineWidth={62}
       minHeight={17}
       onClick={(data) => {
-        if(data.event){
-          data.toFloat();
-        }
+        console.log(data);
       }}
     />,
     document.getElementById('timeline')

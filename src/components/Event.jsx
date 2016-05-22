@@ -1,8 +1,23 @@
 import React from 'react';
 import classNames from 'classnames';
 import TimeSpan from '../classes/TimeSpan';
+import {DragSource} from 'react-dnd';
 
-export default class Event extends React.Component
+const source = {
+  beginDrag: function (props) {
+    console.log(props)
+    return props;
+  }
+}
+
+const collect = (connect, monitor) => {
+  return {
+    connectDragSource: connect.dragSource(),
+    isDragging: monitor.isDragging()
+  };
+}
+
+class Event extends React.Component
 {
   constructor(props) {
     super(props);
@@ -29,8 +44,8 @@ export default class Event extends React.Component
       backgroundColor: this.state.color
     };
 
-    return (
-      <div ref="eventElem" className="tlEventView" style={style}>
+    return this.props.connectDragSource(
+      <div className="tlEventView" style={style}>
         &nbsp;
       </div>
     );
@@ -43,3 +58,5 @@ Event.propTypes = {
   //TODO 循環参照になるのでimportできず。とりあえずanyでごまかしてます。
   line: React.PropTypes.any.isRequired
 }
+
+export default DragSource("Event", source, collect)(Event);
