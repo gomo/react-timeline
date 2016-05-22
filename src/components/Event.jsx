@@ -11,15 +11,9 @@ export default class Event extends React.Component
 
     this.state = {
       height: this.line.timeline.util.timeSpanToHeight(this.props.timeSpan),
-      top: 0,
+      top: this.line.timeline.util.timeToTop(this.props.timeSpan.getStartTime()),
       color: this.props.color
     }
-  }
-
-  componentDidMount(){
-    const targetTop = this.line.timeline.util.timeToTop(this.props.timeSpan.getStartTime());
-    this.initialBounds = this.refs.eventElem.getBoundingClientRect();
-    this.setState({top: -this.initialBounds.top + targetTop + this.refs.eventElem.parentElement.offsetTop});
   }
 
   toFloat(){
@@ -29,8 +23,9 @@ export default class Event extends React.Component
   render(){
     const style = {
       height: this.state.height,
-      position: 'relative',
+      position: 'absolute',
       top: this.state.top + 'px',
+      width: this.line.props.width - 2 + 'px',
       backgroundColor: this.state.color
     };
 

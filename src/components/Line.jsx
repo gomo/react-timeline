@@ -15,8 +15,7 @@ export default class Line extends React.Component
 
     this.state = {
       hours: [],
-      events: [],
-      lineHeight: this.timeline.util.lineHeight
+      events: []
     }
     this.props.timeSpan.eachTime((key, time) => {
       this.state.hours.push(
@@ -27,6 +26,12 @@ export default class Line extends React.Component
         />
       );
     });
+
+    this.wrapperStyle = {
+      width: this.props.width + 'px',
+      height: this.props.height + 'px',
+      position: 'relative'
+    }
   }
 
   getRelativeTop(e){
@@ -53,25 +58,20 @@ export default class Line extends React.Component
   }
 
   render(){
-    const wrapperStyle = {
-      width: this.props.width + 'px'
-    }
     return (
-      <div className="tlLineView" style={wrapperStyle} onClick={e => this.onClick(e)}>
-        <div className="tlHours" style={{height: this.state.lineHeight}}>
-          {this.state.hours}
-          {this.state.events.map(event => {
-            return (
-              <Event
-                key={event.timeSpan.toString()}
-                color={event.color}
-                timeSpan={event.timeSpan}
-                display={event.display}
-                line={this}
-              />
-            )
-          })}
-        </div>
+      <div className="tlLineView" style={this.wrapperStyle} onClick={e => this.onClick(e)}>
+        {this.state.hours}
+        {this.state.events.map(event => {
+          return (
+            <Event
+              key={event.timeSpan.toString()}
+              color={event.color}
+              timeSpan={event.timeSpan}
+              display={event.display}
+              line={this}
+            />
+          )
+        })}
       </div>
     );
   }

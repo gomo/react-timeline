@@ -57,4 +57,4 @@ gulp.task('build-example', function() {
 });
 
 
-gulp.task('default', ['build-sass', 'build-example'])
+gulp.task('default', ['build-sass', 'build-example', 'watch-sass'])

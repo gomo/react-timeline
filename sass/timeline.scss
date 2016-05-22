@@ -32,12 +32,10 @@
 }
 
 /* tlRuler */
-$ruler_width: 30px;
 .tlRulerView{
   float: left;
   text-align: center;
   font-size: 14px;
-  width: $ruler_width;
 }
 
 /* tlTimeline */
@@ -78,7 +76,6 @@ $ruler_width: 30px;
 }
 
 .tlLabel.tlHasRuler{
-  margin-left: $ruler_width;
   border-top-left-radius: 2px;
   border-bottom-left-radius: 2px;
 }

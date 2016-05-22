@@ -13,7 +13,7 @@ export default class Timeline extends React.Component
     this.state = {
       lines: [],
       labels: [],
-      frameHeight: this.props.frameHeight
+      wrapperHeight: 0
     }
 
     this.lines = new Lines();
@@ -24,6 +24,7 @@ export default class Timeline extends React.Component
 
     const rulerInterval = 4;
 
+    this.frameWidth = 0;
     //TODO 後から追加できる様にメソッドに抽出
     props.lineData.forEach((data, index) => {
       const labelClass = {tlLabel: true, tlHasRuler: false, tlPrevRuler: false}
@@ -37,13 +38,20 @@ export default class Timeline extends React.Component
           />
         );
 
+        this.frameWidth += Ruler.width;
+
         labelClass.tlHasRuler = true;
       } else if(currentKey === rulerInterval - 1) {
         labelClass.tlPrevRuler = true;
       }
 
+      //一番最後はラベルの右側の角を丸める
+      if(index == props.lineData.length - 1){
+        labelClass.tlPrevRuler = true;
+      }
+
       this.state.labels.push(
-        <div style={{width: this.props.lineWidth}} className={classNames(labelClass)} key={index}>{data.label}</div>
+        <div style={{width: this.props.lineWidth, marginLeft: labelClass.tlHasRuler ? Ruler.width + 'px' : 0}} className={classNames(labelClass)} key={index}>{data.label}</div>
       );
 
       this.state.lines.push(
@@ -52,6 +60,7 @@ export default class Timeline extends React.Component
           key={data.id}
           lineId={data.id}
           width={this.props.lineWidth}
+          height={this.util.lineHeight}
           minHeight={this.props.minHeight}
           timeSpan={this.props.timeSpan}
           onClick={this.props.onClick}
@@ -59,13 +68,17 @@ export default class Timeline extends React.Component
           timeline={this}
         />
       );
+
+      this.frameWidth += this.props.lineWidth;
     })
+
+
   }
 
   fitToWindow(){
     const wrapperBounds = this.refs.linesWrapper.getBoundingClientRect();
     const windowSize = Util.windowSize;
-    this.setState({frameHeight: windowSize.height - wrapperBounds.top});
+    this.setState({wrapperHeight: windowSize.height - wrapperBounds.top});
   }
 
   componentDidMount(){
@@ -77,9 +90,9 @@ export default class Timeline extends React.Component
 
   render(){
     return (
-      <div className="tlFrameView">
+      <div className="tlFrameView" style={{width: this.frameWidth + 'px'}}>
         <div className="tlLabelView">{this.state.labels}</div>
-        <div ref="linesWrapper" className="tlLinesWrapper" style={{height: this.state.frameHeight}}>{this.state.lines}</div>
+        <div ref="linesWrapper" className="tlLinesWrapper" style={{height: this.state.wrapperHeight}}>{this.state.lines}</div>
       </div>
     );
   }

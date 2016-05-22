@@ -21,7 +21,7 @@ export default class Ruler extends React.Component
 
   render(){
     return (
-      <div className="tlRulerView">{this.state.hours}</div>
+      <div className="tlRulerView" style={{width: Ruler.width + 'px'}}>{this.state.hours}</div>
     );
   }
 }
@@ -30,3 +30,5 @@ Ruler.propTypes = {
   minHeight: React.PropTypes.number.isRequired,
   timeSpan: React.PropTypes.instanceOf(TimeSpan).isRequired
 }
+
+Ruler.width = 30;
