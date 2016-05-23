@@ -2,6 +2,7 @@
 
 .tlFrameView{
   @include pie-clearfix;
+  position: relative;
 }
 
 .tlLineView{

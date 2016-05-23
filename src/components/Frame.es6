@@ -6,6 +6,7 @@ import Util from '../classes/Util';
 import classNames from 'classnames';
 import { DragDropContext } from 'react-dnd';
 import DndBackend from 'react-dnd-touch-backend';
+import EventPreview from './EventPreview'
 
 class Frame extends React.Component
 {
@@ -90,6 +91,7 @@ class Frame extends React.Component
       <div className="tlFrameView" style={{width: this.frameWidth + 'px'}}>
         <div className="tlLabelView">{this.state.labels}</div>
         <div ref="linesWrapper" className="tlLinesWrapper" style={{height: this.state.wrapperHeight}}>{this.state.lines}</div>
+        <EventPreview />
       </div>
     );
   }

@@ -1,5 +1,6 @@
 .tlFrameView {
   *zoom: 1;
+  position: relative;
 }
 .tlFrameView:after {
   content: "";
