@@ -5,7 +5,6 @@ import {DragSource} from 'react-dnd';
 
 const source = {
   beginDrag: function (props) {
-    console.log(props)
     return props;
   }
 }
@@ -21,14 +20,14 @@ class Event extends React.Component
 {
   constructor(props) {
     super(props);
-    this.line = this.props.line;
-    this.line.events.addEvent(this);
-
     this.state = {
-      height: this.line.timeline.util.timeSpanToHeight(this.props.timeSpan),
-      top: this.line.timeline.util.timeToTop(this.props.timeSpan.getStartTime()),
+      height: this.props.timeline.actions.timeSpanToHeight(this.props.timeSpan),
+      top: this.props.timeline.actions.timeToTop(this.props.timeSpan.getStartTime()),
+      left: this.props.timeline.actions.getLineLeft(this.props.lineId),
       color: this.props.color
     }
+
+    this.props.timeline.actions.addEvent(this);
   }
 
   toFloat(){
@@ -40,7 +39,8 @@ class Event extends React.Component
       height: this.state.height,
       position: 'absolute',
       top: this.state.top + 'px',
-      width: this.line.props.width - 2 + 'px',
+      left: this.state.left + 'px',
+      width: this.props.timeline.actions.lineWidth - 2 + 'px',
       backgroundColor: this.state.color
     };
 
@@ -56,7 +56,7 @@ Event.propTypes = {
   timeSpan: React.PropTypes.instanceOf(TimeSpan).isRequired,
   color: React.PropTypes.string.isRequired,
   //TODO 循環参照になるのでimportできず。とりあえずanyでごまかしてます。
-  line: React.PropTypes.any.isRequired
+  timeline: React.PropTypes.any.isRequired
 }
 
 export default DragSource("Event", source, collect)(Event);

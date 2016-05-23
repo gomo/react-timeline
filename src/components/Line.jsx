@@ -1,17 +1,12 @@
 import React from 'react';
 import TimeSpan from '../classes/TimeSpan';
 import Hour from './Hour';
-import Event from './Event';
-import Events from '../classes/Events';
 
 export default class Line extends React.Component
 {
   constructor(props) {
     super(props);
-    this.timeline = this.props.timeline;
-    this.timeline.lines.setLine(this.props.lineId, this);
-
-    this.events = new Events();
+    this.props.timeline.actions.addLine(this);
 
     this.state = {
       hours: [],
@@ -39,39 +34,22 @@ export default class Line extends React.Component
   }
 
   onClick(e){
-    if(this.props.onClick){
-      const top = this.getRelativeTop(e);
-      const time = this.timeline.util.topToTime(top);
-      const event = this.events.find(event => event.props.timeSpan.containsTime(time));
-      this.props.onClick({
-        click: e,
-        line: this,
-        event: event
-      });
-    }
-  }
-
-  addEvents(events){
-    var current = this.state.events;
-    events.forEach(event => current.push(event));
-    this.setState({events: current});
+    // if(this.props.onClick){
+    //   const top = this.getRelativeTop(e);
+    //   const time = this.props.timeline.actions.topToTime(top);
+    //   const event = this.props.timeline.actions.findEventWithTime(this.props.lineId, time);
+    //   this.props.onClick({
+    //     click: e,
+    //     line: this,
+    //     event: event
+    //   });
+    // }
   }
 
   render(){
     return (
       <div className="tlLineView" style={this.wrapperStyle} onClick={e => this.onClick(e)}>
         {this.state.hours}
-        {this.state.events.map(event => {
-          return (
-            <Event
-              key={event.timeSpan.toString()}
-              color={event.color}
-              timeSpan={event.timeSpan}
-              display={event.display}
-              line={this}
-            />
-          )
-        })}
       </div>
     );
   }

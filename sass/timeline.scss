@@ -2,7 +2,6 @@
 
 .tlFrameView{
   @include pie-clearfix;
-  position: relative;
 }
 
 .tlLineView{
@@ -16,6 +15,7 @@
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling:touch;
+  position: relative;
 }
 
 /* tlTimeIndicator */

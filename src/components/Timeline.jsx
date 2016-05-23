@@ -1,17 +1,16 @@
 import React from 'react';
 import TimeSpan from '../classes/TimeSpan';
-import Lines from '../classes/Lines';
-import Util from '../classes/Util';
+import Actions from '../classes/Actions';
 import Frame from './Frame';
 
 export default class Timeline extends React.Component
 {
   constructor(props) {
     super(props);
-    this.lines = new Lines();
-    this.util = new Util({
+    this.actions = new Actions({
       lineTimeSpan: this.props.timeSpan,
-      minHeight: this.props.minHeight
+      minHeight: this.props.minHeight,
+      lineWidth: this.props.lineWidth
     });
   }
 

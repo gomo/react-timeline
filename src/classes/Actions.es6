@@ -1,4 +1,4 @@
-export default class Util
+export default class Actions
 {
   static get windowSize(){
     const width = window.innerWidth
@@ -13,6 +13,8 @@ export default class Util
   }
 
   constructor(config){
+    this.lineWidth = config.lineWidth;
+
     //MinViewは一時間下に余分が生成されるので60分プラス
     this.lineTimeSpan = config.lineTimeSpan.addMin(60);
 
@@ -24,6 +26,47 @@ export default class Util
 
     //1分あたりの高さを算出
     this.perMinHeight = this.lineHeight / this.lineTimeSpan.getDistance();
+
+    this.events = [];
+
+    this.lines = [];
+
+    //横幅を計算するためにrulerとlineの幅が入っている
+    this.widths = [];
+  }
+
+  getTotalWidth(){
+    return this.widths.reduce((prev, current) => prev + current, 0);
+  }
+
+  addEvent(event){
+    this.events.push(event);
+  }
+
+  addWidth(index, width){
+    if(this.widths[index] === undefined){
+      this.widths[index] = 0;
+    }
+
+    this.widths[index] += width;
+  }
+
+  getLineLeft(lineId){
+    const index = this.lines.findIndex(line => line.props.lineId == lineId);
+    var left = 0;
+    for (var i = 0; i < index; i++) {
+      left += this.widths[i];
+    }
+
+    return left;
+  }
+
+  addLine(line){
+    this.lines.push(line);
+  }
+
+  addEvents(events){
+    this.frame.addEvents(events);
   }
 
   timeSpanToHeight(timeSpan){

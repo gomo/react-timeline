@@ -1,6 +1,5 @@
 .tlFrameView {
   *zoom: 1;
-  position: relative;
 }
 .tlFrameView:after {
   content: "";
@@ -24,6 +23,7 @@
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
+  position: relative;
 }
 
 /* tlTimeIndicator */
