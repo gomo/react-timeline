@@ -16,20 +16,22 @@ export default class Actions
     this.lineWidth = config.lineWidth;
 
     //MinViewは一時間下に余分が生成されるので60分プラス
-    this.lineTimeSpan = config.lineTimeSpan.addMin(60);
+    this.timeSpan = config.timeSpan.addMin(60);
 
     //minViewがいくつあるかカウント。minViewは15分おき
-    const minViewCount = (this.lineTimeSpan.getDistance() / 15);
+    const minViewCount = (this.timeSpan.getDistance() / 15);
 
     //高さを計算。border分1px足す
     this.lineHeight = minViewCount * (config.minHeight + 1);
 
     //1分あたりの高さを算出
-    this.perMinHeight = this.lineHeight / this.lineTimeSpan.getDistance();
+    this.perMinHeight = this.lineHeight / this.timeSpan.getDistance();
 
-    this.events = [];
+    this.eventComponents = [];
 
-    this.lines = [];
+    this.lineComponents = [];
+
+    this.frameComponent = null;
 
     //横幅を計算するためにrulerとlineの幅が入っている
     this.widths = [];
@@ -39,8 +41,8 @@ export default class Actions
     return this.widths.reduce((prev, current) => prev + current, 0);
   }
 
-  addEvent(event){
-    this.events.push(event);
+  addEventComponent(event){
+    this.eventComponents.push(event);
   }
 
   addWidth(index, width){
@@ -52,7 +54,7 @@ export default class Actions
   }
 
   getLineLeft(lineId){
-    const index = this.lines.findIndex(line => line.props.lineId == lineId);
+    const index = this.lineComponents.findIndex(line => line.props.lineId == lineId);
     var left = 0;
     for (var i = 0; i < index; i++) {
       left += this.widths[i];
@@ -61,12 +63,12 @@ export default class Actions
     return left;
   }
 
-  addLine(line){
-    this.lines.push(line);
+  addLineComponent(line){
+    this.lineComponents.push(line);
   }
 
   addEvents(events){
-    this.frame.addEvents(events);
+    this.frameComponent.addEvents(events);
   }
 
   timeSpanToHeight(timeSpan){
@@ -74,10 +76,10 @@ export default class Actions
   }
 
   timeToTop(time){
-    return this.lineTimeSpan.getStartTime().getDistance(time) * this.perMinHeight;
+    return this.timeSpan.getStartTime().getDistance(time) * this.perMinHeight;
   }
 
   topToTime(top){
-    return this.lineTimeSpan.getStartTime().addMin(top / this.perMinHeight);
+    return this.timeSpan.getStartTime().addMin(top / this.perMinHeight);
   }
 }

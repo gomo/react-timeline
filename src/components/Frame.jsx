@@ -20,7 +20,7 @@ class Frame extends React.Component
       wrapperHeight: 0
     }
 
-    this.props.timeline.actions.frame = this;
+    this.props.timeline.actions.frameComponent = this;
 
     const rulerInterval = 4;
 

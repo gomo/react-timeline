@@ -27,7 +27,7 @@ class Event extends React.Component
       color: this.props.color
     }
 
-    this.props.timeline.actions.addEvent(this);
+    this.props.timeline.actions.addEventComponent(this);
   }
 
   toFloat(){

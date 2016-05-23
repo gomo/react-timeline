@@ -8,7 +8,7 @@ export default class Timeline extends React.Component
   constructor(props) {
     super(props);
     this.actions = new Actions({
-      lineTimeSpan: this.props.timeSpan,
+      timeSpan: this.props.timeSpan,
       minHeight: this.props.minHeight,
       lineWidth: this.props.lineWidth
     });
