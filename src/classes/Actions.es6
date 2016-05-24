@@ -1,3 +1,5 @@
+import Ruler from '../components/Ruler';
+
 export default class Actions
 {
   static get windowSize(){
@@ -31,33 +33,27 @@ export default class Actions
 
     this.lineComponents = [];
 
-    this.frameComponent = null;
+    this.lineLabelComponents = [];
 
-    //横幅を計算するためにrulerとlineの幅が入っている
-    this.widths = [];
+    this.frameComponent = null;
   }
 
   getTotalWidth(){
-    return this.widths.reduce((prev, current) => prev + current, 0);
+    return this.lineComponents.reduce((val, line) => {
+      return val + (line.props.hasRuler ? this.lineWidth + Ruler.width : this.lineWidth);
+    }, 0);
   }
 
   addEventComponent(event){
     this.eventComponents.push(event);
   }
 
-  addWidth(index, width){
-    if(this.widths[index] === undefined){
-      this.widths[index] = 0;
-    }
-
-    this.widths[index] += width;
-  }
-
   getLineLeft(lineId){
     const index = this.lineComponents.findIndex(line => line.props.lineId == lineId);
     var left = 0;
     for (var i = 0; i < index; i++) {
-      left += this.widths[i];
+      var line = this.lineComponents[i];
+      left += (line.props.hasRuler ? this.lineWidth + Ruler.width : this.lineWidth)
     }
 
     return left;
@@ -65,6 +61,10 @@ export default class Actions
 
   addLineComponent(line){
     this.lineComponents.push(line);
+  }
+
+  addLineLabelComponent(line){
+    this.lineLabelComponents.push(line);
   }
 
   addEvents(events){

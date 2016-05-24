@@ -30,6 +30,7 @@ window.onload = () => {
       timeSpan={timeSpan}
       lineWidth={62}
       minHeight={17}
+      rulerInterval={4}
       onClick={(data) => {
         console.log(data);
       }}

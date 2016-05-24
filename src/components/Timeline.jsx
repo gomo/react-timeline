@@ -23,6 +23,7 @@ export default class Timeline extends React.Component
         minHeight={this.props.minHeight}
         onClick={this.props.onClick}
         timeline={this}
+        rulerInterval={this.props.rulerInterval}
       />
     );
   }
@@ -36,5 +37,6 @@ Timeline.propTypes = {
   })).isRequired,
   lineWidth: React.PropTypes.number.isRequired,
   minHeight: React.PropTypes.number.isRequired,
-  onClick: React.PropTypes.func
+  onClick: React.PropTypes.func,
+  rulerInterval: React.PropTypes.number.isRequired
 }

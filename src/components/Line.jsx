@@ -1,6 +1,9 @@
 import React from 'react';
 import TimeSpan from '../classes/TimeSpan';
 import Hour from './Hour';
+import Ruler from './Ruler';
+import LineLabel from './LineLabel';
+import classNames from 'classnames';
 
 export default class Line extends React.Component
 {
@@ -24,8 +27,7 @@ export default class Line extends React.Component
 
     this.wrapperStyle = {
       width: this.props.width + 'px',
-      height: this.props.height + 'px',
-      position: 'relative'
+      height: this.props.height + 'px'
     }
   }
 
@@ -48,15 +50,27 @@ export default class Line extends React.Component
 
   render(){
     return (
-      <div className="tlLineView" style={this.wrapperStyle} onClick={e => this.onClick(e)}>
-        {this.state.hours}
+      <div>
+        {(() => {
+          if(this.props.hasRuler){
+            return (
+              <Ruler
+                key={'ruler_' + this.props.lineId}
+                minHeight={this.props.minHeight}
+                timeSpan={this.props.timeSpan}
+              />
+            )
+          }
+        })()}
+        <div className={classNames('tlLineView', {even: this.props.even, odd: !this.props.even})} style={this.wrapperStyle} onClick={e => this.onClick(e)}>
+          {this.state.hours}
+        </div>
       </div>
     );
   }
 }
 
 Line.propTypes = {
-  label: React.PropTypes.string.isRequired,
   width: React.PropTypes.number.isRequired,
   minHeight: React.PropTypes.number.isRequired,
   timeSpan: React.PropTypes.instanceOf(TimeSpan).isRequired,
@@ -64,5 +78,6 @@ Line.propTypes = {
   onClick: React.PropTypes.func,
   even: React.PropTypes.bool.isRequired,
   //TODO 循環参照になるのでimportできず。とりあえずanyでごまかしてます。
-  timeline: React.PropTypes.any.isRequired
+  timeline: React.PropTypes.any.isRequired,
+  hasRuler: React.PropTypes.bool.isRequired
 }

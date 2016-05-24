@@ -1,75 +1,70 @@
 import React from 'react';
 import TimeSpan from '../classes/TimeSpan';
 import Line from './Line';
-import Ruler from './Ruler';
 import classNames from 'classnames';
 import { DragDropContext } from 'react-dnd';
 import DndBackend from 'react-dnd-touch-backend';
 import EventPreview from './EventPreview';
 import Actions from '../classes/Actions';
 import Event from './Event';
+import Ruler from './Ruler';
+import LineLabel from './LineLabel';
 
 class Frame extends React.Component
 {
   constructor(props) {
     super(props);
-    this.state = {
-      lines: [],
-      labels: [],
-      events: [],
-      wrapperHeight: 0
-    }
 
     this.props.timeline.actions.frameComponent = this;
 
     const rulerInterval = 4;
 
-    //TODO 後から追加できる様にメソッドに抽出
-    props.lineData.forEach((data, index) => {
-      const labelClass = {tlLabel: true, tlHasRuler: false, tlPrevRuler: false}
-      const currentKey = index % rulerInterval;
-      if(currentKey === 0){
-        this.state.lines.push(
-          <Ruler
-            key={'ruler_' + index}
-            minHeight={this.props.minHeight}
-            timeSpan={this.props.timeSpan}
-          />
-        );
-
-        this.props.timeline.actions.addWidth(index, Ruler.width);
-
-        labelClass.tlHasRuler = true;
-      } else if(currentKey === rulerInterval - 1) {
-        labelClass.tlPrevRuler = true;
-      }
-
-      //一番最後はラベルの右側の角を丸める
-      if(index == props.lineData.length - 1){
-        labelClass.tlPrevRuler = true;
-      }
-
-      this.state.labels.push(
-        <div style={{width: this.props.lineWidth, marginLeft: labelClass.tlHasRuler ? Ruler.width + 'px' : 0}} className={classNames(labelClass)} key={index}>{data.label}</div>
-      );
-
-      this.state.lines.push(
-        <Line
-          label={data.label}
-          key={data.id}
-          lineId={data.id}
-          width={this.props.lineWidth}
-          height={this.props.timeline.actions.lineHeight}
-          minHeight={this.props.minHeight}
-          timeSpan={this.props.timeSpan}
-          onClick={this.props.onClick}
-          even={index % 2 !== 0}
-          timeline={this.props.timeline}
-        />
-      );
-
-      this.props.timeline.actions.addWidth(index, this.props.lineWidth);
+    const lines = [];
+    const labels = [];
+    this.props.lineData.forEach(data => {
+      this.createLineComponent(data, lines, labels);
     })
+
+    this.state = {
+      lines: lines,
+      labels: labels,
+      events: [],
+      wrapperHeight: 0
+    }
+  }
+
+
+
+  createLineComponent(data, lines, labels){
+    const hasRuler = lines.length % this.props.rulerInterval === 0;
+    const prevRuler = (lines.length + 1) % this.props.rulerInterval === 0;
+
+    labels.push(
+      <LineLabel
+        key={data.id}
+        width={this.props.lineWidth}
+        hasRuler={hasRuler}
+        prevRuler={prevRuler}
+        label={data.label}
+        timeline={this.props.timeline}
+      />
+    );
+
+    lines.push(
+      <Line
+        hasRuler={hasRuler}
+        label={data.l}
+        key={data.id}
+        lineId={data.id}
+        width={this.props.lineWidth}
+        height={this.props.timeline.actions.lineHeight}
+        minHeight={this.props.minHeight}
+        timeSpan={this.props.timeSpan}
+        onClick={this.props.onClick}
+        even={lines.length % 2 === 0}
+        timeline={this.props.timeline}
+      />
+    );
   }
 
   addEvents(events){
@@ -79,9 +74,11 @@ class Frame extends React.Component
   }
 
   fitToWindow(){
-    const wrapperBounds = this.refs.linesWrapper.getBoundingClientRect();
-    const windowSize = Actions.windowSize;
-    this.setState({wrapperHeight: windowSize.height - wrapperBounds.top});
+    setTimeout(() => {
+      const wrapperBounds = this.refs.linesWrapper.getBoundingClientRect();
+      const windowSize = Actions.windowSize;
+      this.setState({wrapperHeight: windowSize.height - wrapperBounds.top});
+    }, 0);
   }
 
   componentDidMount(){
@@ -125,7 +122,8 @@ Frame.propTypes = {
   lineWidth: React.PropTypes.number.isRequired,
   minHeight: React.PropTypes.number.isRequired,
   onClick: React.PropTypes.func,
-  timeline: React.PropTypes.any.isRequired
+  timeline: React.PropTypes.any.isRequired,
+  rulerInterval: React.PropTypes.number.isRequired
 }
 
 export default DragDropContext(DndBackend({ enableMouseEvents: true }))(Frame);
