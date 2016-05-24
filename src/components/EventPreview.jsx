@@ -2,10 +2,15 @@ import React from 'react';
 import DragLayer from 'react-dnd/lib/DragLayer';
 
 function collect (monitor){
-  return {
-    clientOffset: monitor.getSourceClientOffset(),
-    eventProps: monitor.getItem()
+  const props = {
+    clientOffset: monitor.getSourceClientOffset()
   };
+  const item = monitor.getItem();
+  if(item){
+    props['event'] = item.timeline.actions.findEventWithId(item.id);
+  }
+
+  return props;
 }
 
 class EventPreview extends React.Component {
@@ -24,9 +29,9 @@ class EventPreview extends React.Component {
       position:'absolute',
       top: 0,
       left: 0,
-      height: this.props.eventProps.timeline.actions.timeSpanToHeight(this.props.eventProps.timeSpan),
-      width: this.props.eventProps.timeline.actions.lineWidth - 2 + 'px',
-      backgroundColor: this.props.eventProps.color,
+      height: this.props.event.state.height,
+      width: this.props.event.state.width,
+      backgroundColor: this.props.event.state.color,
       transform: transform,
       WebkitTransform: transform
     };

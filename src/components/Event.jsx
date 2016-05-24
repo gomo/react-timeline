@@ -21,9 +21,10 @@ class Event extends React.Component
   constructor(props) {
     super(props);
     this.state = {
-      height: this.props.timeline.actions.timeSpanToHeight(this.props.timeSpan),
-      top: this.props.timeline.actions.timeToTop(this.props.timeSpan.getStartTime()),
-      left: this.props.timeline.actions.getLineLeft(this.props.lineId),
+      height: this.props.height,
+      top: this.props.top,
+      left: this.props.left,
+      width: this.props.width,
       color: this.props.color
     }
 
@@ -40,7 +41,7 @@ class Event extends React.Component
       position: 'absolute',
       top: this.state.top + 'px',
       left: this.state.left + 'px',
-      width: this.props.timeline.actions.lineWidth - 2 + 'px',
+      width: this.state.width + 'px',
       backgroundColor: this.state.color
     };
 

@@ -60,7 +60,7 @@ class Frame extends React.Component
         height={this.props.timeline.actions.lineHeight}
         minHeight={this.props.minHeight}
         timeSpan={this.props.timeSpan}
-        onClick={this.props.onClick}
+        onClickLine={this.props.onClickLine}
         even={lines.length % 2 === 0}
         timeline={this.props.timeline}
       />
@@ -88,6 +88,13 @@ class Frame extends React.Component
     });
   }
 
+  getRelativePos(e){
+    return {
+      top: e.clientY - e.currentTarget.offsetTop + e.currentTarget.scrollTop,
+      left: e.clientX - e.currentTarget.offsetLeft + e.currentTarget.scrollLeft
+    };
+  }
+
   render(){
     return (
       <div className="tlFrameView" style={{width: this.props.timeline.actions.getTotalWidth() + 'px'}}>
@@ -97,12 +104,17 @@ class Frame extends React.Component
           {this.state.events.map(event => {
             return (
               <Event
+                id={event.id || this.props.timeline.actions.createEventId()}
                 key={event.lineId + event.timeSpan.toString()}
                 color={event.color}
                 timeSpan={event.timeSpan}
                 display={event.display}
                 lineId={event.lineId}
                 timeline={this.props.timeline}
+                height={this.props.timeline.actions.timeSpanToHeight(event.timeSpan)}
+                top={this.props.timeline.actions.timeToTop(event.timeSpan.getStartTime())}
+                left={this.props.timeline.actions.getLineLeft(event.lineId)}
+                width={this.props.timeline.actions.lineWidth - 2}
               />
             )
           })}

@@ -32,25 +32,23 @@ export default class Line extends React.Component
   }
 
   getRelativeTop(e){
-    return e.clientY - e.currentTarget.offsetTop + e.currentTarget.parentNode.scrollTop;
+    return e.clientY - e.currentTarget.parentNode.offsetTop + e.currentTarget.parentNode.scrollTop;
   }
 
   onClick(e){
-    // if(this.props.onClick){
-    //   const top = this.getRelativeTop(e);
-    //   const time = this.props.timeline.actions.topToTime(top);
-    //   const event = this.props.timeline.actions.findEventWithTime(this.props.lineId, time);
-    //   this.props.onClick({
-    //     click: e,
-    //     line: this,
-    //     event: event
-    //   });
-    // }
+    if(this.props.onClickLine){
+      const time = this.props.timeline.actions.topToTime(this.getRelativeTop(e));
+      this.props.onClickLine({
+        click: e,
+        line: this,
+        time: time
+      });
+    }
   }
 
   render(){
     return (
-      <div>
+      <div onClick={e => this.onClick(e)}>
         {(() => {
           if(this.props.hasRuler){
             return (
@@ -62,7 +60,7 @@ export default class Line extends React.Component
             )
           }
         })()}
-        <div className={classNames('tlLineView', {even: this.props.even, odd: !this.props.even})} style={this.wrapperStyle} onClick={e => this.onClick(e)}>
+        <div className={classNames('tlLineView', {even: this.props.even, odd: !this.props.even})} style={this.wrapperStyle}>
           {this.state.hours}
         </div>
       </div>

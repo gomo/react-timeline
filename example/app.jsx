@@ -31,7 +31,7 @@ window.onload = () => {
       lineWidth={62}
       minHeight={17}
       rulerInterval={4}
-      onClick={(data) => {
+      onClickLine={(data) => {
         console.log(data);
       }}
     />,
