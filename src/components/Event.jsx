@@ -6,6 +6,10 @@ import {DragSource} from 'react-dnd';
 const source = {
   beginDrag: function (props) {
     return props;
+  },
+  canDrag: function(props, monitor){
+    const draggable = props.timeline.actions.findEventByProps(props).state.draggable;
+    return !!draggable;
   }
 }
 
@@ -25,18 +29,23 @@ class Event extends React.Component
       top: this.props.top,
       left: this.props.left,
       width: this.props.width,
-      color: this.props.color
+      color: this.props.color,
+      draggable: false
     }
 
     this.props.timeline.actions.addEventComponent(this);
   }
 
   toFloat(){
-
+    this.setState({draggable: true});
   }
 
   moveTo(top, left){
     this.setState({top: top, left: left});
+  }
+
+  onClick(){
+    this.props.onClickEvent(this);
   }
 
   render(){
@@ -51,7 +60,7 @@ class Event extends React.Component
     };
 
     return this.props.connectDragSource(
-      <div className="tlEventView" style={style}>
+      <div className={classNames('tlEventView', {tlDraggingEvent: this.state.draggable})} style={style} onClick={e => this.onClick(e)}>
         &nbsp;
       </div>
     );

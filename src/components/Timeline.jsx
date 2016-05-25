@@ -22,6 +22,7 @@ export default class Timeline extends React.Component
         lineWidth={this.props.lineWidth}
         minHeight={this.props.minHeight}
         onClickLine={this.props.onClickLine}
+        onClickEvent={this.props.onClickEvent}
         timeline={this}
         rulerInterval={this.props.rulerInterval}
       />

@@ -39,7 +39,7 @@ class EventPreview extends React.Component {
 
   render () {
     return (
-      <div ref="preview" className="tlEventView" style={this.getItemStyles()}>
+      <div ref="preview" className="tlEventView tlDraggingEvent" style={this.getItemStyles()}>
         &nbsp;
       </div>
     );

@@ -31,8 +31,11 @@ window.onload = () => {
       lineWidth={62}
       minHeight={17}
       rulerInterval={4}
-      onClickLine={(data) => {
+      onClickLine={data => {
         console.log(data);
+      }}
+      onClickEvent={event => {
+        event.toFloat();
       }}
     />,
     document.getElementById('timeline')

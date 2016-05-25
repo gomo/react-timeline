@@ -135,6 +135,7 @@ class Frame extends React.Component
                 top={this.props.timeline.actions.timeToTop(event.timeSpan.getStartTime())}
                 left={this.props.timeline.actions.getLineLeft(event.lineId)}
                 width={this.props.timeline.actions.lineWidth - 2}
+                onClickEvent={this.props.onClickEvent}
               />
             )
           })}

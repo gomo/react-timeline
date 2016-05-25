@@ -6,6 +6,12 @@
   display: table;
   clear: both;
 }
+.tlFrameView * {
+  -moz-user-select: -moz-none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
 
 .tlLineView {
   *zoom: 1;
@@ -84,10 +90,6 @@
   background-color: #337ab7;
   overflow: hidden;
   float: left;
-  -moz-user-select: -moz-none;
-  -ms-user-select: none;
-  -webkit-user-select: none;
-  user-select: none;
 }
 
 .tlLabel.tlHasRuler {
@@ -142,4 +144,10 @@
   overflow: hidden;
   line-height: 12px;
   padding: 3px;
+}
+
+.tlDraggingEvent {
+  -moz-box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.4);
+  -webkit-box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.4);
+  box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.4);
 }
