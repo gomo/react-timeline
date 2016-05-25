@@ -36,12 +36,6 @@ export default class Actions
     this.lineLabelComponents = [];
 
     this.frameComponent = null;
-
-    this.autoEventId = 1;
-  }
-
-  createEventId(){
-    return "_" + (++this.autoEventId);
   }
 
   getTotalWidth(){
@@ -52,10 +46,6 @@ export default class Actions
 
   addEventComponent(event){
     this.eventComponents.push(event);
-  }
-
-  findEventWithId(eventId){
-    return this.eventComponents.find(ev => ev.props.id == eventId);
   }
 
   findEventWithTime(lineId, time){

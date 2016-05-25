@@ -104,7 +104,6 @@ class Frame extends React.Component
           {this.state.events.map(event => {
             return (
               <Event
-                id={event.id || this.props.timeline.actions.createEventId()}
                 key={event.lineId + event.timeSpan.toString()}
                 color={event.color}
                 timeSpan={event.timeSpan}

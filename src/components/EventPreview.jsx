@@ -7,7 +7,7 @@ function collect (monitor){
   };
   const item = monitor.getItem();
   if(item){
-    props['event'] = item.timeline.actions.findEventWithId(item.id);
+    props['event'] = item.timeline.actions.findEventWithTime(item.lineId, item.timeSpan.getStartTime().addMin(1));
   }
 
   return props;
