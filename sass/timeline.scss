@@ -43,22 +43,16 @@
 }
 
 /* tlTimeline */
-.tlLineView.even{
-  background-color: #f3f3f3;
-}
-
-.tlLineView.odd{
-  background-color: #fbfbfb;
-}
-
-
-
-.tlLineView.tlEventOver .tlTimeline{
-  background-color: #FFFED6;
-}
-
-.tlTimeline{
-  float: left;
+.tlLineView{
+  &.even{
+    background-color: #f3f3f3;
+  }
+  &.odd{
+    background-color: #fbfbfb;
+  }
+  &.over{
+    background-color: #FFFED6;
+  }
 }
 
 .tlLabelView{

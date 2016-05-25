@@ -21,6 +21,13 @@ const target = {
     const left = Math.round(eventComponent.state.left + delta.x);
 
     eventComponent.moveTo(top, left);
+  },
+  hover(props, monitor, component){
+    const lineWrapperBounds = props.timeline.actions.frameComponent.refs.linesWrapper.getBoundingClientRect();
+    const clientOffset = monitor.getSourceClientOffset();
+    if(clientOffset){
+      props.timeline.actions.draggingOver(clientOffset.x - lineWrapperBounds.left);
+    }
   }
 };
 

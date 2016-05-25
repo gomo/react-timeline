@@ -13,7 +13,8 @@ export default class Line extends React.Component
 
     this.state = {
       hours: [],
-      events: []
+      events: [],
+      draggingOver: false
     }
     this.props.timeSpan.eachTime((key, time) => {
       this.state.hours.push(
@@ -46,6 +47,14 @@ export default class Line extends React.Component
     }
   }
 
+  draggingOver(){
+    this.setState({draggingOver: true});
+  }
+
+  clearDraggingOver(){
+    this.setState({draggingOver: false});
+  }
+
   render(){
     return (
       <div onClick={e => this.onClick(e)}>
@@ -60,7 +69,7 @@ export default class Line extends React.Component
             )
           }
         })()}
-        <div className={classNames('tlLineView', {even: this.props.even, odd: !this.props.even})} style={this.wrapperStyle}>
+        <div className={classNames('tlLineView', {even: this.props.even, odd: !this.props.even}, {over: this.state.draggingOver})} style={this.wrapperStyle}>
           {this.state.hours}
         </div>
       </div>

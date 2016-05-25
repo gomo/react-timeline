@@ -36,6 +36,19 @@ export default class Actions
     this.lineLabelComponents = [];
 
     this.frameComponent = null;
+
+    this.draggingOverLineConponent = null;
+  }
+
+  draggingOver(left){
+    const lineComponent = this.findLineByLeft(left);
+    if(lineComponent && this.draggingOverLineConponent !== lineComponent){
+      if(this.draggingOverLineConponent){
+        this.draggingOverLineConponent.clearDraggingOver();
+      }
+      this.draggingOverLineConponent = lineComponent;
+      this.draggingOverLineConponent.draggingOver();
+    }
   }
 
   getTotalWidth(){
@@ -54,6 +67,16 @@ export default class Actions
 
   findEventByProps(eventProps){
     return this.findEventByTime(eventProps.lineId, eventProps.timeSpan.getStartTime().addMin(1));
+  }
+
+  findLineByLeft(left){
+    var width = 0;
+    return this.lineComponents.find(line => {
+      width += line.props.hasRuler ? this.lineWidth + Ruler.width : this.lineWidth;
+      if(left < width){
+        return line;
+      }
+    });
   }
 
   getLineLeft(lineId){
