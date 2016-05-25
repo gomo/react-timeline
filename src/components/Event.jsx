@@ -35,6 +35,10 @@ class Event extends React.Component
 
   }
 
+  moveTo(top, left){
+    this.setState({top: top, left: left});
+  }
+
   render(){
     const style = {
       height: this.state.height,
@@ -42,7 +46,8 @@ class Event extends React.Component
       top: this.state.top + 'px',
       left: this.state.left + 'px',
       width: this.state.width + 'px',
-      backgroundColor: this.state.color
+      backgroundColor: this.state.color,
+      display: this.props.isDragging ? 'none' : 'block'
     };
 
     return this.props.connectDragSource(

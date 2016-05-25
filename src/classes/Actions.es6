@@ -48,8 +48,12 @@ export default class Actions
     this.eventComponents.push(event);
   }
 
-  findEventWithTime(lineId, time){
+  findEventByTime(lineId, time){
     return this.eventComponents.find(ev => ev.props.lineId == lineId && ev.props.timeSpan.containsTime(time));
+  }
+
+  findEventByProps(eventProps){
+    return this.findEventByTime(eventProps.lineId, eventProps.timeSpan.getStartTime().addMin(1));
   }
 
   getLineLeft(lineId){

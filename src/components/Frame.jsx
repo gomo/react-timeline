@@ -9,6 +9,26 @@ import Actions from '../classes/Actions';
 import Event from './Event';
 import Ruler from './Ruler';
 import LineLabel from './LineLabel';
+import { DropTarget } from 'react-dnd';
+
+
+const target = {
+  drop(props, monitor, component) {
+    const item = monitor.getItem();
+    const eventComponent = item.timeline.actions.findEventByProps(item);
+    const delta = monitor.getDifferenceFromInitialOffset();
+    const top = Math.round(eventComponent.state.top + delta.y);
+    const left = Math.round(eventComponent.state.left + delta.x);
+
+    eventComponent.moveTo(top, left);
+  }
+};
+
+function collect(connect, monitor) {
+  return {
+    connectDropTarget: connect.dropTarget()
+  };
+}
 
 class Frame extends React.Component
 {
@@ -96,7 +116,8 @@ class Frame extends React.Component
   }
 
   render(){
-    return (
+    const { connectDropTarget } = this.props;
+    return connectDropTarget(
       <div className="tlFrameView" style={{width: this.props.timeline.actions.getTotalWidth() + 'px'}}>
         <div className="tlLabelView">{this.state.labels}</div>
         <div ref="linesWrapper" className="tlLinesWrapper" style={{height: this.state.wrapperHeight}}>
@@ -137,4 +158,4 @@ Frame.propTypes = {
   rulerInterval: React.PropTypes.number.isRequired
 }
 
-export default DragDropContext(DndBackend({ enableMouseEvents: true }))(Frame);
+export default DragDropContext(DndBackend({ enableMouseEvents: true }))(DropTarget("Event", target, collect)(Frame));
