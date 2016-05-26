@@ -23,10 +23,14 @@ const target = {
     eventComponent.moveTo(top, left);
   },
   hover(props, monitor, component){
-    const lineWrapperBounds = props.timeline.actions.frameComponent.refs.linesWrapper.getBoundingClientRect();
     const clientOffset = monitor.getSourceClientOffset();
     if(clientOffset){
+      const lineWrapperBounds = props.timeline.actions.frameComponent.refs.linesWrapper.getBoundingClientRect();
       props.timeline.actions.draggingOver(clientOffset.x - lineWrapperBounds.left);
+
+      const eventComponent = props.timeline.actions.findEventByProps(monitor.getItem());
+      const time = props.timeline.actions.topToTime(clientOffset.y - lineWrapperBounds.top);
+      eventComponent.draggingDisplay(time);
     }
   }
 };

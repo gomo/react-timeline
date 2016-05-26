@@ -30,7 +30,8 @@ class Event extends React.Component
       left: this.props.left,
       width: this.props.width,
       color: this.props.color,
-      draggable: false
+      draggable: false,
+      draggingDisplay: ''
     }
 
     this.props.timeline.actions.addEventComponent(this);
@@ -48,6 +49,10 @@ class Event extends React.Component
     this.props.onClickEvent(this);
   }
 
+  draggingDisplay(time){
+    this.setState({draggingDisplay: time.getDisplayTime()});
+  }
+
   render(){
     const style = {
       height: this.state.height,
@@ -61,6 +66,7 @@ class Event extends React.Component
 
     return this.props.connectDragSource(
       <div className={classNames('tlEventView', {tlDraggingEvent: this.state.draggable})} style={style} onClick={e => this.onClick(e)}>
+        {this.state.draggingDisplay}
         &nbsp;
       </div>
     );

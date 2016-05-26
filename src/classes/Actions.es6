@@ -111,6 +111,9 @@ export default class Actions
   }
 
   topToTime(top){
+    if(top <= 0){
+      return this.timeSpan.getStartTime();
+    }
     return this.timeSpan.getStartTime().addMin(top / this.perMinHeight);
   }
 }
