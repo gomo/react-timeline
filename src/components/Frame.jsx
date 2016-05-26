@@ -25,10 +25,10 @@ const target = {
   hover(props, monitor, component){
     const clientOffset = monitor.getSourceClientOffset();
     if(clientOffset){
-      const lineWrapperBounds = props.timeline.actions.frameComponent.refs.linesWrapper.getBoundingClientRect();
-      props.timeline.actions.draggingOver(clientOffset.x - lineWrapperBounds.left);
-
       const eventComponent = props.timeline.actions.findEventByProps(monitor.getItem());
+      const lineWrapperBounds = props.timeline.actions.frameComponent.refs.linesWrapper.getBoundingClientRect();
+      props.timeline.actions.draggingOver(clientOffset.x - lineWrapperBounds.left + (eventComponent.props.width / 2/*eventの真ん中を基準にする*/));
+
       const time = props.timeline.actions.topToTime(clientOffset.y - lineWrapperBounds.top);
       eventComponent.draggingDisplay(time);
     }
@@ -63,8 +63,6 @@ class Frame extends React.Component
       wrapperHeight: 0
     }
   }
-
-
 
   createLineComponent(data, lines, labels){
     const hasRuler = lines.length % this.props.rulerInterval === 0;

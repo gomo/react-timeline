@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import TimeSpan from '../classes/TimeSpan';
 import {DragSource} from 'react-dnd';
+import EventBase from './EventBase';
 
 const source = {
   beginDrag: function (props) {
@@ -30,6 +31,7 @@ class Event extends React.Component
       left: this.props.left,
       width: this.props.width,
       color: this.props.color,
+      timeSpan: this.props.timeSpan,
       draggable: false,
       draggingDisplay: ''
     }
@@ -38,7 +40,10 @@ class Event extends React.Component
   }
 
   toFloat(){
-    this.setState({draggable: true});
+    this.setState({
+      draggable: true,
+      draggingDisplay: this.state.timeSpan.getStartTime().getDisplayTime()
+    });
   }
 
   moveTo(top, left){
@@ -66,8 +71,9 @@ class Event extends React.Component
 
     return this.props.connectDragSource(
       <div className={classNames('tlEventView', {tlDraggingEvent: this.state.draggable})} style={style} onClick={e => this.onClick(e)}>
-        {this.state.draggingDisplay}
-        &nbsp;
+        <EventBase
+          draggingDisplay={this.state.draggingDisplay}
+        />
       </div>
     );
   }

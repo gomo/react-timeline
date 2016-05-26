@@ -1,5 +1,6 @@
 import React from 'react';
 import DragLayer from 'react-dnd/lib/DragLayer';
+import EventBase from './EventBase';
 
 function collect (monitor){
   const props = {
@@ -40,8 +41,9 @@ class EventPreview extends React.Component {
   render () {
     return (
       <div ref="preview" className="tlEventView tlDraggingEvent" style={this.getItemStyles()}>
-        {this.props.event ? this.props.event.state.draggingDisplay : ''}
-        &nbsp;
+        <EventBase
+          draggingDisplay={this.props.event ? this.props.event.state.draggingDisplay : ''}
+        />
       </div>
     );
   }

@@ -124,15 +124,39 @@
 
 /* tlEventView */
 .tlEventView {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=70);
   opacity: 0.7;
   border-radius: 5px;
   border: 1px solid #777;
   text-align: center;
   line-height: 17px;
-  overflow: hidden;
 }
-.tlEventView .tlFloating {
-  border: 2px dotted #333;
+.tlEventView .tlDraggingDisplay {
+  filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
+  opacity: 1;
+  position: absolute;
+  top: -8px;
+  left: -117%;
+  border-radius: 3px;
+  border: 1px solid #aaa;
+  background-color: #000;
+  color: #fff;
+  width: 100%;
+  font-size: 11px;
+  font-weight: bold;
+  -moz-box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.4);
+  -webkit-box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.4);
+  box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.4);
+}
+.tlEventView .tlDraggingDisplay:after {
+  content: ' ';
+  height: 0;
+  position: absolute;
+  width: 0;
+  border: 8px solid transparent;
+  border-left-color: #000;
+  left: 100%;
+  top: 0;
 }
 .tlEventView .display {
   overflow: hidden;
