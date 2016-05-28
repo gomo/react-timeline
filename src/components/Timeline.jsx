@@ -14,6 +14,10 @@ export default class Timeline extends React.Component
     });
   }
 
+  addEvents(events){
+    this.actions.frameComponent.addEvents(events);
+  }
+
   render(){
     return (
       <Frame

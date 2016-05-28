@@ -100,10 +100,6 @@ export default class Actions
     this.lineLabelComponents.push(line);
   }
 
-  addEvents(events){
-    this.frameComponent.addEvents(events);
-  }
-
   timeSpanToHeight(timeSpan){
     return (timeSpan.getDistance() * this.perMinHeight) - 1;
   }
