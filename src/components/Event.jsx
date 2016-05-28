@@ -36,6 +36,7 @@ class Event extends React.Component
 
     this.lineId = this.props.lineId;
     this.timeSpan = this.props.timeSpan;
+    this.draggingPosition = null;
 
     this.props.timeline.actions.addEventComponent(this);
   }
@@ -47,6 +48,27 @@ class Event extends React.Component
     });
   }
 
+  fix(){
+    if(this.draggingPosition){
+      this.lineId = this.draggingPosition.lineId;
+      this.timeSpan = this.timeSpan.shiftStartTime(this.draggingPosition.time);
+      this.setState({
+        top: this.props.timeline.actions.timeToTop(this.draggingPosition.time),
+        left: this.props.timeline.actions.getLineLeft(this.draggingPosition.lineId),
+        draggable: false,
+        draggingDisplay: ''
+      });
+      this.draggingPosition = null;
+    } else {
+      this.setState({
+        draggable: false,
+        draggingDisplay: ''
+      });
+    }
+
+    this.props.timeline.actions.clearDraggingOver();
+  }
+
   moveTo(top, left){
     this.setState({top: top, left: left});
   }
@@ -55,7 +77,8 @@ class Event extends React.Component
     this.props.onClickEvent(this);
   }
 
-  draggingDisplay(time){
+  dragging(time, lineId){
+    this.draggingPosition = {time: time, lineId: lineId};
     this.setState({draggingDisplay: time.getDisplayTime()});
   }
 

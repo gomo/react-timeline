@@ -43,6 +43,14 @@ export default class Actions
       this.draggingOverLineConponent = lineComponent;
       this.draggingOverLineConponent.draggingOver();
     }
+
+    return lineComponent;
+  }
+
+  clearDraggingOver(){
+    if(this.draggingOverLineConponent){
+      this.draggingOverLineConponent.clearDraggingOver();
+    }
   }
 
   getTotalWidth(){
@@ -70,11 +78,18 @@ export default class Actions
   }
 
   getLineLeft(lineId){
-    const index = this.lineComponents.findIndex(line => line.props.lineId == lineId);
-    var left = 0;
-    for (var i = 0; i < index; i++) {
+    let left = 0;
+    for (var i = 0; i < this.lineComponents.length; i++) {
       var line = this.lineComponents[i];
-      left += (line.props.hasRuler ? this.lineWidth + Ruler.width : this.lineWidth)
+      if(line.props.hasRuler){
+        left += Ruler.width;
+      }
+
+      if(line.props.lineId == lineId){
+        break;
+      }
+
+      left += this.lineWidth;
     }
 
     return left;

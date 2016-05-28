@@ -27,10 +27,10 @@ const target = {
     if(clientOffset){
       const eventComponent = props.timeline.actions.findEventById(monitor.getItem().id);
       const lineWrapperBounds = props.timeline.actions.frameComponent.refs.linesWrapper.getBoundingClientRect();
-      props.timeline.actions.draggingOver(clientOffset.x - lineWrapperBounds.left + (eventComponent.props.width / 2/*eventの真ん中を基準にする*/));
+      const lineComponent = props.timeline.actions.draggingOver(clientOffset.x - lineWrapperBounds.left + (eventComponent.props.width / 2/*eventの真ん中を基準にする*/));
 
       const time = props.timeline.actions.topToTime(clientOffset.y - lineWrapperBounds.top);
-      eventComponent.draggingDisplay(time);
+      eventComponent.dragging(time, lineComponent.props.lineId);
     }
   }
 };

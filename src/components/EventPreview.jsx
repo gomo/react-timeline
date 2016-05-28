@@ -22,7 +22,6 @@ class EventPreview extends React.Component {
       };
     }
 
-    const parentBounds = this.refs.preview.parentNode.getBoundingClientRect();
     const x = this.props.clientOffset.x;
     const y = this.props.clientOffset.y;
     const transform = `translate(${x}px, ${y}px)`;
