@@ -9,7 +9,7 @@ const source = {
     return props;
   },
   canDrag: function(props, monitor){
-    const draggable = props.timeline.actions.findEventByProps(props).state.draggable;
+    const draggable = props.timeline.actions.findEventById(props.id).state.draggable;
     return !!draggable;
   }
 }
@@ -26,15 +26,16 @@ class Event extends React.Component
   constructor(props) {
     super(props);
     this.state = {
-      height: this.props.height,
-      top: this.props.top,
-      left: this.props.left,
-      width: this.props.width,
+      height: this.props.timeline.actions.timeSpanToHeight(this.props.timeSpan),
+      top: this.props.timeline.actions.timeToTop(this.props.timeSpan.getStartTime()),
+      left: this.props.timeline.actions.getLineLeft(this.props.lineId),
       color: this.props.color,
-      timeSpan: this.props.timeSpan,
       draggable: false,
       draggingDisplay: ''
     }
+
+    this.lineId = this.props.lineId;
+    this.timeSpan = this.props.timeSpan;
 
     this.props.timeline.actions.addEventComponent(this);
   }
@@ -42,7 +43,7 @@ class Event extends React.Component
   toFloat(){
     this.setState({
       draggable: true,
-      draggingDisplay: this.state.timeSpan.getStartTime().getDisplayTime()
+      draggingDisplay: this.timeSpan.getStartTime().getDisplayTime()
     });
   }
 
@@ -64,7 +65,7 @@ class Event extends React.Component
       position: 'absolute',
       top: this.state.top + 'px',
       left: this.state.left + 'px',
-      width: this.state.width + 'px',
+      width: this.props.width + 'px',
       backgroundColor: this.state.color,
       display: this.props.isDragging ? 'none' : 'block'
     };
@@ -80,10 +81,12 @@ class Event extends React.Component
 }
 
 Event.propTypes = {
+  id: React.PropTypes.string.isRequired,
   timeSpan: React.PropTypes.instanceOf(TimeSpan).isRequired,
   color: React.PropTypes.string.isRequired,
   //TODO 循環参照になるのでimportできず。とりあえずanyでごまかしてます。
-  timeline: React.PropTypes.any.isRequired
+  timeline: React.PropTypes.any.isRequired,
+  lineId: React.PropTypes.string.isRequired
 }
 
 export default DragSource("Event", source, collect)(Event);

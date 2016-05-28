@@ -38,6 +38,12 @@ export default class Actions
     this.frameComponent = null;
 
     this.draggingOverLineConponent = null;
+
+    this.createdEventId = 0;
+  }
+
+  createEventId(){
+    return 'new_' + (++this.createdEventId);
   }
 
   draggingOver(left){
@@ -61,12 +67,8 @@ export default class Actions
     this.eventComponents.push(event);
   }
 
-  findEventByTime(lineId, time){
-    return this.eventComponents.find(ev => ev.props.lineId == lineId && ev.props.timeSpan.containsTime(time));
-  }
-
-  findEventByProps(eventProps){
-    return this.findEventByTime(eventProps.lineId, eventProps.timeSpan.getStartTime().addMin(1));
+  findEventById(eventId){
+    return this.eventComponents.find(ev => ev.props.id == eventId);
   }
 
   findLineByLeft(left){

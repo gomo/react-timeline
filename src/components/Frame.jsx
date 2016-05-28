@@ -15,7 +15,7 @@ import { DropTarget } from 'react-dnd';
 const target = {
   drop(props, monitor, component) {
     const item = monitor.getItem();
-    const eventComponent = item.timeline.actions.findEventByProps(item);
+    const eventComponent = item.timeline.actions.findEventById(item.id);
     const delta = monitor.getDifferenceFromInitialOffset();
     const top = Math.round(eventComponent.state.top + delta.y);
     const left = Math.round(eventComponent.state.left + delta.x);
@@ -25,7 +25,7 @@ const target = {
   hover(props, monitor, component){
     const clientOffset = monitor.getSourceClientOffset();
     if(clientOffset){
-      const eventComponent = props.timeline.actions.findEventByProps(monitor.getItem());
+      const eventComponent = props.timeline.actions.findEventById(monitor.getItem().id);
       const lineWrapperBounds = props.timeline.actions.frameComponent.refs.linesWrapper.getBoundingClientRect();
       props.timeline.actions.draggingOver(clientOffset.x - lineWrapperBounds.left + (eventComponent.props.width / 2/*eventの真ん中を基準にする*/));
 
@@ -98,7 +98,12 @@ class Frame extends React.Component
 
   addEvents(events){
     var current = this.state.events;
-    events.forEach(event => current.push(event));
+    events.forEach(event => {
+      if(!event.id){
+        event.id = this.props.timeline.actions.createEventId();
+      }
+      current.push(event)
+    });
     this.setState({events: current});
   }
 
@@ -134,15 +139,13 @@ class Frame extends React.Component
           {this.state.events.map(event => {
             return (
               <Event
-                key={event.lineId + event.timeSpan.toString()}
+                key={event.id}
+                id={event.id}
                 color={event.color}
                 timeSpan={event.timeSpan}
                 display={event.display}
                 lineId={event.lineId}
                 timeline={this.props.timeline}
-                height={this.props.timeline.actions.timeSpanToHeight(event.timeSpan)}
-                top={this.props.timeline.actions.timeToTop(event.timeSpan.getStartTime())}
-                left={this.props.timeline.actions.getLineLeft(event.lineId)}
                 width={this.props.timeline.actions.lineWidth - 2}
                 onClickEvent={this.props.onClickEvent}
               />

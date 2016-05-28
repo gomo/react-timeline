@@ -8,7 +8,7 @@ function collect (monitor){
   };
   const item = monitor.getItem();
   if(item){
-    props['event'] = item.timeline.actions.findEventByProps(item);
+    props['event'] = item.timeline.actions.findEventById(item.id);
   }
 
   return props;
@@ -31,7 +31,7 @@ class EventPreview extends React.Component {
       top: 0,
       left: 0,
       height: this.props.event.state.height,
-      width: this.props.event.state.width,
+      width: this.props.event.props.width,
       backgroundColor: this.props.event.state.color,
       transform: transform,
       WebkitTransform: transform
