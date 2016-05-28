@@ -60,8 +60,10 @@ class Frame extends React.Component
       lines: lines,
       labels: labels,
       events: [],
-      wrapperHeight: 0
+      height: this.props.height
     }
+
+    this.LABEL_HEIGHT = 16;
   }
 
   createLineComponent(data, lines, labels){
@@ -107,19 +109,8 @@ class Frame extends React.Component
     this.setState({events: current});
   }
 
-  fitToWindow(){
-    setTimeout(() => {
-      const wrapperBounds = this.refs.linesWrapper.getBoundingClientRect();
-      const windowSize = Actions.windowSize;
-      this.setState({wrapperHeight: windowSize.height - wrapperBounds.top});
-    }, 0);
-  }
-
-  componentDidMount(){
-    this.fitToWindow();
-    window.addEventListener('resize', event => {
-      this.fitToWindow();
-    });
+  setHeight(height){
+    this.setState({height: height});
   }
 
   getRelativePos(e){
@@ -133,8 +124,8 @@ class Frame extends React.Component
     const { connectDropTarget } = this.props;
     return connectDropTarget(
       <div className="tlFrameView" style={{width: this.props.timeline.actions.getTotalWidth() + 'px'}}>
-        <div className="tlLabelView">{this.state.labels}</div>
-        <div ref="linesWrapper" className="tlLinesWrapper" style={{height: this.state.wrapperHeight}}>
+        <div className="tlLabelView" style={{height: this.LABEL_HEIGHT}}>{this.state.labels}</div>
+        <div ref="linesWrapper" className="tlLinesWrapper" style={{height: this.state.height - this.LABEL_HEIGHT}}>
           {this.state.lines}
           {this.state.events.map(event => {
             return (
@@ -168,7 +159,8 @@ Frame.propTypes = {
   minHeight: React.PropTypes.number.isRequired,
   onClick: React.PropTypes.func,
   timeline: React.PropTypes.any.isRequired,
-  rulerInterval: React.PropTypes.number.isRequired
+  rulerInterval: React.PropTypes.number.isRequired,
+  height: React.PropTypes.number.isRequired
 }
 
 export default DragDropContext(DndBackend({ enableMouseEvents: true }))(DropTarget("Event", target, collect)(Frame));

@@ -2,18 +2,6 @@ import Ruler from '../components/Ruler';
 
 export default class Actions
 {
-  static get windowSize(){
-    const width = window.innerWidth
-    || document.documentElement.clientWidth
-    || document.body.clientWidth;
-
-    const height = window.innerHeight
-    || document.documentElement.clientHeight
-    || document.body.clientHeight;
-
-    return {width: width, height: height};
-  }
-
   constructor(config){
     this.lineWidth = config.lineWidth;
 

@@ -2,8 +2,25 @@ import ReactDOM from 'react-dom';
 import {Timeline, Time, TimeSpan, Actions} from '../index.es6';
 
 
-window.onload = () => {
+function getWindowSize(){
+  const width = window.innerWidth
+  || document.documentElement.clientWidth
+  || document.body.clientWidth;
 
+  const height = window.innerHeight
+  || document.documentElement.clientHeight
+  || document.body.clientHeight;
+
+  return {width: width, height: height};
+}
+
+function calcHeight(timelineElement){
+  const wrapperBounds = timelineElement.getBoundingClientRect();
+  const windowSize = getWindowSize();
+  return windowSize.height - wrapperBounds.top;
+}
+
+window.onload = () => {
   const lineData = [
     {label:'label1', id:'__1'},
     {label:'label2', id:'__2'},
@@ -24,6 +41,8 @@ window.onload = () => {
 
   const timeSpan = TimeSpan.create([10, 0], [25, 0]);
 
+  const timelineElement = document.getElementById('timeline');
+
   const timeline = ReactDOM.render(
     <Timeline
       lineData={lineData}
@@ -31,6 +50,7 @@ window.onload = () => {
       lineWidth={62}
       minHeight={17}
       rulerInterval={4}
+      height={calcHeight(timelineElement)}
       onClickLine={data => {
         console.log(data);
       }}
@@ -38,8 +58,13 @@ window.onload = () => {
         event.toFloat();
       }}
     />,
-    document.getElementById('timeline')
+    timelineElement
   );
+
+
+  window.onresize = () => {
+    timeline.setHeight(calcHeight(timelineElement));
+  };
 
   timeline.addEvents([
     {lineId: '__2', timeSpan: TimeSpan.create([11, 0], [12, 0]), color: '#FFB6B6'},

@@ -1,5 +1,13 @@
 .tlFrameView {
   *zoom: 1;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  cursor: default;
+  -moz-user-select: -moz-none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 .tlFrameView:after {
   content: "";
@@ -7,6 +15,10 @@
   clear: both;
 }
 .tlFrameView * {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  cursor: default;
   -moz-user-select: -moz-none;
   -ms-user-select: none;
   -webkit-user-select: none;

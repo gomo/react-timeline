@@ -1,9 +1,18 @@
 @import "compass";
 
+@mixin reset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  cursor: default;
+  @include user-select(none);
+}
+
 .tlFrameView{
   @include pie-clearfix;
+  @include reset;
   *{
-    @include user-select(none);
+    @include reset;
   }
 }
 

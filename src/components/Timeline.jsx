@@ -18,6 +18,10 @@ export default class Timeline extends React.Component
     this.actions.frameComponent.addEvents(events);
   }
 
+  setHeight(height){
+    this.actions.frameComponent.setHeight(height);
+  }
+
   render(){
     return (
       <Frame
@@ -25,6 +29,7 @@ export default class Timeline extends React.Component
         timeSpan={this.props.timeSpan}
         lineWidth={this.props.lineWidth}
         minHeight={this.props.minHeight}
+        height={this.props.height}
         onClickLine={this.props.onClickLine}
         onClickEvent={this.props.onClickEvent}
         timeline={this}
@@ -43,5 +48,6 @@ Timeline.propTypes = {
   lineWidth: React.PropTypes.number.isRequired,
   minHeight: React.PropTypes.number.isRequired,
   onClick: React.PropTypes.func,
-  rulerInterval: React.PropTypes.number.isRequired
+  rulerInterval: React.PropTypes.number.isRequired,
+  height: React.PropTypes.number.isRequired
 }
