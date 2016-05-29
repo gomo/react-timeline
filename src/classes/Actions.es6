@@ -18,6 +18,8 @@ export default class Actions
     //1分あたりの高さを算出
     this.perMinHeight = this.lineHeight / this.timeSpan.getDistance();
 
+    this.minInterval = config.minInterval || 1;
+
     this.eventComponents = [];
 
     this.lineComponents = [];
@@ -138,6 +140,15 @@ export default class Actions
     if(top <= 0){
       return this.timeSpan.getStartTime();
     }
-    return this.timeSpan.getStartTime().addMin(top / this.perMinHeight);
+    let minute = top / this.perMinHeight;
+    const rest = minute % this.minInterval;
+    if(rest !== 0){
+      if(rest > this.minInterval / 2){
+        minute += this.minInterval - rest;
+      } else {
+        minute -= rest;
+      }
+    }
+    return this.timeSpan.getStartTime().addMin(minute);
   }
 }

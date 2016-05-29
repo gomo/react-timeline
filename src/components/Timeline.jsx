@@ -10,7 +10,8 @@ export default class Timeline extends React.Component
     this.actions = new Actions({
       timeSpan: this.props.timeSpan,
       minHeight: this.props.minHeight,
-      lineWidth: this.props.lineWidth
+      lineWidth: this.props.lineWidth,
+      minInterval: this.props.minInterval
     });
   }
 

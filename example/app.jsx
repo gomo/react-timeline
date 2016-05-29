@@ -49,6 +49,7 @@ window.onload = () => {
       timeSpan={timeSpan}
       lineWidth={62}
       minHeight={17}
+      minInterval={5}
       rulerInterval={4}
       height={calcHeight(timelineElement)}
       onClickLine={data => {
