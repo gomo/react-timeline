@@ -1,10 +1,28 @@
 .tlFrameView {
   *zoom: 1;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  cursor: default;
+  -moz-user-select: -moz-none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 .tlFrameView:after {
   content: "";
   display: table;
   clear: both;
+}
+.tlFrameView * {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  cursor: default;
+  -moz-user-select: -moz-none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .tlLineView {
@@ -23,6 +41,7 @@
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
+  position: relative;
 }
 
 /* tlTimeIndicator */
@@ -47,20 +66,14 @@
 }
 
 /* tlTimeline */
-.tlLineView.even .tlTimeline {
+.tlLineView.even {
   background-color: #f3f3f3;
 }
-
-.tlLineView.odd .tlTimeline {
+.tlLineView.odd {
   background-color: #fbfbfb;
 }
-
-.tlLineView.tlEventOver .tlTimeline {
+.tlLineView.over {
   background-color: #FFFED6;
-}
-
-.tlTimeline {
-  float: left;
 }
 
 .tlLabelView {
@@ -83,10 +96,6 @@
   background-color: #337ab7;
   overflow: hidden;
   float: left;
-  -moz-user-select: -moz-none;
-  -ms-user-select: none;
-  -webkit-user-select: none;
-  user-select: none;
 }
 
 .tlLabel.tlHasRuler {
@@ -127,18 +136,52 @@
 
 /* tlEventView */
 .tlEventView {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=70);
   opacity: 0.7;
   border-radius: 5px;
   border: 1px solid #777;
   text-align: center;
   line-height: 17px;
-  overflow: hidden;
 }
-.tlEventView .tlFloating {
-  border: 2px dotted #333;
+.tlEventView .tlDraggingDisplay {
+  filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
+  opacity: 1;
+  position: absolute;
+  top: -8px;
+  left: 117%;
+  border-radius: 4px;
+  border: 1px solid #aaa;
+  background-color: #000;
+  color: #fff;
+  width: 92%;
+  font-size: 11px;
+  font-weight: bold;
+  height: 18px;
+  line-height: 18px;
+  text-align: center;
+  -moz-box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.4);
+  -webkit-box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.4);
+  box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.4);
+}
+.tlEventView .tlDraggingDisplay:after {
+  content: ' ';
+  height: 0;
+  position: absolute;
+  width: 0;
+  border: 9px solid transparent;
+  border-right-color: #000;
+  left: -32%;
+  top: 0;
 }
 .tlEventView .display {
   overflow: hidden;
   line-height: 12px;
   padding: 3px;
+}
+
+.tlDraggingEvent {
+  -moz-box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.4);
+  -webkit-box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.4);
+  box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.4);
+  z-index: 1;
 }

@@ -1,21 +1,20 @@
 import React from 'react';
 import TimeSpan from '../classes/TimeSpan';
 import Hour from './Hour';
-import Event from './Event';
-import Events from '../classes/Events';
+import Ruler from './Ruler';
+import LineLabel from './LineLabel';
+import classNames from 'classnames';
 
 export default class Line extends React.Component
 {
   constructor(props) {
     super(props);
-    this.timeline = this.props.timeline;
-    this.timeline.lines.setLine(this.props.lineId, this);
-
-    this.events = new Events();
+    this.props.timeline.actions.addLineComponent(this);
 
     this.state = {
       hours: [],
-      events: []
+      events: [],
+      draggingOver: false
     }
     this.props.timeSpan.eachTime((key, time) => {
       this.state.hours.push(
@@ -26,59 +25,56 @@ export default class Line extends React.Component
         />
       );
     });
-
-    this.wrapperStyle = {
-      width: this.props.width + 'px',
-      height: this.props.height + 'px',
-      position: 'relative'
-    }
   }
 
   getRelativeTop(e){
-    return e.clientY - e.currentTarget.offsetTop + e.currentTarget.parentNode.scrollTop;
+    return e.clientY - e.currentTarget.parentNode.offsetTop + e.currentTarget.parentNode.scrollTop;
   }
 
   onClick(e){
-    if(this.props.onClick){
-      const top = this.getRelativeTop(e);
-      const time = this.timeline.util.topToTime(top);
-      const event = this.events.find(event => event.props.timeSpan.containsTime(time));
-      this.props.onClick({
+    if(this.props.onClickLine){
+      const time = this.props.timeline.actions.topToTime(this.getRelativeTop(e));
+      this.props.onClickLine({
         click: e,
         line: this,
-        event: event
+        time: time
       });
     }
   }
 
-  addEvents(events){
-    var current = this.state.events;
-    events.forEach(event => current.push(event));
-    this.setState({events: current});
+  draggingOver(){
+    this.setState({draggingOver: true});
+  }
+
+  clearDraggingOver(){
+    this.setState({draggingOver: false});
   }
 
   render(){
     return (
-      <div className="tlLineView" style={this.wrapperStyle} onClick={e => this.onClick(e)}>
-        {this.state.hours}
-        {this.state.events.map(event => {
-          return (
-            <Event
-              key={event.timeSpan.toString()}
-              color={event.color}
-              timeSpan={event.timeSpan}
-              display={event.display}
-              line={this}
-            />
-          )
-        })}
+      <div onClick={e => this.onClick(e)}>
+        {(() => {
+          if(this.props.hasRuler){
+            return (
+              <Ruler
+                key={'ruler_' + this.props.lineId}
+                minHeight={this.props.minHeight}
+                timeSpan={this.props.timeSpan}
+              />
+            )
+          }
+        })()}
+        <div className={classNames('tlLineView', {even: this.props.even, odd: !this.props.even}, {over: this.state.draggingOver})} style={{width: this.props.width + 'px'}}>
+          {this.state.hours}
+        </div>
       </div>
     );
   }
 }
 
+Line.sidePadding = 1;
+
 Line.propTypes = {
-  label: React.PropTypes.string.isRequired,
   width: React.PropTypes.number.isRequired,
   minHeight: React.PropTypes.number.isRequired,
   timeSpan: React.PropTypes.instanceOf(TimeSpan).isRequired,
@@ -86,5 +82,6 @@ Line.propTypes = {
   onClick: React.PropTypes.func,
   even: React.PropTypes.bool.isRequired,
   //TODO 循環参照になるのでimportできず。とりあえずanyでごまかしてます。
-  timeline: React.PropTypes.any.isRequired
+  timeline: React.PropTypes.any.isRequired,
+  hasRuler: React.PropTypes.bool.isRequired
 }

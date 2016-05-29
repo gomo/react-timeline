@@ -1,23 +1,100 @@
 import React from 'react';
 import classNames from 'classnames';
 import TimeSpan from '../classes/TimeSpan';
+import {DragSource} from 'react-dnd';
+import EventBase from './EventBase';
 
-export default class Event extends React.Component
+const source = {
+  beginDrag: function (props) {
+    return props;
+  },
+  canDrag: function(props, monitor){
+    const draggable = props.timeline.actions.findEventById(props.id).state.draggable;
+    return !!draggable;
+  }
+}
+
+const collect = (connect, monitor) => {
+  return {
+    connectDragSource: connect.dragSource(),
+    isDragging: monitor.isDragging()
+  };
+}
+
+class Event extends React.Component
 {
   constructor(props) {
     super(props);
-    this.line = this.props.line;
-    this.line.events.addEvent(this);
-
     this.state = {
-      height: this.line.timeline.util.timeSpanToHeight(this.props.timeSpan),
-      top: this.line.timeline.util.timeToTop(this.props.timeSpan.getStartTime()),
-      color: this.props.color
+      height: this.props.timeline.actions.timeSpanToHeight(this.props.timeSpan),
+      top: this.props.timeline.actions.timeToTop(this.props.timeSpan.getStartTime()),
+      left: this.props.timeline.actions.getLineLeft(this.props.lineId),
+      color: this.props.color,
+      draggable: false,
+      draggingDisplay: ''
+    }
+
+    this.lineId = this.props.lineId;
+    this.timeSpan = this.props.timeSpan;
+    this.draggingPosition = null;
+
+    this.props.timeline.actions.addEventComponent(this);
+  }
+
+  float(){
+    this.setState({
+      draggable: true,
+      draggingDisplay: this.timeSpan.getStartTime().getDisplayTime()
+    });
+  }
+
+  fix(){
+    if(this.draggingPosition){
+      this.lineId = this.draggingPosition.lineId;
+      this.timeSpan = this.timeSpan.shiftStartTime(this.draggingPosition.time);
+      this.setState({
+        top: this.props.timeline.actions.timeToTop(this.draggingPosition.time),
+        left: this.props.timeline.actions.getLineLeft(this.draggingPosition.lineId),
+        draggable: false,
+        draggingDisplay: ''
+      });
+      this.draggingPosition = null;
+    } else {
+      this.setState({
+        draggable: false,
+        draggingDisplay: ''
+      });
+    }
+
+    this.props.timeline.actions.clearDraggingOver();
+  }
+
+  getDraggingPosition(){
+    if(this.draggingPosition){
+      return {
+        lineId: this.draggingPosition.lineId,
+        timeSpan: this.timeSpan.shiftStartTime(this.draggingPosition.time)
+      }
+    }
+
+    return null;
+  }
+
+  moveTo(top, left){
+    this.setState({top: top, left: left});
+  }
+
+  onClick(){
+    if(this.state.draggable){
+      this.props.onClickFloatingEvent(this);
+    } else {
+      this.props.onClickEvent(this);
     }
   }
 
-  toFloat(){
-
+  dragging(time, lineId){
+    this.draggingPosition = {time: time, lineId: lineId};
+    this.setState({draggingDisplay: time.getDisplayTime()});
   }
 
   render(){
@@ -25,21 +102,29 @@ export default class Event extends React.Component
       height: this.state.height,
       position: 'absolute',
       top: this.state.top + 'px',
-      width: this.line.props.width - 2 + 'px',
-      backgroundColor: this.state.color
+      left: this.state.left + 'px',
+      width: this.props.width + 'px',
+      backgroundColor: this.state.color,
+      display: this.props.isDragging ? 'none' : 'block'
     };
 
-    return (
-      <div ref="eventElem" className="tlEventView" style={style}>
-        &nbsp;
+    return this.props.connectDragSource(
+      <div className={classNames('tlEventView', {tlDraggingEvent: this.state.draggable})} style={style} onClick={e => this.onClick(e)}>
+        <EventBase
+          draggingDisplay={this.state.draggingDisplay}
+        />
       </div>
     );
   }
 }
 
 Event.propTypes = {
+  id: React.PropTypes.string.isRequired,
   timeSpan: React.PropTypes.instanceOf(TimeSpan).isRequired,
   color: React.PropTypes.string.isRequired,
   //TODO 循環参照になるのでimportできず。とりあえずanyでごまかしてます。
-  line: React.PropTypes.any.isRequired
+  timeline: React.PropTypes.any.isRequired,
+  lineId: React.PropTypes.string.isRequired
 }
+
+export default DragSource("Event", source, collect)(Event);
