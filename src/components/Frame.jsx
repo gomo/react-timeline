@@ -27,7 +27,7 @@ const target = {
       const eventComponent = props.timeline.findEventById(monitor.getItem().id);
       const lineWrapperBounds = props.timeline.frameComponent.refs.linesWrapper.getBoundingClientRect();
       const lineComponent = props.timeline.draggingOver(clientOffset.x - lineWrapperBounds.left + (eventComponent.props.width / 2/*eventの真ん中を基準にする*/));
-      const time = props.timeline.topToTime(clientOffset.y - lineWrapperBounds.top);
+      const time = props.timeline.topToTime(clientOffset.y + props.timeline.frameComponent.refs.linesWrapper.scrollTop - lineWrapperBounds.top);
       eventComponent.dragging(time, lineComponent.props.lineId);
     }
   }
