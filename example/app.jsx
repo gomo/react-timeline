@@ -56,11 +56,11 @@ window.onload = () => {
         console.log(data);
       }}
       onClickEvent={event => {
-        event.float();
+        event.actions.float();
       }}
       onClickFloatingEvent={event => {
         if(timeline.actions.isFree(event)){
-          event.fix();
+          event.actions.fix();
         } else {
           alert('You can\'t !');
         }

@@ -1,7 +1,7 @@
 export default class TimelineActions
 {
-  constructor(timelineComponent){
-    this.timelineComponent = timelineComponent;
+  constructor(component){
+    this.component = component;
   }
 
   isFree(eventComponent){
@@ -10,8 +10,8 @@ export default class TimelineActions
       return true;
     }
 
-    for (var i = 0; i < this.timelineComponent.eventComponents.length; i++) {
-      let ev = this.timelineComponent.eventComponents[i];
+    for (var i = 0; i < this.component.eventComponents.length; i++) {
+      let ev = this.component.eventComponents[i];
       if(ev === eventComponent) continue;
       if(ev.lineId != newPosition.lineId) continue;
 
@@ -24,10 +24,10 @@ export default class TimelineActions
   }
 
   addEvents(events){
-    this.timelineComponent.frameComponent.addEvents(events);
+    this.component.frameComponent.addEvents(events);
   }
 
   setHeight(height){
-    this.timelineComponent.frameComponent.setHeight(height);
+    this.component.frameComponent.setHeight(height);
   }
 }

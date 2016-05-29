@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import TimeSpan from '../classes/TimeSpan';
 import {DragSource} from 'react-dnd';
 import EventBase from './EventBase';
+import EventActions from '../classes/EventActions';
 
 const source = {
   beginDrag: function (props) {
@@ -34,39 +35,13 @@ class Event extends React.Component
       draggingDisplay: ''
     }
 
+    this.actions = new EventActions(this);
+
     this.lineId = this.props.lineId;
     this.timeSpan = this.props.timeSpan;
     this.draggingPosition = null;
 
     this.props.timeline.addEventComponent(this);
-  }
-
-  float(){
-    this.setState({
-      draggable: true,
-      draggingDisplay: this.timeSpan.getStartTime().getDisplayTime()
-    });
-  }
-
-  fix(){
-    if(this.draggingPosition){
-      this.lineId = this.draggingPosition.lineId;
-      this.timeSpan = this.timeSpan.shiftStartTime(this.draggingPosition.time);
-      this.setState({
-        top: this.props.timeline.timeToTop(this.draggingPosition.time),
-        left: this.props.timeline.getLineLeft(this.draggingPosition.lineId),
-        draggable: false,
-        draggingDisplay: ''
-      });
-      this.draggingPosition = null;
-    } else {
-      this.setState({
-        draggable: false,
-        draggingDisplay: ''
-      });
-    }
-
-    this.props.timeline.clearDraggingOver();
   }
 
   getDraggingPosition(){
