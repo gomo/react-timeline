@@ -5,7 +5,6 @@ import classNames from 'classnames';
 import { DragDropContext } from 'react-dnd';
 import DndBackend from 'react-dnd-touch-backend';
 import EventPreview from './EventPreview';
-import Actions from '../classes/Actions';
 import Event from './Event';
 import Ruler from './Ruler';
 import LineLabel from './LineLabel';
@@ -15,7 +14,7 @@ import { DropTarget } from 'react-dnd';
 const target = {
   drop(props, monitor, component) {
     const item = monitor.getItem();
-    const eventComponent = item.timeline.actions.findEventById(item.id);
+    const eventComponent = item.timeline.findEventById(item.id);
     const delta = monitor.getDifferenceFromInitialOffset();
     const top = Math.round(eventComponent.state.top + delta.y);
     const left = Math.round(eventComponent.state.left + delta.x);
@@ -25,11 +24,10 @@ const target = {
   hover(props, monitor, component){
     const clientOffset = monitor.getSourceClientOffset();
     if(clientOffset){
-      const eventComponent = props.timeline.actions.findEventById(monitor.getItem().id);
-      const lineWrapperBounds = props.timeline.actions.frameComponent.refs.linesWrapper.getBoundingClientRect();
-      const lineComponent = props.timeline.actions.draggingOver(clientOffset.x - lineWrapperBounds.left + (eventComponent.props.width / 2/*eventの真ん中を基準にする*/));
-
-      const time = props.timeline.actions.topToTime(clientOffset.y - lineWrapperBounds.top);
+      const eventComponent = props.timeline.findEventById(monitor.getItem().id);
+      const lineWrapperBounds = props.timeline.frameComponent.refs.linesWrapper.getBoundingClientRect();
+      const lineComponent = props.timeline.draggingOver(clientOffset.x - lineWrapperBounds.left + (eventComponent.props.width / 2/*eventの真ん中を基準にする*/));
+      const time = props.timeline.topToTime(clientOffset.y - lineWrapperBounds.top);
       eventComponent.dragging(time, lineComponent.props.lineId);
     }
   }
@@ -46,7 +44,7 @@ class Frame extends React.Component
   constructor(props) {
     super(props);
 
-    this.props.timeline.actions.frameComponent = this;
+    this.props.timeline.frameComponent = this;
 
     const rulerInterval = 4;
 
@@ -99,7 +97,7 @@ class Frame extends React.Component
     var current = this.state.events;
     events.forEach(event => {
       if(!event.id){
-        event.id = this.props.timeline.actions.createEventId();
+        event.id = this.props.timeline.createEventId();
       }
       current.push(event)
     });
@@ -120,7 +118,7 @@ class Frame extends React.Component
   render(){
     const { connectDropTarget } = this.props;
     return connectDropTarget(
-      <div className="tlFrameView" style={{minWidth: this.props.timeline.actions.getTotalWidth() + 'px'}}>
+      <div className="tlFrameView" style={{minWidth: this.props.timeline.getTotalWidth() + 'px'}}>
         <div className="tlLabelView" style={{height: LineLabel.height}}>{this.state.labels}</div>
         <div ref="linesWrapper" className="tlLinesWrapper" style={{height: this.state.height - LineLabel.height}}>
           {this.state.lines}
@@ -134,7 +132,7 @@ class Frame extends React.Component
                 display={event.display}
                 lineId={event.lineId}
                 timeline={this.props.timeline}
-                width={this.props.timeline.actions.lineWidth - 2 - (Line.sidePadding * 2)}
+                width={this.props.timeline.props.lineWidth - 2 - (Line.sidePadding * 2)}
                 onClickEvent={this.props.onClickEvent}
                 onClickFloatingEvent={this.props.onClickFloatingEvent}
               />

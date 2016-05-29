@@ -9,7 +9,7 @@ const source = {
     return props;
   },
   canDrag: function(props, monitor){
-    const draggable = props.timeline.actions.findEventById(props.id).state.draggable;
+    const draggable = props.timeline.findEventById(props.id).state.draggable;
     return !!draggable;
   }
 }
@@ -26,9 +26,9 @@ class Event extends React.Component
   constructor(props) {
     super(props);
     this.state = {
-      height: this.props.timeline.actions.timeSpanToHeight(this.props.timeSpan),
-      top: this.props.timeline.actions.timeToTop(this.props.timeSpan.getStartTime()),
-      left: this.props.timeline.actions.getLineLeft(this.props.lineId),
+      height: this.props.timeline.timeSpanToHeight(this.props.timeSpan),
+      top: this.props.timeline.timeToTop(this.props.timeSpan.getStartTime()),
+      left: this.props.timeline.getLineLeft(this.props.lineId),
       color: this.props.color,
       draggable: false,
       draggingDisplay: ''
@@ -38,7 +38,7 @@ class Event extends React.Component
     this.timeSpan = this.props.timeSpan;
     this.draggingPosition = null;
 
-    this.props.timeline.actions.addEventComponent(this);
+    this.props.timeline.addEventComponent(this);
   }
 
   float(){
@@ -53,8 +53,8 @@ class Event extends React.Component
       this.lineId = this.draggingPosition.lineId;
       this.timeSpan = this.timeSpan.shiftStartTime(this.draggingPosition.time);
       this.setState({
-        top: this.props.timeline.actions.timeToTop(this.draggingPosition.time),
-        left: this.props.timeline.actions.getLineLeft(this.draggingPosition.lineId),
+        top: this.props.timeline.timeToTop(this.draggingPosition.time),
+        left: this.props.timeline.getLineLeft(this.draggingPosition.lineId),
         draggable: false,
         draggingDisplay: ''
       });
@@ -66,7 +66,7 @@ class Event extends React.Component
       });
     }
 
-    this.props.timeline.actions.clearDraggingOver();
+    this.props.timeline.clearDraggingOver();
   }
 
   getDraggingPosition(){

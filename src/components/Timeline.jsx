@@ -1,30 +1,131 @@
 import React from 'react';
 import TimeSpan from '../classes/TimeSpan';
-import Actions from '../classes/Actions';
+import TimelineActions from '../classes/TimelineActions';
 import Frame from './Frame';
+import Ruler from './Ruler';
+import Line from './Line';
 
 export default class Timeline extends React.Component
 {
   constructor(props) {
     super(props);
-    this.actions = new Actions({
-      timeSpan: this.props.timeSpan,
-      minHeight: this.props.minHeight,
-      lineWidth: this.props.lineWidth,
-      minInterval: this.props.minInterval
+    this.actions = new TimelineActions(this);
+
+    //MinViewは一時間下に余分が生成されるので60分プラス
+    this.timeSpan = this.props.timeSpan.addMin(60);
+
+    //minViewがいくつあるかカウント。minViewは15分おき。それを元に高さを計算。border分1px足す
+    this.lineHeight = (this.timeSpan.getDistance() / 15) * (this.props.minHeight + 1);
+
+    //1分あたりの高さを算出
+    this.perMinHeight = this.lineHeight / this.timeSpan.getDistance();
+
+    this.frameComponent = null;
+    this.createdEventId = 0;
+    this.draggingOverLineConponent = null;
+    this.lineComponents = [];
+    this.eventComponents = [];
+    this.lineLabelComponents = [];
+  }
+
+  createEventId(){
+    return 'new_' + (++this.createdEventId);
+  }
+
+  draggingOver(left){
+    const lineComponent = this.findLineByLeft(left);
+    if(lineComponent && this.draggingOverLineConponent !== lineComponent){
+      if(this.draggingOverLineConponent){
+        this.draggingOverLineConponent.clearDraggingOver();
+      }
+      this.draggingOverLineConponent = lineComponent;
+      this.draggingOverLineConponent.draggingOver();
+    }
+
+    return lineComponent;
+  }
+
+  clearDraggingOver(){
+    if(this.draggingOverLineConponent){
+      this.draggingOverLineConponent.clearDraggingOver();
+    }
+  }
+
+  getTotalWidth(){
+    return this.lineComponents.reduce((val, line) => {
+      return val + (line.props.hasRuler ? this.lineWidth + Ruler.width : this.lineWidth);
+    }, 0);
+  }
+
+  addEventComponent(event){
+    this.eventComponents.push(event);
+  }
+
+  findEventById(eventId){
+    return this.eventComponents.find(ev => ev.props.id == eventId);
+  }
+
+  findLineByLeft(left){
+    var width = 0;
+    return this.lineComponents.find(line => {
+      width += line.props.hasRuler ? this.props.lineWidth + Ruler.width : this.props.lineWidth;
+      if(left < width){
+        return line;
+      }
     });
   }
 
-  addEvents(events){
-    this.actions.frameComponent.addEvents(events);
+  getLineLeft(lineId){
+    let left = 0;
+
+    for (var i = 0; i < this.lineComponents.length; i++) {
+      var line = this.lineComponents[i];
+      if(line.props.hasRuler){
+        left += Ruler.width;
+      }
+
+      if(line.props.lineId == lineId){
+        break;
+      }
+
+      left += this.props.lineWidth;
+    }
+
+    left += Line.sidePadding;
+
+    return left;
   }
 
-  setHeight(height){
-    this.actions.frameComponent.setHeight(height);
+  addLineComponent(line){
+    this.lineComponents.push(line);
   }
 
-  isFree(eventComponent){
-    return this.actions.isFree(eventComponent);
+  addLineLabelComponent(line){
+    this.lineLabelComponents.push(line);
+  }
+
+  timeSpanToHeight(timeSpan){
+    return (timeSpan.getDistance() * this.perMinHeight) - 1;
+  }
+
+  timeToTop(time){
+    return this.timeSpan.getStartTime().getDistance(time) * this.perMinHeight;
+  }
+
+  topToTime(top){
+    if(top <= 0){
+      return this.timeSpan.getStartTime();
+    }
+    let minute = top / this.perMinHeight;
+    const rest = minute % this.props.minInterval;
+    if(rest !== 0){
+      if(rest > this.props.minInterval / 2){
+        minute += this.props.minInterval - rest;
+      } else {
+        minute -= rest;
+      }
+    }
+    return this.timeSpan.getStartTime().addMin(minute);
   }
 
   render(){
@@ -55,5 +156,10 @@ Timeline.propTypes = {
   minHeight: React.PropTypes.number.isRequired,
   onClick: React.PropTypes.func,
   rulerInterval: React.PropTypes.number.isRequired,
+  minInterval: React.PropTypes.number,
   height: React.PropTypes.number.isRequired
+}
+
+Timeline.defaultProps = {
+  minInterval: 1
 }

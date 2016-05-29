@@ -9,7 +9,7 @@ export default class Line extends React.Component
 {
   constructor(props) {
     super(props);
-    this.props.timeline.actions.addLineComponent(this);
+    this.props.timeline.addLineComponent(this);
 
     this.state = {
       hours: [],
@@ -33,7 +33,7 @@ export default class Line extends React.Component
 
   onClick(e){
     if(this.props.onClickLine){
-      const time = this.props.timeline.actions.topToTime(this.getRelativeTop(e));
+      const time = this.props.timeline.topToTime(this.getRelativeTop(e));
       this.props.onClickLine({
         click: e,
         line: this,

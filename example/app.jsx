@@ -59,7 +59,7 @@ window.onload = () => {
         event.float();
       }}
       onClickFloatingEvent={event => {
-        if(timeline.isFree(event)){
+        if(timeline.actions.isFree(event)){
           event.fix();
         } else {
           alert('You can\'t !');
@@ -71,25 +71,25 @@ window.onload = () => {
 
 
   window.onresize = () => {
-    timeline.setHeight(calcHeight(timelineElement));
+    timeline.actions.setHeight(calcHeight(timelineElement));
   };
 
-  timeline.addEvents([
+  timeline.actions.addEvents([
     {lineId: '__1', timeSpan: TimeSpan.create([11, 0], [12, 0]), color: '#FFB6B6'}
   ]);
 
-  timeline.addEvents([
+  timeline.actions.addEvents([
     {lineId: '__2', timeSpan: TimeSpan.create([11, 0], [12, 0]), color: '#FFB6B6'},
     {lineId: '__2', timeSpan: TimeSpan.create([13, 50], [14, 30]), color: '#B8F1AC'},
     {lineId: '__2', timeSpan: TimeSpan.create([12, 0], [13, 30]), color: '#FFDCB6'}
   ]);
 
-  timeline.addEvents([
+  timeline.actions.addEvents([
     {lineId: '__3', timeSpan: TimeSpan.create([13, 0], [14, 0]), color: '#FFB6B6'},
     {lineId: '__3', timeSpan: TimeSpan.create([14, 15], [15, 30]), color: '#B8F1AC'}
   ]);
 
-  timeline.addEvents([
+  timeline.actions.addEvents([
     {lineId: '__5', timeSpan: TimeSpan.create([12, 0], [14, 0]), color: '#FFB6B6'}
   ]);
 }
