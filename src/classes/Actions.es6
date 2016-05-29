@@ -31,6 +31,25 @@ export default class Actions
     this.createdEventId = 0;
   }
 
+  isFree(eventComponent){
+    var newPosition = eventComponent.getDraggingPosition();
+    if(!newPosition){
+      return true;
+    }
+
+    for (var i = 0; i < this.eventComponents.length; i++) {
+      let ev = this.eventComponents[i];
+      if(ev === eventComponent) continue;
+      if(ev.lineId != newPosition.lineId) continue;
+
+      if(ev.timeSpan.overlaps(newPosition.timeSpan)){
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   createEventId(){
     return 'new_' + (++this.createdEventId);
   }

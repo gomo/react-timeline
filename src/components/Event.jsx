@@ -41,7 +41,7 @@ class Event extends React.Component
     this.props.timeline.actions.addEventComponent(this);
   }
 
-  toFloat(){
+  float(){
     this.setState({
       draggable: true,
       draggingDisplay: this.timeSpan.getStartTime().getDisplayTime()
@@ -69,12 +69,27 @@ class Event extends React.Component
     this.props.timeline.actions.clearDraggingOver();
   }
 
+  getDraggingPosition(){
+    if(this.draggingPosition){
+      return {
+        lineId: this.draggingPosition.lineId,
+        timeSpan: this.timeSpan.shiftStartTime(this.draggingPosition.time)
+      }
+    }
+
+    return null;
+  }
+
   moveTo(top, left){
     this.setState({top: top, left: left});
   }
 
   onClick(){
-    this.props.onClickEvent(this);
+    if(this.state.draggable){
+      this.props.onClickFloatingEvent(this);
+    } else {
+      this.props.onClickEvent(this);
+    }
   }
 
   dragging(time, lineId){

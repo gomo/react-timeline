@@ -136,6 +136,7 @@ class Frame extends React.Component
                 timeline={this.props.timeline}
                 width={this.props.timeline.actions.lineWidth - 2 - (Line.sidePadding * 2)}
                 onClickEvent={this.props.onClickEvent}
+                onClickFloatingEvent={this.props.onClickFloatingEvent}
               />
             )
           })}

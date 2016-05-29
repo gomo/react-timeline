@@ -55,10 +55,13 @@ window.onload = () => {
         console.log(data);
       }}
       onClickEvent={event => {
-        if(event.state.draggable){
+        event.float();
+      }}
+      onClickFloatingEvent={event => {
+        if(timeline.isFree(event)){
           event.fix();
         } else {
-          event.toFloat();
+          alert('You can\'t !');
         }
       }}
     />,

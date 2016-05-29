@@ -22,6 +22,10 @@ export default class Timeline extends React.Component
     this.actions.frameComponent.setHeight(height);
   }
 
+  isFree(eventComponent){
+    return this.actions.isFree(eventComponent);
+  }
+
   render(){
     return (
       <Frame
@@ -32,6 +36,7 @@ export default class Timeline extends React.Component
         height={this.props.height}
         onClickLine={this.props.onClickLine}
         onClickEvent={this.props.onClickEvent}
+        onClickFloatingEvent={this.props.onClickFloatingEvent}
         timeline={this}
         rulerInterval={this.props.rulerInterval}
       />
