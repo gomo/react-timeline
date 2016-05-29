@@ -123,7 +123,7 @@ class Frame extends React.Component
   render(){
     const { connectDropTarget } = this.props;
     return connectDropTarget(
-      <div className="tlFrameView" style={{width: this.props.timeline.actions.getTotalWidth() + 'px'}}>
+      <div className="tlFrameView" style={{minWidth: this.props.timeline.actions.getTotalWidth() + 'px'}}>
         <div className="tlLabelView" style={{height: this.LABEL_HEIGHT}}>{this.state.labels}</div>
         <div ref="linesWrapper" className="tlLinesWrapper" style={{height: this.state.height - this.LABEL_HEIGHT}}>
           {this.state.lines}
