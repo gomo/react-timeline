@@ -62,8 +62,6 @@ class Frame extends React.Component
       events: [],
       height: this.props.height
     }
-
-    this.LABEL_HEIGHT = 16;
   }
 
   createLineComponent(data, lines, labels){
@@ -88,7 +86,6 @@ class Frame extends React.Component
         key={data.id}
         lineId={data.id}
         width={this.props.lineWidth}
-        height={this.props.timeline.actions.lineHeight}
         minHeight={this.props.minHeight}
         timeSpan={this.props.timeSpan}
         onClickLine={this.props.onClickLine}
@@ -124,8 +121,8 @@ class Frame extends React.Component
     const { connectDropTarget } = this.props;
     return connectDropTarget(
       <div className="tlFrameView" style={{minWidth: this.props.timeline.actions.getTotalWidth() + 'px'}}>
-        <div className="tlLabelView" style={{height: this.LABEL_HEIGHT}}>{this.state.labels}</div>
-        <div ref="linesWrapper" className="tlLinesWrapper" style={{height: this.state.height - this.LABEL_HEIGHT}}>
+        <div className="tlLabelView" style={{height: LineLabel.height}}>{this.state.labels}</div>
+        <div ref="linesWrapper" className="tlLinesWrapper" style={{height: this.state.height - LineLabel.height}}>
           {this.state.lines}
           {this.state.events.map(event => {
             return (
@@ -137,7 +134,7 @@ class Frame extends React.Component
                 display={event.display}
                 lineId={event.lineId}
                 timeline={this.props.timeline}
-                width={this.props.timeline.actions.lineWidth - 2}
+                width={this.props.timeline.actions.lineWidth - 2 - (Line.sidePadding * 2)}
                 onClickEvent={this.props.onClickEvent}
               />
             )

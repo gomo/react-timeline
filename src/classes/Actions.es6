@@ -1,4 +1,5 @@
 import Ruler from '../components/Ruler';
+import Line from '../components/Line';
 
 export default class Actions
 {
@@ -81,6 +82,7 @@ export default class Actions
     let left = 0;
     for (var i = 0; i < this.lineComponents.length; i++) {
       var line = this.lineComponents[i];
+
       if(line.props.hasRuler){
         left += Ruler.width;
       }
@@ -91,6 +93,8 @@ export default class Actions
 
       left += this.lineWidth;
     }
+
+    left += Line.sidePadding;
 
     return left;
   }

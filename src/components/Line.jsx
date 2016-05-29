@@ -25,11 +25,6 @@ export default class Line extends React.Component
         />
       );
     });
-
-    this.wrapperStyle = {
-      width: this.props.width + 'px',
-      height: this.props.height + 'px'
-    }
   }
 
   getRelativeTop(e){
@@ -69,13 +64,15 @@ export default class Line extends React.Component
             )
           }
         })()}
-        <div className={classNames('tlLineView', {even: this.props.even, odd: !this.props.even}, {over: this.state.draggingOver})} style={this.wrapperStyle}>
+        <div className={classNames('tlLineView', {even: this.props.even, odd: !this.props.even}, {over: this.state.draggingOver})} style={{width: this.props.width + 'px'}}>
           {this.state.hours}
         </div>
       </div>
     );
   }
 }
+
+Line.sidePadding = 1;
 
 Line.propTypes = {
   width: React.PropTypes.number.isRequired,

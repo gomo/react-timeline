@@ -35,3 +35,5 @@ export default class LineLabel extends React.Component
     );
   }
 }
+
+LineLabel.height = 16;
