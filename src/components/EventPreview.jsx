@@ -8,7 +8,7 @@ function collect (monitor){
   };
   const item = monitor.getItem();
   if(item){
-    props['event'] = item.timeline.actions.findEventById(item.id);
+    props['event'] = item.timeline.findEventById(item.id);
   }
 
   return props;

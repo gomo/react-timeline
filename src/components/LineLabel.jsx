@@ -16,12 +16,12 @@ export default class LineLabel extends React.Component
 
   componentWillMount(){
     //一つ前のlabelの右角の丸みを取る
-    const labelComponents = this.props.timeline.actions.lineLabelComponents;
+    const labelComponents = this.props.timeline.lineLabelComponents;
     if(labelComponents.length){
       labelComponents[labelComponents.length - 1].setState({isLast: false});
     }
 
-    this.props.timeline.actions.addLineLabelComponent(this);
+    this.props.timeline.addLineLabelComponent(this);
   }
 
   render(){
