@@ -60,6 +60,37 @@ class Frame extends React.Component
       events: [],
       height: this.props.height
     }
+
+    this.resizingEvent = null;
+  }
+
+  resizeTop(eventComponent, clickedTop){
+    const initialHeight = eventComponent.state.height;
+    const func = (moveEvent) => {
+      const targetHeight = initialHeight + clickedTop - moveEvent.clientY;
+      eventComponent.setState({
+        height: targetHeight,
+        top: eventComponent.state.top - (targetHeight - eventComponent.state.height)
+      });
+    };
+
+    this.refs.linesWrapper.addEventListener('mousemove', func);
+    this.refs.linesWrapper.addEventListener('mouseup', () => {
+      this.refs.linesWrapper.removeEventListener('mousemove', func);
+    });
+  }
+
+  resizeDown(eventComponent, clickedTop){
+    const initialHeight = eventComponent.state.height;
+    const func = (moveEvent) => {
+      const targetHeight = initialHeight + moveEvent.clientY - clickedTop;
+      eventComponent.setState({height: targetHeight});
+    };
+
+    this.refs.linesWrapper.addEventListener('mousemove', func);
+    this.refs.linesWrapper.addEventListener('mouseup', () => {
+      this.refs.linesWrapper.removeEventListener('mousemove', func);
+    });
   }
 
   createLineComponent(data, lines, labels){

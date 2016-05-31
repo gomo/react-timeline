@@ -4,6 +4,12 @@ export default class EventActions
     this.component = component;
   }
 
+  flexible(){
+    this.component.setState({
+      flexible: true
+    });
+  }
+
   float(){
     this.component.setState({
       draggable: true,

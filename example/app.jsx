@@ -56,7 +56,8 @@ window.onload = () => {
         console.log(data);
       }}
       onClickEvent={event => {
-        event.actions.float();
+        // event.actions.float();
+        event.actions.flexible();
       }}
       onClickFloatingEvent={event => {
         if(timeline.actions.isFree(event)){

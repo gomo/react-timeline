@@ -185,3 +185,16 @@
   box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.4);
   z-index: 1;
 }
+
+.tlRisezeHandle {
+  position: absolute;
+  height: 18px;
+  color: #333;
+  font-size: 13px;
+  width: 100%;
+  top: 1px;
+}
+.tlRisezeHandle.tlBottom {
+  top: 100%;
+  margin-top: -18px;
+}

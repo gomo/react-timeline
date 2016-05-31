@@ -32,6 +32,7 @@ class Event extends React.Component
       left: this.props.timeline.getLineLeft(this.props.lineId),
       color: this.props.color,
       draggable: false,
+      flexible: false,
       draggingDisplay: ''
     }
 
@@ -72,6 +73,14 @@ class Event extends React.Component
     this.setState({draggingDisplay: time.getDisplayTime()});
   }
 
+  handleUp(e){
+    this.props.timeline.frameComponent.resizeTop(this, e.clientY);
+  }
+
+  handleDown(e){
+    this.props.timeline.frameComponent.resizeDown(this, e.clientY);
+  }
+
   render(){
     const style = {
       height: this.state.height,
@@ -84,10 +93,29 @@ class Event extends React.Component
     };
 
     return this.props.connectDragSource(
-      <div className={classNames('tlEventView', {tlDraggingEvent: this.state.draggable})} style={style} onClick={e => this.onClick(e)}>
+      <div on className={classNames('tlEventView', {tlDraggingEvent: this.state.draggable})} style={style} onClick={e => this.onClick(e)}>
+        {(() => {
+          if(this.state.flexible){
+            return (
+              <div className="tlRisezeHandle" onTouchstart={e => this.handleUp(e)} onMouseDown={e => this.handleUp(e)}>
+                <i className="fa fa-bars" aria-hidden="true"></i>
+              </div>
+            )
+          }
+        })()}
         <EventBase
           draggingDisplay={this.state.draggingDisplay}
         />
+        {(() => {
+          if(this.state.flexible){
+            return (
+              <div className="tlRisezeHandle tlBottom" onTouchstart={e => this.handleDown(e)} onMouseDown={e => this.handleDown(e)}>
+                <i className="fa fa-bars" aria-hidden="true"></i>
+              </div>
+            )
+          }
+        })()}
+
       </div>
     );
   }
