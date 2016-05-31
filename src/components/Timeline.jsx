@@ -104,6 +104,13 @@ export default class Timeline extends React.Component
     this.lineLabelComponents.push(line);
   }
 
+  getTimeSpan(top, height){
+    const startTime = this.topToTime(top);
+
+    const endTime = startTime.addMin(height / this.perMinHeight);
+    return new TimeSpan(startTime, endTime);
+  }
+
   timeSpanToHeight(timeSpan){
     return (timeSpan.getDistance() * this.perMinHeight) - 1;
   }

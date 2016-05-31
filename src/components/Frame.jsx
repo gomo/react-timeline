@@ -66,17 +66,25 @@ class Frame extends React.Component
 
   resizeTop(eventComponent, clickedTop){
     const initialHeight = eventComponent.state.height;
+    const initialTop = eventComponent.state.top;
     const func = (moveEvent) => {
       const targetHeight = initialHeight + clickedTop - moveEvent.clientY;
-      eventComponent.setState({
-        height: targetHeight,
-        top: eventComponent.state.top - (targetHeight - eventComponent.state.height)
-      });
+      const targetTop = eventComponent.state.top - (targetHeight - eventComponent.state.height);
+      if(targetHeight > 36){
+        const startTime = this.props.timeline.topToTime(targetTop);
+        eventComponent.timeSpan = new TimeSpan(startTime, eventComponent.timeSpan.getEndTime());
+        eventComponent.setState({
+          height: targetHeight,
+          top: targetTop,
+          draggingDisplay: eventComponent.timeSpan.getStartTime().getDisplayTime()
+        });
+      }
     };
 
     this.refs.linesWrapper.addEventListener('mousemove', func);
     this.refs.linesWrapper.addEventListener('mouseup', () => {
       this.refs.linesWrapper.removeEventListener('mousemove', func);
+      eventComponent.stopFlexibleDragging();
     });
   }
 

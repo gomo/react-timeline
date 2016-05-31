@@ -81,6 +81,14 @@ class Event extends React.Component
     this.props.timeline.frameComponent.resizeDown(this, e.clientY);
   }
 
+  stopFlexibleDragging(){
+    this.setState({
+      draggingDisplay: null,
+      top: this.props.timeline.timeToTop(this.timeSpan.getStartTime()),
+      height: this.props.timeline.timeSpanToHeight(this.timeSpan)
+    });
+  }
+
   render(){
     const style = {
       height: this.state.height,
