@@ -145,7 +145,7 @@ export default class Timeline extends React.Component
         height={this.props.height}
         onClickLine={this.props.onClickLine}
         onClickEvent={this.props.onClickEvent}
-        onClickFloatingEvent={this.props.onClickFloatingEvent}
+        onClickFlexibleEvent={this.props.onClickFlexibleEvent}
         timeline={this}
         rulerInterval={this.props.rulerInterval}
       />

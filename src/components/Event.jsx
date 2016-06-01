@@ -32,7 +32,7 @@ class Event extends React.Component
       left: this.props.timeline.getLineLeft(this.props.lineId),
       color: this.props.color,
       draggable: false,
-      flexible: false,
+      resizable: false,
       draggingDisplay: ''
     }
 
@@ -41,16 +41,16 @@ class Event extends React.Component
     this.lineId = this.props.lineId;
     this.timeSpan = this.props.timeSpan;
     this.draggingPosition = null;
-    this.flexibleTimeSpan = null;
+    this.resizableTimeSpan = null;
 
-    //flexibleでドラッグ中はtrue。mouseupでclickイベントが発生してしまうので。
+    //resizableでドラッグ中はtrue。mouseupでclickイベントが発生してしまうので。
     this.handling = false;
 
     this.props.timeline.addEventComponent(this);
   }
 
   get currentTimeSpan(){
-    return this.flexibleTimeSpan || this.timeSpan;
+    return this.resizableTimeSpan || this.timeSpan;
   }
 
   getDraggingPosition(){
@@ -59,10 +59,10 @@ class Event extends React.Component
         lineId: this.draggingPosition.lineId,
         timeSpan: this.timeSpan.shiftStartTime(this.draggingPosition.time)
       }
-    } else if(this.flexibleTimeSpan){
+    } else if(this.resizableTimeSpan){
       return{
         lineId: this.lineId,
-        timeSpan: this.flexibleTimeSpan
+        timeSpan: this.resizableTimeSpan
       }
     }
 
@@ -75,9 +75,9 @@ class Event extends React.Component
 
   onClick(){
     if(this.state.draggable){
-      this.props.onClickFloatingEvent(this);
-    } else if(this.state.flexible && !this.handling){
-      this.props.onClickFloatingEvent(this);
+      this.props.onClickFlexibleEvent(this);
+    } else if(this.state.resizable && !this.handling){
+      this.props.onClickFlexibleEvent(this);
     } else {
       this.props.onClickEvent(this);
     }
@@ -102,8 +102,8 @@ class Event extends React.Component
     this.setState({
       draggingDisplay: null,
       draggingDisplayTop: null,
-      top: this.props.timeline.timeToTop(this.flexibleTimeSpan.getStartTime()),
-      height: this.props.timeline.timeSpanToHeight(this.flexibleTimeSpan)
+      top: this.props.timeline.timeToTop(this.resizableTimeSpan.getStartTime()),
+      height: this.props.timeline.timeSpanToHeight(this.resizableTimeSpan)
     });
     setTimeout(() => this.handling = false, 100);
   }
@@ -120,9 +120,9 @@ class Event extends React.Component
     };
 
     return this.props.connectDragSource(
-      <div on className={classNames('tlEventView', {tlDraggingEvent: this.state.draggable, tlFlexibleEvent: this.state.flexible})} style={style} onClick={e => this.onClick(e)}>
+      <div on className={classNames('tlEventView', {tlDraggingEvent: this.state.draggable, tlFlexibleEvent: this.state.resizable})} style={style} onClick={e => this.onClick(e)}>
         {(() => {
-          if(this.state.flexible){
+          if(this.state.resizable){
             return (
               <div className="tlRisezeHandle" onTouchstart={e => this.handleUp(e)} onMouseDown={e => this.handleUp(e)}>
                 <i className="fa fa-bars" aria-hidden="true"></i>
@@ -135,7 +135,7 @@ class Event extends React.Component
           draggingDisplayTop={this.state.draggingDisplayTop}
         />
         {(() => {
-          if(this.state.flexible){
+          if(this.state.resizable){
             return (
               <div className="tlRisezeHandle tlBottom" onTouchstart={e => this.handleDown(e)} onMouseDown={e => this.handleDown(e)}>
                 <i className="fa fa-bars" aria-hidden="true"></i>

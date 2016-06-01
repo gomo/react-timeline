@@ -4,9 +4,9 @@ export default class EventActions
     this.component = component;
   }
 
-  flexible(){
+  resize(){
     this.component.setState({
-      flexible: true
+      resizable: true
     });
   }
 
@@ -28,16 +28,16 @@ export default class EventActions
         draggingDisplay: ''
       });
       this.component.draggingPosition = null;
-    } else if(this.component.flexibleTimeSpan){
-      this.component.timeSpan = this.component.flexibleTimeSpan;
+    } else if(this.component.resizableTimeSpan){
+      this.component.timeSpan = this.component.resizableTimeSpan;
       this.component.setState({
-        flexible: false,
+        resizable: false,
         draggingDisplay: ''
       });
     } else {
       this.component.setState({
         draggable: false,
-        flexible: false,
+        resizable: false,
         draggingDisplay: ''
       });
     }

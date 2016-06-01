@@ -70,11 +70,11 @@ class Frame extends React.Component
       const targetHeight = initialHeight + clickedTop - moveEvent.clientY;
       if(targetHeight > 36){
         const targetTop = eventComponent.state.top - (targetHeight - eventComponent.state.height);
-        eventComponent.flexibleTimeSpan = new TimeSpan(this.props.timeline.topToTime(targetTop), eventComponent.currentTimeSpan.getEndTime());
+        eventComponent.resizableTimeSpan = new TimeSpan(this.props.timeline.topToTime(targetTop), eventComponent.currentTimeSpan.getEndTime());
         eventComponent.setState({
           height: targetHeight,
           top: targetTop,
-          draggingDisplay: eventComponent.flexibleTimeSpan.getStartTime().getDisplayTime()
+          draggingDisplay: eventComponent.resizableTimeSpan.getStartTime().getDisplayTime()
         });
       }
     };
@@ -95,10 +95,10 @@ class Frame extends React.Component
       const targetHeight = initialHeight + moveEvent.clientY - clickedTop;
       if(targetHeight > 36){
         const targetBottom = eventComponent.state.top + targetHeight;
-        eventComponent.flexibleTimeSpan = new TimeSpan(eventComponent.currentTimeSpan.getStartTime(), this.props.timeline.topToTime(targetBottom));
+        eventComponent.resizableTimeSpan = new TimeSpan(eventComponent.currentTimeSpan.getStartTime(), this.props.timeline.topToTime(targetBottom));
         eventComponent.setState({
           height: targetHeight,
-          draggingDisplay: eventComponent.flexibleTimeSpan.getEndTime().getDisplayTime(),
+          draggingDisplay: eventComponent.resizableTimeSpan.getEndTime().getDisplayTime(),
           draggingDisplayTop: targetHeight - 10
         });
       }
@@ -186,7 +186,7 @@ class Frame extends React.Component
                 timeline={this.props.timeline}
                 width={this.props.timeline.props.lineWidth - 2 - (Line.sidePadding * 2)}
                 onClickEvent={this.props.onClickEvent}
-                onClickFloatingEvent={this.props.onClickFloatingEvent}
+                onClickFlexibleEvent={this.props.onClickFlexibleEvent}
               />
             )
           })}
