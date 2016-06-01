@@ -14,7 +14,6 @@ export default class TimelineActions
       let ev = this.component.eventComponents[i];
       if(ev === eventComponent) continue;
       if(ev.lineId != newPosition.lineId) continue;
-
       if(ev.timeSpan.overlaps(newPosition.timeSpan)){
         return false;
       }

@@ -66,27 +66,35 @@ class Frame extends React.Component
 
   resizeTop(eventComponent, clickedTop){
     const initialHeight = eventComponent.state.height;
+    const prevBottom = this.props.timeline.getPrevBottom(eventComponent);
     const mouseMoveEvent = (moveEvent) => {
       const targetHeight = initialHeight + clickedTop - moveEvent.clientY;
       if(targetHeight > 36){
         const targetTop = eventComponent.state.top - (targetHeight - eventComponent.state.height);
-        eventComponent.resizableTimeSpan = new TimeSpan(this.props.timeline.topToTime(targetTop), eventComponent.currentTimeSpan.getEndTime());
-        eventComponent.setState({
-          height: targetHeight,
-          top: targetTop,
-          draggingDisplay: eventComponent.resizableTimeSpan.getStartTime().getDisplayTime()
-        });
+        if(targetTop >= prevBottom){
+          eventComponent.resizableTimeSpan = new TimeSpan(this.props.timeline.topToTime(targetTop), eventComponent.currentTimeSpan.getEndTime());
+          eventComponent.setState({
+            height: targetHeight,
+            top: targetTop,
+            draggingDisplay: eventComponent.resizableTimeSpan.getStartTime().getDisplayTime()
+          });
+        }
       }
     };
 
-    const mouseUpEvent = () => {
+    const stopMoveEvent = () => {
       this.refs.linesWrapper.removeEventListener('mousemove', mouseMoveEvent);
-      this.refs.linesWrapper.removeEventListener('mouseup', mouseUpEvent);
+      this.refs.linesWrapper.removeEventListener('mouseup', stopMoveEvent);
+      this.refs.linesWrapper.removeEventListener('mouseleave', stopMoveEvent);
       eventComponent.endHandling();
     };
 
     this.refs.linesWrapper.addEventListener('mousemove', mouseMoveEvent);
-    this.refs.linesWrapper.addEventListener('mouseup', mouseUpEvent);
+    this.refs.linesWrapper.addEventListener('mouseup', stopMoveEvent);
+    this.refs.linesWrapper.addEventListener('mouseleave', () => {
+      stopMoveEvent();
+      console.log('mouseleave');
+    });
   }
 
   resizeDown(eventComponent, clickedTop){
