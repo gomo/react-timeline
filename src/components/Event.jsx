@@ -84,6 +84,7 @@ class Event extends React.Component
   stopFlexibleDragging(){
     this.setState({
       draggingDisplay: null,
+      draggingDisplayTop: null,
       top: this.props.timeline.timeToTop(this.timeSpan.getStartTime()),
       height: this.props.timeline.timeSpanToHeight(this.timeSpan)
     });
@@ -113,6 +114,7 @@ class Event extends React.Component
         })()}
         <EventBase
           draggingDisplay={this.state.draggingDisplay}
+          draggingDisplayTop={this.state.draggingDisplayTop}
         />
         {(() => {
           if(this.state.flexible){

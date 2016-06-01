@@ -8,7 +8,7 @@ export default class EventBase extends React.Component
       <div>
         {(() => {
           if(this.props.draggingDisplay){
-            return (<div className="tlDraggingDisplay">{this.props.draggingDisplay}</div>);
+            return (<div className="tlDraggingDisplay" style={{top: this.props.draggingDisplayTop}}>{this.props.draggingDisplay}</div>);
           }
         })()}
         &nbsp;
