@@ -91,35 +91,37 @@ class Frame extends React.Component
 
     this.refs.linesWrapper.addEventListener('mousemove', mouseMoveEvent);
     this.refs.linesWrapper.addEventListener('mouseup', stopMoveEvent);
-    this.refs.linesWrapper.addEventListener('mouseleave', () => {
-      stopMoveEvent();
-      console.log('mouseleave');
-    });
+    this.refs.linesWrapper.addEventListener('mouseleave', stopMoveEvent);
   }
 
   resizeDown(eventComponent, clickedTop){
     const initialHeight = eventComponent.state.height;
+    const nextTop = this.props.timeline.getNextTop(eventComponent);
     const mouseMoveEvent = (moveEvent) => {
       const targetHeight = initialHeight + moveEvent.clientY - clickedTop;
       if(targetHeight > 36){
         const targetBottom = eventComponent.state.top + targetHeight;
-        eventComponent.resizableTimeSpan = new TimeSpan(eventComponent.currentTimeSpan.getStartTime(), this.props.timeline.topToTime(targetBottom));
-        eventComponent.setState({
-          height: targetHeight,
-          draggingDisplay: eventComponent.resizableTimeSpan.getEndTime().getDisplayTime(),
-          draggingDisplayTop: targetHeight - 10
-        });
+        if(targetBottom < nextTop){
+          eventComponent.resizableTimeSpan = new TimeSpan(eventComponent.currentTimeSpan.getStartTime(), this.props.timeline.topToTime(targetBottom));
+          eventComponent.setState({
+            height: targetHeight,
+            draggingDisplay: eventComponent.resizableTimeSpan.getEndTime().getDisplayTime(),
+            draggingDisplayTop: targetHeight - 10
+          });
+        }
       }
     };
 
-    const mouseUpEvent = () => {
+    const stopMoveEvent = () => {
       this.refs.linesWrapper.removeEventListener('mousemove', mouseMoveEvent);
-      this.refs.linesWrapper.removeEventListener('mouseup', mouseUpEvent);
+      this.refs.linesWrapper.removeEventListener('mouseup', stopMoveEvent);
+      this.refs.linesWrapper.removeEventListener('mouseleave', stopMoveEvent);
       eventComponent.endHandling();
     };
 
     this.refs.linesWrapper.addEventListener('mousemove', mouseMoveEvent);
-    this.refs.linesWrapper.addEventListener('mouseup', mouseUpEvent);
+    this.refs.linesWrapper.addEventListener('mouseup', stopMoveEvent);
+    this.refs.linesWrapper.addEventListener('mouseleave', stopMoveEvent);
   }
 
   createLineComponent(data, lines, labels){

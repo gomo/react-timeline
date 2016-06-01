@@ -155,6 +155,26 @@ export default class Timeline extends React.Component
     return this.timeToTop(bottomTime);
   }
 
+  findNextEvent(eventComponent){
+    return this.eventComponents
+      .filter(ev => ev.lineId == eventComponent.lineId)//同じ列のものだけに絞る
+      .sort((a, b) => a.timeSpan.getStartTime().compare(b.timeSpan.getStartTime()))//時間の昇順で並び替え
+      .find(ev => ev.timeSpan.getStartTime().compare(eventComponent.timeSpan.getStartTime()) > 0)//降順なので対象より最初に開始時間が若いものがprev
+      ;
+  }
+
+  getNextTop(eventComponent){
+    const nextEvent = this.findNextEvent(eventComponent);
+    let nextTime;
+    if(nextEvent){
+      nextTime = nextEvent.timeSpan.getStartTime();
+    } else {
+      nextTime = this.timeSpan.getEndTime();
+    }
+
+    return this.timeToTop(nextTime);
+  }
+
   render(){
     return (
       <Frame
