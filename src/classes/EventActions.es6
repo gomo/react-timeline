@@ -28,9 +28,16 @@ export default class EventActions
         draggingDisplay: ''
       });
       this.component.draggingPosition = null;
+    } else if(this.component.flexibleTimeSpan){
+      this.component.timeSpan = this.component.flexibleTimeSpan;
+      this.component.setState({
+        flexible: false,
+        draggingDisplay: ''
+      });
     } else {
       this.component.setState({
         draggable: false,
+        flexible: false,
         draggingDisplay: ''
       });
     }

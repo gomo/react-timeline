@@ -66,47 +66,52 @@ class Frame extends React.Component
 
   resizeTop(eventComponent, clickedTop){
     const initialHeight = eventComponent.state.height;
-    const func = (moveEvent) => {
+    const mouseMoveEvent = (moveEvent) => {
       const targetHeight = initialHeight + clickedTop - moveEvent.clientY;
-      const targetTop = eventComponent.state.top - (targetHeight - eventComponent.state.height);
       if(targetHeight > 36){
-        const startTime = this.props.timeline.topToTime(targetTop);
-        eventComponent.timeSpan = new TimeSpan(startTime, eventComponent.timeSpan.getEndTime());
+        const targetTop = eventComponent.state.top - (targetHeight - eventComponent.state.height);
+        eventComponent.flexibleTimeSpan = new TimeSpan(this.props.timeline.topToTime(targetTop), eventComponent.currentTimeSpan.getEndTime());
         eventComponent.setState({
           height: targetHeight,
           top: targetTop,
-          draggingDisplay: eventComponent.timeSpan.getStartTime().getDisplayTime()
+          draggingDisplay: eventComponent.flexibleTimeSpan.getStartTime().getDisplayTime()
         });
       }
     };
 
-    this.refs.linesWrapper.addEventListener('mousemove', func);
-    this.refs.linesWrapper.addEventListener('mouseup', () => {
-      this.refs.linesWrapper.removeEventListener('mousemove', func);
-      eventComponent.stopFlexibleDragging();
-    });
+    const mouseUpEvent = () => {
+      this.refs.linesWrapper.removeEventListener('mousemove', mouseMoveEvent);
+      this.refs.linesWrapper.removeEventListener('mouseup', mouseUpEvent);
+      eventComponent.endHandling();
+    };
+
+    this.refs.linesWrapper.addEventListener('mousemove', mouseMoveEvent);
+    this.refs.linesWrapper.addEventListener('mouseup', mouseUpEvent);
   }
 
   resizeDown(eventComponent, clickedTop){
     const initialHeight = eventComponent.state.height;
-    const func = (moveEvent) => {
+    const mouseMoveEvent = (moveEvent) => {
       const targetHeight = initialHeight + moveEvent.clientY - clickedTop;
       if(targetHeight > 36){
         const targetBottom = eventComponent.state.top + targetHeight;
-        eventComponent.timeSpan = new TimeSpan(eventComponent.timeSpan.getStartTime(), this.props.timeline.topToTime(targetBottom));
+        eventComponent.flexibleTimeSpan = new TimeSpan(eventComponent.currentTimeSpan.getStartTime(), this.props.timeline.topToTime(targetBottom));
         eventComponent.setState({
           height: targetHeight,
-          draggingDisplay: eventComponent.timeSpan.getEndTime().getDisplayTime(),
+          draggingDisplay: eventComponent.flexibleTimeSpan.getEndTime().getDisplayTime(),
           draggingDisplayTop: targetHeight - 10
         });
       }
     };
 
-    this.refs.linesWrapper.addEventListener('mousemove', func);
-    this.refs.linesWrapper.addEventListener('mouseup', () => {
-      this.refs.linesWrapper.removeEventListener('mousemove', func);
-      eventComponent.stopFlexibleDragging();
-    });
+    const mouseUpEvent = () => {
+      this.refs.linesWrapper.removeEventListener('mousemove', mouseMoveEvent);
+      this.refs.linesWrapper.removeEventListener('mouseup', mouseUpEvent);
+      eventComponent.endHandling();
+    };
+
+    this.refs.linesWrapper.addEventListener('mousemove', mouseMoveEvent);
+    this.refs.linesWrapper.addEventListener('mouseup', mouseUpEvent);
   }
 
   createLineComponent(data, lines, labels){

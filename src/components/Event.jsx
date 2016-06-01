@@ -41,8 +41,16 @@ class Event extends React.Component
     this.lineId = this.props.lineId;
     this.timeSpan = this.props.timeSpan;
     this.draggingPosition = null;
+    this.flexibleTimeSpan = null;
+
+    //flexibleでドラッグ中はtrue。mouseupでclickイベントが発生してしまうので。
+    this.handling = false;
 
     this.props.timeline.addEventComponent(this);
+  }
+
+  get currentTimeSpan(){
+    return this.flexibleTimeSpan || this.timeSpan;
   }
 
   getDraggingPosition(){
@@ -50,6 +58,11 @@ class Event extends React.Component
       return {
         lineId: this.draggingPosition.lineId,
         timeSpan: this.timeSpan.shiftStartTime(this.draggingPosition.time)
+      }
+    } else if(this.flexibleTimeSpan){
+      return{
+        lineId: this.lineId,
+        timeSpan: this.flexibleTimeSpan
       }
     }
 
@@ -63,6 +76,8 @@ class Event extends React.Component
   onClick(){
     if(this.state.draggable){
       this.props.onClickFloatingEvent(this);
+    } else if(this.state.flexible && !this.handling){
+      this.props.onClickFloatingEvent(this);
     } else {
       this.props.onClickEvent(this);
     }
@@ -74,20 +89,23 @@ class Event extends React.Component
   }
 
   handleUp(e){
+    this.handling = true;
     this.props.timeline.frameComponent.resizeTop(this, e.clientY);
   }
 
   handleDown(e){
+    this.handling = true;
     this.props.timeline.frameComponent.resizeDown(this, e.clientY);
   }
 
-  stopFlexibleDragging(){
+  endHandling(){
     this.setState({
       draggingDisplay: null,
       draggingDisplayTop: null,
-      top: this.props.timeline.timeToTop(this.timeSpan.getStartTime()),
-      height: this.props.timeline.timeSpanToHeight(this.timeSpan)
+      top: this.props.timeline.timeToTop(this.flexibleTimeSpan.getStartTime()),
+      height: this.props.timeline.timeSpanToHeight(this.flexibleTimeSpan)
     });
+    setTimeout(() => this.handling = false, 100);
   }
 
   render(){
@@ -102,7 +120,7 @@ class Event extends React.Component
     };
 
     return this.props.connectDragSource(
-      <div on className={classNames('tlEventView', {tlDraggingEvent: this.state.draggable})} style={style} onClick={e => this.onClick(e)}>
+      <div on className={classNames('tlEventView', {tlDraggingEvent: this.state.draggable, tlFlexibleEvent: this.state.flexible})} style={style} onClick={e => this.onClick(e)}>
         {(() => {
           if(this.state.flexible){
             return (
