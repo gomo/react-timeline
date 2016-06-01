@@ -98,13 +98,14 @@ class Event extends React.Component
     this.props.timeline.frameComponent.resizeDown(this, e.clientY);
   }
 
-  endHandling(){
+  endResizing(){
     this.setState({
       draggingDisplay: null,
       draggingDisplayTop: null,
       top: this.props.timeline.timeToTop(this.resizableTimeSpan.getStartTime()),
       height: this.props.timeline.timeSpanToHeight(this.resizableTimeSpan)
     });
+
     setTimeout(() => this.handling = false, 100);
   }
 

@@ -138,8 +138,8 @@ export default class Timeline extends React.Component
   findPrevEvent(eventComponent){
     return this.eventComponents
       .filter(ev => ev.lineId == eventComponent.lineId)//同じ列のものだけに絞る
-      .sort((a, b) => -(a.timeSpan.getStartTime().compare(b.timeSpan.getStartTime())))//時間の降順で並び替え
-      .find(ev => ev.timeSpan.getStartTime().compare(eventComponent.timeSpan.getStartTime()) < 0)//降順なので対象より最初に開始時間が若いものがprev
+      .sort((a, b) => -(a.currentTimeSpan.getStartTime().compare(b.currentTimeSpan.getStartTime())))//時間の降順で並び替え
+      .find(ev => ev.currentTimeSpan.getEndTime().compare(eventComponent.currentTimeSpan.getStartTime()) <= 0)//降順なので対象より最初に開始時間が若いものがprev
       ;
   }
 
@@ -147,7 +147,7 @@ export default class Timeline extends React.Component
     const prevEvent = this.findPrevEvent(eventComponent);
     let bottomTime;
     if(prevEvent){
-      bottomTime = prevEvent.timeSpan.getEndTime();
+      bottomTime = prevEvent.currentTimeSpan.getEndTime();
     } else {
       bottomTime = this.timeSpan.getStartTime();
     }
@@ -158,8 +158,8 @@ export default class Timeline extends React.Component
   findNextEvent(eventComponent){
     return this.eventComponents
       .filter(ev => ev.lineId == eventComponent.lineId)//同じ列のものだけに絞る
-      .sort((a, b) => a.timeSpan.getStartTime().compare(b.timeSpan.getStartTime()))//時間の昇順で並び替え
-      .find(ev => ev.timeSpan.getStartTime().compare(eventComponent.timeSpan.getStartTime()) > 0)//降順なので対象より最初に開始時間が若いものがprev
+      .sort((a, b) => a.currentTimeSpan.getStartTime().compare(b.currentTimeSpan.getStartTime()))//時間の昇順で並び替え
+      .find(ev => ev.currentTimeSpan.getStartTime().compare(eventComponent.currentTimeSpan.getEndTime()) >= 0)//昇順なので対象より最初に開始時間が遅いものがnext
       ;
   }
 
@@ -167,7 +167,7 @@ export default class Timeline extends React.Component
     const nextEvent = this.findNextEvent(eventComponent);
     let nextTime;
     if(nextEvent){
-      nextTime = nextEvent.timeSpan.getStartTime();
+      nextTime = nextEvent.currentTimeSpan.getStartTime();
     } else {
       nextTime = this.timeSpan.getEndTime();
     }

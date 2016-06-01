@@ -86,7 +86,7 @@ class Frame extends React.Component
       this.refs.linesWrapper.removeEventListener('mousemove', mouseMoveEvent);
       this.refs.linesWrapper.removeEventListener('mouseup', stopMoveEvent);
       this.refs.linesWrapper.removeEventListener('mouseleave', stopMoveEvent);
-      eventComponent.endHandling();
+      eventComponent.endResizing();
     };
 
     this.refs.linesWrapper.addEventListener('mousemove', mouseMoveEvent);
@@ -116,7 +116,7 @@ class Frame extends React.Component
       this.refs.linesWrapper.removeEventListener('mousemove', mouseMoveEvent);
       this.refs.linesWrapper.removeEventListener('mouseup', stopMoveEvent);
       this.refs.linesWrapper.removeEventListener('mouseleave', stopMoveEvent);
-      eventComponent.endHandling();
+      eventComponent.endResizing();
     };
 
     this.refs.linesWrapper.addEventListener('mousemove', mouseMoveEvent);

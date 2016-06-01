@@ -30,6 +30,7 @@ export default class EventActions
       this.component.draggingPosition = null;
     } else if(this.component.resizableTimeSpan){
       this.component.timeSpan = this.component.resizableTimeSpan;
+      this.component.resizableTimeSpan = null;
       this.component.setState({
         resizable: false,
         draggingDisplay: ''
