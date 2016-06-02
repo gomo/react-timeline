@@ -68,25 +68,26 @@ class Frame extends React.Component
     const initialHeight = eventComponent.state.height;
     const prevBottom = this.props.timeline.getPrevBottom(eventComponent);
     const mouseMoveEvent = (moveEvent) => {
+      eventComponent.resizing = true;
       const targetHeight = initialHeight + clickedTop - moveEvent.clientY;
       if(targetHeight > 36){
         const targetTop = eventComponent.state.top - (targetHeight - eventComponent.state.height);
         if(targetTop >= prevBottom){
-          eventComponent.resizableTimeSpan = new TimeSpan(this.props.timeline.topToTime(targetTop), eventComponent.currentTimeSpan.getEndTime());
+          eventComponent.resizingTimeSpan = new TimeSpan(this.props.timeline.topToTime(targetTop), eventComponent.currentTimeSpan.getEndTime());
           eventComponent.setState({
-            height: this.props.timeline.timeSpanToHeight(eventComponent.resizableTimeSpan),
-            top: this.props.timeline.timeToTop(eventComponent.resizableTimeSpan.getStartTime()),
-            draggingDisplay: eventComponent.resizableTimeSpan.getStartTime().getDisplayTime()
+            height: this.props.timeline.timeSpanToHeight(eventComponent.resizingTimeSpan),
+            top: this.props.timeline.timeToTop(eventComponent.resizingTimeSpan.getStartTime()),
+            draggingDisplay: eventComponent.resizingTimeSpan.getStartTime().getDisplayTime()
           });
         }
       }
     };
 
-    const stopMoveEvent = () => {
+    const stopMoveEvent = (mouseEvent) => {
       this.refs.linesWrapper.removeEventListener('mousemove', mouseMoveEvent);
       this.refs.linesWrapper.removeEventListener('mouseup', stopMoveEvent);
       this.refs.linesWrapper.removeEventListener('mouseleave', stopMoveEvent);
-      eventComponent.endResizing();
+      eventComponent.endResizing(mouseEvent);
     };
 
     this.refs.linesWrapper.addEventListener('mousemove', mouseMoveEvent);
@@ -98,25 +99,26 @@ class Frame extends React.Component
     const initialHeight = eventComponent.state.height;
     const nextTop = this.props.timeline.getNextTop(eventComponent);
     const mouseMoveEvent = (moveEvent) => {
+      eventComponent.resizing = true;
       const targetHeight = initialHeight + moveEvent.clientY - clickedTop;
       if(targetHeight > 36){
         const targetBottom = eventComponent.state.top + targetHeight;
         if(targetBottom < nextTop){
-          eventComponent.resizableTimeSpan = new TimeSpan(eventComponent.currentTimeSpan.getStartTime(), this.props.timeline.topToTime(targetBottom));
+          eventComponent.resizingTimeSpan = new TimeSpan(eventComponent.currentTimeSpan.getStartTime(), this.props.timeline.topToTime(targetBottom));
           eventComponent.setState({
-            height: this.props.timeline.timeSpanToHeight(eventComponent.resizableTimeSpan),
-            draggingDisplay: eventComponent.resizableTimeSpan.getEndTime().getDisplayTime(),
+            height: this.props.timeline.timeSpanToHeight(eventComponent.resizingTimeSpan),
+            draggingDisplay: eventComponent.resizingTimeSpan.getEndTime().getDisplayTime(),
             draggingDisplayTop: targetHeight - 10
           });
         }
       }
     };
 
-    const stopMoveEvent = () => {
+    const stopMoveEvent = (mouseEvent) => {
       this.refs.linesWrapper.removeEventListener('mousemove', mouseMoveEvent);
       this.refs.linesWrapper.removeEventListener('mouseup', stopMoveEvent);
       this.refs.linesWrapper.removeEventListener('mouseleave', stopMoveEvent);
-      eventComponent.endResizing();
+      eventComponent.endResizing(mouseEvent);
     };
 
     this.refs.linesWrapper.addEventListener('mousemove', mouseMoveEvent);

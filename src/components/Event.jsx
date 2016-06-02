@@ -41,16 +41,13 @@ class Event extends React.Component
     this.lineId = this.props.lineId;
     this.timeSpan = this.props.timeSpan;
     this.draggingPosition = null;
-    this.resizableTimeSpan = null;
-
-    //resizableでドラッグ中はtrue。mouseupでclickイベントが発生してしまうので。
-    this.handling = false;
-
+    this.resizingTimeSpan = null;
+    this.resizing = false;
     this.props.timeline.addEventComponent(this);
   }
 
   get currentTimeSpan(){
-    return this.resizableTimeSpan || this.timeSpan;
+    return this.resizingTimeSpan || this.timeSpan;
   }
 
   getDraggingPosition(){
@@ -59,10 +56,10 @@ class Event extends React.Component
         lineId: this.draggingPosition.lineId,
         timeSpan: this.timeSpan.shiftStartTime(this.draggingPosition.time)
       }
-    } else if(this.resizableTimeSpan){
+    } else if(this.resizingTimeSpan){
       return{
         lineId: this.lineId,
-        timeSpan: this.resizableTimeSpan
+        timeSpan: this.resizingTimeSpan
       }
     }
 
@@ -73,10 +70,13 @@ class Event extends React.Component
     this.setState({top: top, left: left});
   }
 
-  onClick(){
+  onClick(e){
+    if(this.resizing){
+      return ;
+    }
     if(this.state.draggable){
       this.props.onClickFlexibleEvent(this);
-    } else if(this.state.resizable && !this.handling){
+    } else if(this.state.resizable){
       this.props.onClickFlexibleEvent(this);
     } else {
       this.props.onClickEvent(this);
@@ -89,29 +89,32 @@ class Event extends React.Component
   }
 
   resizeUp(e){
-    this.handling = true;
     this.props.timeline.frameComponent.resizeUp(this, e.clientY);
   }
 
   resizeDown(e){
-    this.handling = true;
     this.props.timeline.frameComponent.resizeDown(this, e.clientY);
   }
 
-  endResizing(){
-    const newState = {
-      draggingDisplay: null,
-      draggingDisplayTop: null
-    };
+  endResizing(e){
+    if(this.resizingTimeSpan){
+      const newState = {
+        draggingDisplay: null,
+        draggingDisplayTop: null
+      };
 
-    if(this.resizableTimeSpan){
-      newState.top = this.props.timeline.timeToTop(this.resizableTimeSpan.getStartTime());
-      newState.height = this.props.timeline.timeSpanToHeight(this.resizableTimeSpan);
+      if(this.resizingTimeSpan){
+        newState.top = this.props.timeline.timeToTop(this.resizingTimeSpan.getStartTime());
+        newState.height = this.props.timeline.timeSpanToHeight(this.resizingTimeSpan);
+      }
+
+      this.setState(newState);
+    } else {
+      this.onClick();
     }
 
-    this.setState(newState);
-
-    setTimeout(() => this.handling = false, 100);
+    //onClickよりendResizingの先に発生してしまう。
+    setTimeout(() => this.resizing = false, 100);
   }
 
   render(){

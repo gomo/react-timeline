@@ -28,9 +28,9 @@ export default class EventActions
         draggingDisplay: ''
       });
       this.component.draggingPosition = null;
-    } else if(this.component.resizableTimeSpan){
-      this.component.timeSpan = this.component.resizableTimeSpan;
-      this.component.resizableTimeSpan = null;
+    } else if(this.component.resizingTimeSpan){
+      this.component.timeSpan = this.component.resizingTimeSpan;
+      this.component.resizingTimeSpan = null;
       this.component.setState({
         resizable: false,
         draggingDisplay: ''
