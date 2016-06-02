@@ -20,6 +20,8 @@ export default class Timeline extends React.Component
     //1分あたりの高さを算出
     this.perMinHeight = this.lineHeight / this.timeSpan.getDistance();
 
+    this.lineWidth = props.lineWidth;
+
     this.frameComponent = null;
     this.createdEventId = 0;
     this.draggingOverLineConponent = null;

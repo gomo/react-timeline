@@ -88,23 +88,28 @@ class Event extends React.Component
     this.setState({draggingDisplay: time.getDisplayTime()});
   }
 
-  handleUp(e){
+  resizeUp(e){
     this.handling = true;
-    this.props.timeline.frameComponent.resizeTop(this, e.clientY);
+    this.props.timeline.frameComponent.resizeUp(this, e.clientY);
   }
 
-  handleDown(e){
+  resizeDown(e){
     this.handling = true;
     this.props.timeline.frameComponent.resizeDown(this, e.clientY);
   }
 
   endResizing(){
-    this.setState({
+    const newState = {
       draggingDisplay: null,
-      draggingDisplayTop: null,
-      top: this.props.timeline.timeToTop(this.resizableTimeSpan.getStartTime()),
-      height: this.props.timeline.timeSpanToHeight(this.resizableTimeSpan)
-    });
+      draggingDisplayTop: null
+    };
+
+    if(this.resizableTimeSpan){
+      newState.top = this.props.timeline.timeToTop(this.resizableTimeSpan.getStartTime());
+      newState.height = this.props.timeline.timeSpanToHeight(this.resizableTimeSpan);
+    }
+
+    this.setState(newState);
 
     setTimeout(() => this.handling = false, 100);
   }
@@ -125,7 +130,7 @@ class Event extends React.Component
         {(() => {
           if(this.state.resizable){
             return (
-              <div className="tlRisezeHandle" onTouchstart={e => this.handleUp(e)} onMouseDown={e => this.handleUp(e)}>
+              <div className="tlRisezeHandle" onTouchstart={e => this.resizeUp(e)} onMouseDown={e => this.resizeUp(e)}>
                 <i className="fa fa-bars" aria-hidden="true"></i>
               </div>
             )
@@ -138,7 +143,7 @@ class Event extends React.Component
         {(() => {
           if(this.state.resizable){
             return (
-              <div className="tlRisezeHandle tlBottom" onTouchstart={e => this.handleDown(e)} onMouseDown={e => this.handleDown(e)}>
+              <div className="tlRisezeHandle tlBottom" onTouchstart={e => this.resizeDown(e)} onMouseDown={e => this.resizeDown(e)}>
                 <i className="fa fa-bars" aria-hidden="true"></i>
               </div>
             )

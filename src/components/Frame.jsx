@@ -64,7 +64,7 @@ class Frame extends React.Component
     this.resizingEvent = null;
   }
 
-  resizeTop(eventComponent, clickedTop){
+  resizeUp(eventComponent, clickedTop){
     const initialHeight = eventComponent.state.height;
     const prevBottom = this.props.timeline.getPrevBottom(eventComponent);
     const mouseMoveEvent = (moveEvent) => {
@@ -74,8 +74,8 @@ class Frame extends React.Component
         if(targetTop >= prevBottom){
           eventComponent.resizableTimeSpan = new TimeSpan(this.props.timeline.topToTime(targetTop), eventComponent.currentTimeSpan.getEndTime());
           eventComponent.setState({
-            height: targetHeight,
-            top: targetTop,
+            height: this.props.timeline.timeSpanToHeight(eventComponent.resizableTimeSpan),
+            top: this.props.timeline.timeToTop(eventComponent.resizableTimeSpan.getStartTime()),
             draggingDisplay: eventComponent.resizableTimeSpan.getStartTime().getDisplayTime()
           });
         }
@@ -104,7 +104,7 @@ class Frame extends React.Component
         if(targetBottom < nextTop){
           eventComponent.resizableTimeSpan = new TimeSpan(eventComponent.currentTimeSpan.getStartTime(), this.props.timeline.topToTime(targetBottom));
           eventComponent.setState({
-            height: targetHeight,
+            height: this.props.timeline.timeSpanToHeight(eventComponent.resizableTimeSpan),
             draggingDisplay: eventComponent.resizableTimeSpan.getEndTime().getDisplayTime(),
             draggingDisplayTop: targetHeight - 10
           });

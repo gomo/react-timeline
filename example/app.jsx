@@ -36,7 +36,10 @@ window.onload = () => {
     {label:'label12', id:'__12'},
     {label:'label13', id:'__13'},
     {label:'label14', id:'__14'},
-    {label:'label15', id:'__15'}
+    {label:'label15', id:'__15'},
+    {label:'label16', id:'__16'},
+    {label:'label17', id:'__17'},
+    {label:'label18', id:'__18'}
   ];
 
   const timeSpan = TimeSpan.create([10, 0], [25, 0]);
