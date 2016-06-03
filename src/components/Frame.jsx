@@ -71,15 +71,17 @@ class Frame extends React.Component
       eventComponent.resizing = true;
       const targetHeight = initialHeight + clickedTop - moveEvent.clientY;
       if(targetHeight > 36){
-        const targetTop = eventComponent.state.top - (targetHeight - eventComponent.state.height);
-        if(targetTop >= prevBottom){
-          eventComponent.resizingTimeSpan = new TimeSpan(this.props.timeline.topToTime(targetTop), eventComponent.currentTimeSpan.getEndTime());
-          eventComponent.setState({
-            height: this.props.timeline.timeSpanToHeight(eventComponent.resizingTimeSpan),
-            top: this.props.timeline.timeToTop(eventComponent.resizingTimeSpan.getStartTime()),
-            draggingDisplay: eventComponent.resizingTimeSpan.getStartTime().getDisplayTime()
-          });
+        let targetTop = eventComponent.state.top - (targetHeight - eventComponent.state.height);
+        if(targetTop <= prevBottom){
+          targetTop = prevBottom;
         }
+
+        eventComponent.resizingTimeSpan = new TimeSpan(this.props.timeline.topToTime(targetTop), eventComponent.currentTimeSpan.getEndTime());
+        eventComponent.setState({
+          height: this.props.timeline.timeSpanToHeight(eventComponent.resizingTimeSpan),
+          top: this.props.timeline.timeToTop(eventComponent.resizingTimeSpan.getStartTime()),
+          draggingDisplay: eventComponent.resizingTimeSpan.getStartTime().getDisplayTime()
+        });
       }
     };
 
@@ -102,15 +104,17 @@ class Frame extends React.Component
       eventComponent.resizing = true;
       const targetHeight = initialHeight + moveEvent.clientY - clickedTop;
       if(targetHeight > 36){
-        const targetBottom = eventComponent.state.top + targetHeight;
-        if(targetBottom < nextTop){
-          eventComponent.resizingTimeSpan = new TimeSpan(eventComponent.currentTimeSpan.getStartTime(), this.props.timeline.topToTime(targetBottom));
-          eventComponent.setState({
-            height: this.props.timeline.timeSpanToHeight(eventComponent.resizingTimeSpan),
-            draggingDisplay: eventComponent.resizingTimeSpan.getEndTime().getDisplayTime(),
-            draggingDisplayTop: targetHeight - 10
-          });
+        let targetBottom = eventComponent.state.top + targetHeight;
+        if(targetBottom >= nextTop){
+          targetBottom = nextTop;
         }
+
+        eventComponent.resizingTimeSpan = new TimeSpan(eventComponent.currentTimeSpan.getStartTime(), this.props.timeline.topToTime(targetBottom));
+        eventComponent.setState({
+          height: this.props.timeline.timeSpanToHeight(eventComponent.resizingTimeSpan),
+          draggingDisplay: eventComponent.resizingTimeSpan.getEndTime().getDisplayTime(),
+          draggingDisplayTop: targetHeight - 10
+        });
       }
     };
 
