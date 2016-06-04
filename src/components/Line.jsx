@@ -42,6 +42,15 @@ export default class Line extends React.Component
     }
   }
 
+  onContextMenu(e){
+    if(this.props.timeline.props.onRightClickEvent){
+      this.props.timeline.props.onRightClickEvent({
+        component: this,
+        event: e
+      });
+    }
+  }
+
   draggingOver(){
     this.setState({draggingOver: true});
   }
@@ -52,7 +61,7 @@ export default class Line extends React.Component
 
   render(){
     return (
-      <div onClick={e => this.onClick(e)}>
+      <div onClick={e => this.onClick(e)} onContextMenu={e => this.onContextMenu(e)}>
         {(() => {
           if(this.props.hasRuler){
             return (

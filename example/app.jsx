@@ -56,7 +56,10 @@ window.onload = () => {
       rulerInterval={4}
       height={calcHeight(timelineElement)}
       onClickLine={data => {
-        console.log(data);
+        console.log('left', data);
+      }}
+      onRightClickLine={data => {
+        console.log('right', data);
       }}
       onClickEvent={data => {
         if(data.component.actions.isFixed()){
@@ -69,6 +72,9 @@ window.onload = () => {
             alert('You can\'t !');
           }
         }
+      }}
+      onRightClickEvent={data => {
+        console.log('right', data);
       }}
     />,
     timelineElement

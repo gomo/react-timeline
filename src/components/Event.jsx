@@ -117,7 +117,12 @@ class Event extends React.Component
   }
 
   onContextMenu(e){
-    e.preventDefault();
+    if(this.props.timeline.props.onRightClickEvent){
+      this.props.timeline.props.onRightClickEvent({
+        component: this,
+        event: e
+      });
+    }
   }
 
   render(){
