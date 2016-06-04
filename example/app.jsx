@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom';
-import {Timeline, Time, TimeSpan, Actions} from '../index.es6';
+import {Timeline, Time, TimeSpan, Menu} from '../index.es6';
 
 
 function getWindowSize(){
@@ -21,6 +21,49 @@ function calcHeight(timelineElement){
 }
 
 window.onload = () => {
+
+  const menu = ReactDOM.render(
+    <Menu
+      items={[
+        {
+          name: context => 'float',
+          onClick: context => {
+            context.component.actions.float();
+          },
+          show: context => context.component.actions.isFixed()
+        },
+        {
+          name: context => 'resize',
+          onClick: context => {
+            context.component.actions.resize();
+          },
+          show: context => context.component.actions.isFixed()
+        },
+        {
+          name: context => 'cancel',
+          onClick: context => {
+            context.component.actions.cancel();
+          },
+          show: context => !context.component.actions.isFixed()
+        },
+        {
+          name: context => 'fix',
+          onClick: context => {
+            if(context.component.props.timeline.actions.isFree(context.component)){
+              context.component.actions.fix();
+            } else {
+              alert('You can\'t !');
+            }
+          },
+          show: context => !context.component.actions.isFixed()
+        }
+      ]}
+      zIndex={1000}
+    />,
+    document.getElementById('menu')
+  );
+
+
   const lineData = [
     {label:'label1', id:'__1'},
     {label:'label2', id:'__2'},
@@ -43,9 +86,7 @@ window.onload = () => {
   ];
 
   const timeSpan = TimeSpan.create([10, 0], [25, 0]);
-
   const timelineElement = document.getElementById('timeline');
-
   const timeline = ReactDOM.render(
     <Timeline
       lineData={lineData}
@@ -62,21 +103,11 @@ window.onload = () => {
         console.log('right', data);
       }}
       onClickEvent={data => {
-        if(data.component.actions.isFixed()){
-          data.component.actions.float();
-        } else {
-          if(timeline.actions.isFree(data.component)){
-            data.component.actions.fix();
-          } else {
-            alert('You can\'t !');
-          }
-        }
+        console.log('left', data);
       }}
       onRightClickEvent={data => {
         data.event.preventDefault();
-        if(data.component.actions.isFixed()){
-          data.component.actions.resize();
-        }
+        menu.show({top: data.event.clientY, left: data.event.clientX}, data);
       }}
     />,
     timelineElement
