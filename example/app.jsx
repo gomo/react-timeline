@@ -64,7 +64,6 @@ window.onload = () => {
       onClickEvent={data => {
         if(data.component.actions.isFixed()){
           data.component.actions.float();
-          // data.component.actions.resize();
         } else {
           if(timeline.actions.isFree(data.component)){
             data.component.actions.fix();
@@ -74,7 +73,10 @@ window.onload = () => {
         }
       }}
       onRightClickEvent={data => {
-        console.log('right', data);
+        data.event.preventDefault();
+        if(data.component.actions.isFixed()){
+          data.component.actions.resize();
+        }
       }}
     />,
     timelineElement

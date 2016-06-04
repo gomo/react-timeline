@@ -43,8 +43,8 @@ export default class Line extends React.Component
   }
 
   onContextMenu(e){
-    if(this.props.timeline.props.onRightClickEvent){
-      this.props.timeline.props.onRightClickEvent({
+    if(this.props.timeline.props.onRightClickLine){
+      this.props.timeline.props.onRightClickLine({
         component: this,
         event: e
       });
