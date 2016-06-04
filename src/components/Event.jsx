@@ -71,15 +71,14 @@ class Event extends React.Component
   }
 
   onClick(e){
-    if(this.resizing){
-      return ;
-    }
-    if(this.state.draggable){
-      this.props.onClickFlexibleEvent(this);
-    } else if(this.state.resizable){
-      this.props.onClickFlexibleEvent(this);
-    } else {
-      this.props.onClickEvent(this);
+    if(this.props.timeline.props.onClickEvent){
+      if(this.resizing){
+        return ;
+      }
+      this.props.timeline.props.onClickEvent({
+        component: this,
+        event: e
+      });
     }
   }
 
@@ -117,6 +116,10 @@ class Event extends React.Component
     setTimeout(() => this.resizing = false, 100);
   }
 
+  onContextMenu(e){
+    e.preventDefault();
+  }
+
   render(){
     const style = {
       height: this.state.height,
@@ -129,7 +132,7 @@ class Event extends React.Component
     };
 
     return this.props.connectDragSource(
-      <div on className={classNames('tlEventView', {tlDraggingEvent: this.state.draggable, tlFlexibleEvent: this.state.resizable})} style={style} onClick={e => this.onClick(e)}>
+      <div onContextMenu={e => this.onContextMenu(e)} className={classNames('tlEventView', {tlDraggingEvent: this.state.draggable, tlFlexibleEvent: this.state.resizable})} style={style} onClick={e => this.onClick(e)}>
         {(() => {
           if(this.state.resizable){
             return (

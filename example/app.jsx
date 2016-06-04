@@ -58,15 +58,16 @@ window.onload = () => {
       onClickLine={data => {
         console.log(data);
       }}
-      onClickEvent={event => {
-        // event.actions.float();
-        event.actions.resize();
-      }}
-      onClickFlexibleEvent={event => {
-        if(timeline.actions.isFree(event)){
-          event.actions.fix();
+      onClickEvent={data => {
+        if(data.component.actions.isFixed()){
+          data.component.actions.float();
+          // data.component.actions.resize();
         } else {
-          alert('You can\'t !');
+          if(timeline.actions.isFree(data.component)){
+            data.component.actions.fix();
+          } else {
+            alert('You can\'t !');
+          }
         }
       }}
     />,

@@ -201,8 +201,6 @@ class Frame extends React.Component
                 lineId={event.lineId}
                 timeline={this.props.timeline}
                 width={this.props.timeline.props.lineWidth - 2 - (Line.sidePadding * 2)}
-                onClickEvent={this.props.onClickEvent}
-                onClickFlexibleEvent={this.props.onClickFlexibleEvent}
               />
             )
           })}

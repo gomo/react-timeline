@@ -17,6 +17,10 @@ export default class EventActions
     });
   }
 
+  isFixed(){
+    return !this.component.state.draggable && !this.component.state.resizable;
+  }
+
   fix(){
     if(this.component.draggingPosition){
       this.component.lineId = this.component.draggingPosition.lineId;

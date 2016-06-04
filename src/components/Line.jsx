@@ -32,11 +32,11 @@ export default class Line extends React.Component
   }
 
   onClick(e){
-    if(this.props.onClickLine){
+    if(this.props.timeline.props.onClickLine){
       const time = this.props.timeline.topToTime(this.getRelativeTop(e));
-      this.props.onClickLine({
-        click: e,
-        line: this,
+      this.props.timeline.props.onClickLine({
+        event: e,
+        component: this,
         time: time
       });
     }
