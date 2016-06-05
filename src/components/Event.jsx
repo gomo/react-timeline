@@ -50,7 +50,7 @@ class Event extends React.Component
     return this.resizingTimeSpan || this.timeSpan;
   }
 
-  getDraggingPosition(){
+  get nextPosition(){
     if(this.draggingPosition){
       return {
         lineId: this.draggingPosition.lineId,
@@ -64,6 +64,35 @@ class Event extends React.Component
     }
 
     return null;
+  }
+
+  get prevPosition(){
+    if(!this.draggingPosition && !this.resizingTimeSpan){
+      return null;
+    } else {
+      return{
+        lineId: this.lineId,
+        timeSpan: this.timeSpan
+      }
+    }
+  }
+
+  /**
+   * 他のEventと重なっていないかチェックする
+   * @param  {object}  position {lineId: ***, timeSpan: ***}
+   * @return {Boolean}
+   */
+  isFreePosition(position){
+    for (var i = 0; i < this.props.timeline.eventComponents.length; i++) {
+      let ev = this.props.timeline.eventComponents[i];
+      if(ev === this) continue;
+      if(ev.lineId != position.lineId) continue;
+      if(ev.currentTimeSpan.overlaps(position.timeSpan)){
+        return false;
+      }
+    }
+
+    return true;
   }
 
   moveTo(top, left){

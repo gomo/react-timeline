@@ -21,6 +21,56 @@ export default class EventActions
     return !this.component.state.draggable && !this.component.state.resizable;
   }
 
+  isFixable(){
+    var newPosition = this.component.nextPosition;
+    if(!newPosition){
+      return true;
+    }
+
+    return this.component.isFreePosition(newPosition);
+  }
+
+  isCancelable(){
+    var newPosition = this.component.prevPosition;
+    if(!newPosition){
+      return true;
+    }
+
+    return this.component.isFreePosition(newPosition);
+  }
+
+  cancel(){
+    if(this.component.draggingPosition){
+      const left = this.component.props.timeline.getLineLeft(this.component.lineId);
+      const top = this.component.props.timeline.timeToTop(this.component.timeSpan.getStartTime());
+      this.component.draggingPosition = null;
+      this.component.setState({
+        draggable: false,
+        draggingDisplay: '',
+        top: top,
+        left: left
+      });
+    } else if(this.component.resizingTimeSpan){
+      const top = this.component.props.timeline.timeToTop(this.component.timeSpan.getStartTime());
+      const height = this.component.props.timeline.timeSpanToHeight(this.component.timeSpan);
+      this.component.resizingTimeSpan = null;
+      this.component.setState({
+        resizable: false,
+        draggingDisplay: '',
+        top: top,
+        height: height
+      });
+    } else {
+      this.component.setState({
+        draggable: false,
+        resizable: false,
+        draggingDisplay: ''
+      });
+    }
+
+    this.component.props.timeline.clearDraggingOver();
+  }
+
   fix(){
     if(this.component.draggingPosition){
       this.component.lineId = this.component.draggingPosition.lineId;

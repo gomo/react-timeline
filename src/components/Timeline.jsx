@@ -139,7 +139,7 @@ export default class Timeline extends React.Component
 
   findPrevEvent(eventComponent){
     return this.eventComponents
-      .filter(ev => ev.lineId == eventComponent.lineId)//同じ列のものだけに絞る
+      .filter(ev => !ev.state.draggable && ev.lineId == eventComponent.lineId)//同じ列のものだけに絞る
       .sort((a, b) => -(a.currentTimeSpan.getStartTime().compare(b.currentTimeSpan.getStartTime())))//時間の降順で並び替え
       .find(ev => ev.currentTimeSpan.getEndTime().compare(eventComponent.currentTimeSpan.getStartTime()) <= 0)//降順なので対象より最初に開始時間が若いものがprev
       ;
@@ -159,7 +159,7 @@ export default class Timeline extends React.Component
 
   findNextEvent(eventComponent){
     return this.eventComponents
-      .filter(ev => ev.lineId == eventComponent.lineId)//同じ列のものだけに絞る
+      .filter(ev =>  !ev.state.draggable && ev.lineId == eventComponent.lineId)//同じ列のものだけに絞る
       .sort((a, b) => a.currentTimeSpan.getStartTime().compare(b.currentTimeSpan.getStartTime()))//時間の昇順で並び替え
       .find(ev => ev.currentTimeSpan.getStartTime().compare(eventComponent.currentTimeSpan.getEndTime()) >= 0)//昇順なので対象より最初に開始時間が遅いものがnext
       ;

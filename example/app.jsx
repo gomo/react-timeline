@@ -44,15 +44,22 @@ window.onload = () => {
           onClick: context => {
             context.component.actions.cancel();
           },
-          show: context => !context.component.actions.isFixed()
+          show: context => !context.component.actions.isFixed(),
+          onClick: context => {
+            if(context.component.actions.isCancelable()){
+              context.component.actions.cancel();
+            } else {
+              alert('You can\'t cancel!');
+            }
+          }
         },
         {
           name: context => 'fix',
           onClick: context => {
-            if(context.component.props.timeline.actions.isFree(context.component)){
+            if(context.component.actions.isFixable()){
               context.component.actions.fix();
             } else {
-              alert('You can\'t !');
+              alert('You can\'t fix!');
             }
           },
           show: context => !context.component.actions.isFixed()
