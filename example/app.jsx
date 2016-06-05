@@ -126,7 +126,16 @@ window.onload = () => {
   };
 
   timeline.actions.addEvents([
-    {lineId: '__1', timeSpan: TimeSpan.create([11, 0], [12, 0]), color: '#FFB6B6'}
+    {
+      lineId: '__1',
+      timeSpan: TimeSpan.create([11, 0], [12, 0]),
+      color: '#FFB6B6',
+      display: [
+        {key: 'startTime', value: '11:00'},
+        {key: 'type', value: 'foobar'},
+        {key: 'memo', value: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry'}
+      ]
+    }
   ]);
 
   timeline.actions.addEvents([

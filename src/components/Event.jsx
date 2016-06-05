@@ -31,6 +31,7 @@ class Event extends React.Component
       top: this.props.timeline.timeToTop(this.props.timeSpan.getStartTime()),
       left: this.props.timeline.getLineLeft(this.props.lineId),
       color: this.props.color,
+      display: this.props.display,
       draggable: false,
       resizable: false,
       draggingDisplay: ''
@@ -179,6 +180,7 @@ class Event extends React.Component
         <EventBase
           draggingDisplay={this.state.draggingDisplay}
           draggingDisplayTop={this.state.draggingDisplayTop}
+          display={this.state.display}
         />
         {(() => {
           if(this.state.resizable){
@@ -189,7 +191,6 @@ class Event extends React.Component
             )
           }
         })()}
-
       </div>
     );
   }

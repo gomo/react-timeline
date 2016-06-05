@@ -42,6 +42,7 @@ class EventPreview extends React.Component {
       <div ref="preview" className="tlEventView tlDraggingEvent" style={this.getItemStyles()}>
         <EventBase
           draggingDisplay={this.props.event ? this.props.event.state.draggingDisplay : ''}
+          display={this.props.event ? this.props.event.state.display : []}
         />
       </div>
     );
