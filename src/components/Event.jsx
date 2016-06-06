@@ -31,7 +31,7 @@ class Event extends React.Component
       top: this.props.timeline.timeToTop(this.props.timeSpan.getStartTime()),
       left: this.props.timeline.getLineLeft(this.props.lineId),
       color: this.props.color,
-      display: this.props.display,
+      display: this.props.display || [],
       draggable: false,
       resizable: false,
       draggingDisplay: ''
@@ -101,11 +101,11 @@ class Event extends React.Component
   }
 
   onClick(e){
-    if(this.props.timeline.props.onClickEvent){
+    if(this.props.timeline.props.eventDidClick){
       if(this.resizing){
         return ;
       }
-      this.props.timeline.props.onClickEvent({
+      this.props.timeline.props.eventDidClick({
         component: this,
         event: e
       });
@@ -147,8 +147,8 @@ class Event extends React.Component
   }
 
   onContextMenu(e){
-    if(this.props.timeline.props.onRightClickEvent){
-      this.props.timeline.props.onRightClickEvent({
+    if(this.props.timeline.props.eventDidRightClick){
+      this.props.timeline.props.eventDidRightClick({
         component: this,
         event: e
       });

@@ -154,7 +154,6 @@ class Frame extends React.Component
         width={this.props.lineWidth}
         minHeight={this.props.minHeight}
         timeSpan={this.props.timeSpan}
-        onClickLine={this.props.onClickLine}
         even={lines.length % 2 === 0}
         timeline={this.props.timeline}
       />

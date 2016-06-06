@@ -73,22 +73,41 @@ export default class EventActions
 
   fix(){
     if(this.component.draggingPosition){
-      this.component.lineId = this.component.draggingPosition.lineId;
-      this.component.timeSpan = this.component.timeSpan.shiftStartTime(this.component.draggingPosition.time);
-      this.component.setState({
+      const state = {
         top: this.component.props.timeline.timeToTop(this.component.draggingPosition.time),
         left: this.component.props.timeline.getLineLeft(this.component.draggingPosition.lineId),
         draggable: false,
         draggingDisplay: ''
-      });
+      };
+      const newTimeSpan = this.component.timeSpan.shiftStartTime(this.component.draggingPosition.time);
+      if(this.component.props.timeline.props.eventWillFix){
+        this.component.props.timeline.props.eventWillFix({
+          component: this.component,
+          state: state,
+          lineId: this.component.draggingPosition.lineId,
+          timeSpan: newTimeSpan
+        })
+      }
+      this.component.setState(state);
+      this.component.lineId = this.component.draggingPosition.lineId;
+      this.component.timeSpan = newTimeSpan;
       this.component.draggingPosition = null;
     } else if(this.component.resizingTimeSpan){
-      this.component.timeSpan = this.component.resizingTimeSpan;
-      this.component.resizingTimeSpan = null;
-      this.component.setState({
+      const state = {
         resizable: false,
         draggingDisplay: ''
-      });
+      }
+      if(this.component.props.timeline.props.eventWillFix){
+        this.component.props.timeline.props.eventWillFix({
+          component: this.component,
+          state: state,
+          lineId: this.component.lineId,
+          timeSpan: this.component.resizingTimeSpan
+        })
+      }
+      this.component.setState(state);
+      this.component.timeSpan = this.component.resizingTimeSpan;
+      this.component.resizingTimeSpan = null;
     } else {
       this.component.setState({
         draggable: false,
@@ -98,5 +117,10 @@ export default class EventActions
     }
 
     this.component.props.timeline.clearDraggingOver();
+    if(this.component.props.timeline.props.eventDidFix){
+      this.component.props.timeline.props.eventDidFix({
+        component: this.component
+      })
+    }
   }
 }

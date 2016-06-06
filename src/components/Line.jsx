@@ -32,9 +32,9 @@ export default class Line extends React.Component
   }
 
   onClick(e){
-    if(this.props.timeline.props.onClickLine){
+    if(this.props.timeline.props.lineDidClick){
       const time = this.props.timeline.topToTime(this.getRelativeTop(e));
-      this.props.timeline.props.onClickLine({
+      this.props.timeline.props.lineDidClick({
         event: e,
         component: this,
         time: time
@@ -43,8 +43,8 @@ export default class Line extends React.Component
   }
 
   onContextMenu(e){
-    if(this.props.timeline.props.onRightClickLine){
-      this.props.timeline.props.onRightClickLine({
+    if(this.props.timeline.props.lineDidRightClick){
+      this.props.timeline.props.lineDidRightClick({
         component: this,
         event: e
       });

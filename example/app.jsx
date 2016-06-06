@@ -103,18 +103,26 @@ window.onload = () => {
       minInterval={5}
       rulerInterval={4}
       height={calcHeight(timelineElement)}
-      onClickLine={data => {
+      lineDidClick={data => {
         console.log('left', data);
       }}
-      onRightClickLine={data => {
+      lineDidRightClick={data => {
         console.log('right', data);
       }}
-      onClickEvent={data => {
+      eventDidClick={data => {
         console.log('left', data);
       }}
-      onRightClickEvent={data => {
+      eventDidRightClick={data => {
         data.event.preventDefault();
         menu.show({top: data.event.clientY, left: data.event.clientX}, data);
+      }}
+      eventWillFix={data => {
+        data.state.display = data.component.state.display.map(
+          row => row.key == 'startTime' ? {key: 'startTime', value: data.timeSpan.getStartTime().getDisplayTime()} : row
+        );
+      }}
+      eventDidFix={data => {
+        console.log(data);
       }}
     />,
     timelineElement
