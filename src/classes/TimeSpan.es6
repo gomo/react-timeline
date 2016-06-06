@@ -46,11 +46,11 @@ export default class TimeSpan
   }
 
   contains(timeSpan){
-      return this.getStartTime().compare(timeSpan.getStartTime()) <= 0 && this.getEndTime().compare(timeSpan.getEndTime()) >= 0;
+      return this.getStartTime().compare(timeSpan.getStartTime()) < 0 && this.getEndTime().compare(timeSpan.getEndTime()) > 0;
   }
 
   containsTime(time){
-      return this.getStartTime().compare(time) <= 0 && this.getEndTime().compare(time) >= 0;
+      return this.getStartTime().compare(time) < 0 && this.getEndTime().compare(time) > 0;
   }
 
   overlaps(timeSpan){

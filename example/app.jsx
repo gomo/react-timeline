@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom';
-import {Timeline, Time, TimeSpan, Actions} from '../index.es6';
+import {Timeline, Time, TimeSpan, Menu} from '../index.es6';
 
 
 function getWindowSize(){
@@ -21,6 +21,56 @@ function calcHeight(timelineElement){
 }
 
 window.onload = () => {
+
+  const menu = ReactDOM.render(
+    <Menu
+      items={[
+        {
+          name: context => 'float',
+          onClick: context => {
+            context.component.actions.float();
+          },
+          show: context => context.component.actions.isFixed()
+        },
+        {
+          name: context => 'resize',
+          onClick: context => {
+            context.component.actions.resize();
+          },
+          show: context => context.component.actions.isFixed()
+        },
+        {
+          name: context => 'cancel',
+          onClick: context => {
+            context.component.actions.cancel();
+          },
+          show: context => !context.component.actions.isFixed(),
+          onClick: context => {
+            if(context.component.actions.isCancelable()){
+              context.component.actions.cancel();
+            } else {
+              alert('You can\'t cancel!');
+            }
+          }
+        },
+        {
+          name: context => 'fix',
+          onClick: context => {
+            if(context.component.actions.isFixable()){
+              context.component.actions.fix();
+            } else {
+              alert('You can\'t fix!');
+            }
+          },
+          show: context => !context.component.actions.isFixed()
+        }
+      ]}
+      zIndex={1000}
+    />,
+    document.getElementById('menu')
+  );
+
+
   const lineData = [
     {label:'label1', id:'__1'},
     {label:'label2', id:'__2'},
@@ -36,13 +86,14 @@ window.onload = () => {
     {label:'label12', id:'__12'},
     {label:'label13', id:'__13'},
     {label:'label14', id:'__14'},
-    {label:'label15', id:'__15'}
+    {label:'label15', id:'__15'},
+    {label:'label16', id:'__16'},
+    {label:'label17', id:'__17'},
+    {label:'label18', id:'__18'}
   ];
 
   const timeSpan = TimeSpan.create([10, 0], [25, 0]);
-
   const timelineElement = document.getElementById('timeline');
-
   const timeline = ReactDOM.render(
     <Timeline
       lineData={lineData}
@@ -52,18 +103,26 @@ window.onload = () => {
       minInterval={5}
       rulerInterval={4}
       height={calcHeight(timelineElement)}
-      onClickLine={data => {
+      lineDidClick={data => {
+        console.log('left', data);
+      }}
+      lineDidRightClick={data => {
+        console.log('right', data);
+      }}
+      eventDidClick={data => {
+        console.log('left', data);
+      }}
+      eventDidRightClick={data => {
+        data.event.preventDefault();
+        menu.show({top: data.event.clientY, left: data.event.clientX}, data);
+      }}
+      eventWillFix={data => {
+        data.state.display = data.component.state.display.map(
+          row => row.key == 'startTime' ? {key: 'startTime', value: data.timeSpan.getStartTime().getDisplayTime()} : row
+        );
+      }}
+      eventDidFix={data => {
         console.log(data);
-      }}
-      onClickEvent={event => {
-        event.actions.float();
-      }}
-      onClickFloatingEvent={event => {
-        if(timeline.actions.isFree(event)){
-          event.actions.fix();
-        } else {
-          alert('You can\'t !');
-        }
       }}
     />,
     timelineElement
@@ -75,13 +134,22 @@ window.onload = () => {
   };
 
   timeline.actions.addEvents([
-    {lineId: '__1', timeSpan: TimeSpan.create([11, 0], [12, 0]), color: '#FFB6B6'}
+    {
+      lineId: '__1',
+      timeSpan: TimeSpan.create([11, 0], [12, 0]),
+      color: '#FFB6B6',
+      display: [
+        {key: 'startTime', value: '11:00'},
+        {key: 'type', value: 'foobar'},
+        {key: 'memo', value: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry'}
+      ]
+    }
   ]);
 
   timeline.actions.addEvents([
+    {lineId: '__2', timeSpan: TimeSpan.create([12, 30], [13, 30]), color: '#FFDCB6'},
     {lineId: '__2', timeSpan: TimeSpan.create([11, 0], [12, 0]), color: '#FFB6B6'},
     {lineId: '__2', timeSpan: TimeSpan.create([13, 50], [14, 30]), color: '#B8F1AC'},
-    {lineId: '__2', timeSpan: TimeSpan.create([12, 0], [13, 30]), color: '#FFDCB6'}
   ]);
 
   timeline.actions.addEvents([

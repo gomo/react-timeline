@@ -31,7 +31,9 @@ class Event extends React.Component
       top: this.props.timeline.timeToTop(this.props.timeSpan.getStartTime()),
       left: this.props.timeline.getLineLeft(this.props.lineId),
       color: this.props.color,
+      display: this.props.display || [],
       draggable: false,
+      resizable: false,
       draggingDisplay: ''
     }
 
@@ -40,36 +42,117 @@ class Event extends React.Component
     this.lineId = this.props.lineId;
     this.timeSpan = this.props.timeSpan;
     this.draggingPosition = null;
-
+    this.resizingTimeSpan = null;
+    this.resizing = false;
     this.props.timeline.addEventComponent(this);
   }
 
-  getDraggingPosition(){
+  get currentTimeSpan(){
+    return this.resizingTimeSpan || this.timeSpan;
+  }
+
+  get nextPosition(){
     if(this.draggingPosition){
       return {
         lineId: this.draggingPosition.lineId,
         timeSpan: this.timeSpan.shiftStartTime(this.draggingPosition.time)
+      }
+    } else if(this.resizingTimeSpan){
+      return{
+        lineId: this.lineId,
+        timeSpan: this.resizingTimeSpan
       }
     }
 
     return null;
   }
 
+  get prevPosition(){
+    if(!this.draggingPosition && !this.resizingTimeSpan){
+      return null;
+    } else {
+      return{
+        lineId: this.lineId,
+        timeSpan: this.timeSpan
+      }
+    }
+  }
+
+  /**
+   * 他のEventと重なっていないかチェックする
+   * @param  {object}  position {lineId: ***, timeSpan: ***}
+   * @return {Boolean}
+   */
+  isFreePosition(position){
+    for (var i = 0; i < this.props.timeline.eventComponents.length; i++) {
+      let ev = this.props.timeline.eventComponents[i];
+      if(ev === this) continue;
+      if(ev.lineId != position.lineId) continue;
+      if(ev.currentTimeSpan.overlaps(position.timeSpan)){
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   moveTo(top, left){
     this.setState({top: top, left: left});
   }
 
-  onClick(){
-    if(this.state.draggable){
-      this.props.onClickFloatingEvent(this);
-    } else {
-      this.props.onClickEvent(this);
+  onClick(e){
+    if(this.props.timeline.props.eventDidClick){
+      if(this.resizing){
+        return ;
+      }
+      this.props.timeline.props.eventDidClick({
+        component: this,
+        event: e
+      });
     }
   }
 
   dragging(time, lineId){
     this.draggingPosition = {time: time, lineId: lineId};
     this.setState({draggingDisplay: time.getDisplayTime()});
+  }
+
+  resizeUp(e){
+    this.props.timeline.frameComponent.resizeUp(this, e.clientY);
+  }
+
+  resizeDown(e){
+    this.props.timeline.frameComponent.resizeDown(this, e.clientY);
+  }
+
+  endResizing(e){
+    if(this.resizingTimeSpan){
+      const newState = {
+        draggingDisplay: null,
+        draggingDisplayTop: null
+      };
+
+      if(this.resizingTimeSpan){
+        newState.top = this.props.timeline.timeToTop(this.resizingTimeSpan.getStartTime());
+        newState.height = this.props.timeline.timeSpanToHeight(this.resizingTimeSpan);
+      }
+
+      this.setState(newState);
+    } else {
+      this.onClick();
+    }
+
+    //onClickよりendResizingの先に発生してしまう。
+    setTimeout(() => this.resizing = false, 100);
+  }
+
+  onContextMenu(e){
+    if(this.props.timeline.props.eventDidRightClick){
+      this.props.timeline.props.eventDidRightClick({
+        component: this,
+        event: e
+      });
+    }
   }
 
   render(){
@@ -84,10 +167,30 @@ class Event extends React.Component
     };
 
     return this.props.connectDragSource(
-      <div className={classNames('tlEventView', {tlDraggingEvent: this.state.draggable})} style={style} onClick={e => this.onClick(e)}>
+      <div onContextMenu={e => this.onContextMenu(e)} className={classNames('tlEventView', {tlDraggingEvent: this.state.draggable, tlFlexibleEvent: this.state.resizable})} style={style} onClick={e => this.onClick(e)}>
+        {(() => {
+          if(this.state.resizable){
+            return (
+              <div className="tlRisezeHandle" onTouchstart={e => this.resizeUp(e)} onMouseDown={e => this.resizeUp(e)}>
+                <i className="fa fa-bars" aria-hidden="true"></i>
+              </div>
+            )
+          }
+        })()}
         <EventBase
           draggingDisplay={this.state.draggingDisplay}
+          draggingDisplayTop={this.state.draggingDisplayTop}
+          display={this.state.display}
         />
+        {(() => {
+          if(this.state.resizable){
+            return (
+              <div className="tlRisezeHandle tlBottom" onTouchstart={e => this.resizeDown(e)} onMouseDown={e => this.resizeDown(e)}>
+                <i className="fa fa-bars" aria-hidden="true"></i>
+              </div>
+            )
+          }
+        })()}
       </div>
     );
   }

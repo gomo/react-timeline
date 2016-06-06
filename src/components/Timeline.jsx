@@ -20,6 +20,8 @@ export default class Timeline extends React.Component
     //1分あたりの高さを算出
     this.perMinHeight = this.lineHeight / this.timeSpan.getDistance();
 
+    this.lineWidth = props.lineWidth;
+
     this.frameComponent = null;
     this.createdEventId = 0;
     this.draggingOverLineConponent = null;
@@ -104,6 +106,13 @@ export default class Timeline extends React.Component
     this.lineLabelComponents.push(line);
   }
 
+  getTimeSpan(top, height){
+    const startTime = this.topToTime(top);
+
+    const endTime = startTime.addMin(height / this.perMinHeight);
+    return new TimeSpan(startTime, endTime);
+  }
+
   timeSpanToHeight(timeSpan){
     return (timeSpan.getDistance() * this.perMinHeight) - 1;
   }
@@ -128,6 +137,46 @@ export default class Timeline extends React.Component
     return this.timeSpan.getStartTime().addMin(minute);
   }
 
+  findPrevEvent(eventComponent){
+    return this.eventComponents
+      .filter(ev => !ev.state.draggable && ev.lineId == eventComponent.lineId)//同じ列のものだけに絞る
+      .sort((a, b) => -(a.currentTimeSpan.getStartTime().compare(b.currentTimeSpan.getStartTime())))//時間の降順で並び替え
+      .find(ev => ev.currentTimeSpan.getEndTime().compare(eventComponent.currentTimeSpan.getStartTime()) <= 0)//降順なので対象より最初に開始時間が若いものがprev
+      ;
+  }
+
+  getPrevBottom(eventComponent){
+    const prevEvent = this.findPrevEvent(eventComponent);
+    let bottomTime;
+    if(prevEvent){
+      bottomTime = prevEvent.currentTimeSpan.getEndTime();
+    } else {
+      bottomTime = this.timeSpan.getStartTime();
+    }
+
+    return this.timeToTop(bottomTime);
+  }
+
+  findNextEvent(eventComponent){
+    return this.eventComponents
+      .filter(ev =>  !ev.state.draggable && ev.lineId == eventComponent.lineId)//同じ列のものだけに絞る
+      .sort((a, b) => a.currentTimeSpan.getStartTime().compare(b.currentTimeSpan.getStartTime()))//時間の昇順で並び替え
+      .find(ev => ev.currentTimeSpan.getStartTime().compare(eventComponent.currentTimeSpan.getEndTime()) >= 0)//昇順なので対象より最初に開始時間が遅いものがnext
+      ;
+  }
+
+  getNextTop(eventComponent){
+    const nextEvent = this.findNextEvent(eventComponent);
+    let nextTime;
+    if(nextEvent){
+      nextTime = nextEvent.currentTimeSpan.getStartTime();
+    } else {
+      nextTime = this.timeSpan.getEndTime();
+    }
+
+    return this.timeToTop(nextTime);
+  }
+
   render(){
     return (
       <Frame
@@ -136,9 +185,6 @@ export default class Timeline extends React.Component
         lineWidth={this.props.lineWidth}
         minHeight={this.props.minHeight}
         height={this.props.height}
-        onClickLine={this.props.onClickLine}
-        onClickEvent={this.props.onClickEvent}
-        onClickFloatingEvent={this.props.onClickFloatingEvent}
         timeline={this}
         rulerInterval={this.props.rulerInterval}
       />
