@@ -39,13 +39,13 @@
 
 /* tlTimeline */
 .tlLineView{
-  &.even{
+  &.tlEven{
     background-color: #f3f3f3;
   }
-  &.odd{
+  &.tlOdd{
     background-color: #fbfbfb;
   }
-  &.over{
+  &.tlOver{
     background-color: #FFFED6;
   }
 }

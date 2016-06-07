@@ -73,7 +73,7 @@ export default class Line extends React.Component
             )
           }
         })()}
-        <div className={classNames('tlLineView', {even: this.props.even, odd: !this.props.even}, {over: this.state.draggingOver})} style={{width: this.props.width + 'px'}}>
+        <div className={classNames('tlLineView', {tlEven: this.props.even, tlOdd: !this.props.even}, {tlOver: this.state.draggingOver})} style={{width: this.props.width + 'px'}}>
           {this.state.hours}
         </div>
       </div>

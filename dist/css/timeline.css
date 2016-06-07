@@ -52,13 +52,13 @@
 }
 
 /* tlTimeline */
-.tlLineView.even {
+.tlLineView.tlEven {
   background-color: #f3f3f3;
 }
-.tlLineView.odd {
+.tlLineView.tlOdd {
   background-color: #fbfbfb;
 }
-.tlLineView.over {
+.tlLineView.tlOver {
   background-color: #FFFED6;
 }
 
