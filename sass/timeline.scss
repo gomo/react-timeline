@@ -68,13 +68,13 @@
 }
 
 .tlLabel.tlHasRuler{
-  border-top-left-radius: 2px;
-  border-bottom-left-radius: 2px;
+  @include border-top-left-radius(2px);
+  @include border-bottom-left-radius(2px);
 }
 
 .tlLabel.tlPrevRuler, .tlLabel.tlLast{
-  border-top-right-radius: 2px;
-  border-bottom-right-radius: 2px;
+  @include border-top-right-radius(2px);
+  @include border-bottom-right-radius(2px);
 }
 
 .tlHourView{
@@ -85,18 +85,20 @@
   border-top: none;
 }
 
-.tlMinView._15, .tlMinView._45{
-  border-bottom: 1px dashed #ddd;
-}
+.tlMinView{
+  &.tl15, &.tl45{
+    border-bottom: 1px dashed #ddd;
+  }
 
-.tlMinView._30{
-  border-bottom: 1px solid #ccc;
+  &.tl30{
+    border-bottom: 1px solid #ccc;
+  }
 }
 
 /* tlEventView */
 .tlEventView{
   @include opacity(0.7);
-  border-radius: 5px;
+  @include border-radius(5px);
   border: 1px solid #777;
   text-align: center;
   line-height: 17px;
@@ -107,7 +109,7 @@
   position: absolute;
   top: -8px;
   left: 117%;
-  border-radius: 4px;
+  @include border-radius(4px);
   border: 1px solid #aaa;
   background-color: #000;
   color: #fff;
