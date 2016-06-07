@@ -44,20 +44,6 @@
   position: relative;
 }
 
-/* tlTimeIndicator */
-#tlTimeIndicator {
-  width: 70px;
-  height: 24px;
-  line-height: 24px;
-  color: #ddd;
-  font-size: 12px;
-  text-align: center;
-  padding-right: 10px;
-  font-weight: bold;
-  background-image: url("../img/indicator.png");
-  background-repeat: no-repeat;
-}
-
 /* tlRuler */
 .tlRulerView {
   float: left;
@@ -112,7 +98,7 @@
   border-top: 1px solid #999;
 }
 
-.tlHourView.tlHasLabel {
+.tlHourView:first-child {
   border-top: none;
 }
 
@@ -133,7 +119,8 @@
   text-align: center;
   line-height: 17px;
 }
-.tlEventView .tlDraggingDisplay {
+
+.tlDraggingDisplay {
   filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
   opacity: 1;
   position: absolute;
@@ -153,7 +140,7 @@
   -webkit-box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.4);
   box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.4);
 }
-.tlEventView .tlDraggingDisplay:after {
+.tlDraggingDisplay:after {
   content: ' ';
   height: 0;
   position: absolute;
@@ -171,11 +158,11 @@
   z-index: 1;
 }
 
-.tlFlexibleEvent {
+.tlResizableEvent {
   z-index: 1;
 }
 
-.tlRisezeHandle {
+.tlResizeHandle {
   position: absolute;
   height: 18px;
   color: #333;
@@ -189,7 +176,7 @@
   -webkit-border-radius: 3px;
   border-radius: 3px;
 }
-.tlRisezeHandle.tlBottom {
+.tlResizeHandle.tlBottom {
   top: 100%;
   margin-top: -18px;
 }

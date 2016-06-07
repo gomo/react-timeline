@@ -167,11 +167,11 @@ class Event extends React.Component
     };
 
     return this.props.connectDragSource(
-      <div onContextMenu={e => this.onContextMenu(e)} className={classNames('tlEventView', {tlDraggingEvent: this.state.draggable, tlFlexibleEvent: this.state.resizable})} style={style} onClick={e => this.onClick(e)}>
+      <div onContextMenu={e => this.onContextMenu(e)} className={classNames('tlEventView', {tlDraggingEvent: this.state.draggable, tlResizableEvent: this.state.resizable})} style={style} onClick={e => this.onClick(e)}>
         {(() => {
           if(this.state.resizable){
             return (
-              <div className="tlRisezeHandle" onTouchstart={e => this.resizeUp(e)} onMouseDown={e => this.resizeUp(e)}>
+              <div className="tlResizeHandle" onTouchstart={e => this.resizeUp(e)} onMouseDown={e => this.resizeUp(e)}>
                 <i className="fa fa-bars" aria-hidden="true"></i>
               </div>
             )
@@ -185,7 +185,7 @@ class Event extends React.Component
         {(() => {
           if(this.state.resizable){
             return (
-              <div className="tlRisezeHandle tlBottom" onTouchstart={e => this.resizeDown(e)} onMouseDown={e => this.resizeDown(e)}>
+              <div className="tlResizeHandle tlBottom" onTouchstart={e => this.resizeDown(e)} onMouseDown={e => this.resizeDown(e)}>
                 <i className="fa fa-bars" aria-hidden="true"></i>
               </div>
             )

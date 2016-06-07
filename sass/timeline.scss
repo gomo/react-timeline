@@ -30,20 +30,6 @@
   position: relative;
 }
 
-/* tlTimeIndicator */
-#tlTimeIndicator{
-  width: 70px;
-  height: 24px;
-  line-height: 24px;
-  color: #ddd;
-  font-size: 12px;
-  text-align: center;
-  padding-right: 10px;
-  font-weight: bold;
-  background-image: url('../img/indicator.png');
-  background-repeat: no-repeat;
-}
-
 /* tlRuler */
 .tlRulerView{
   float: left;
@@ -95,7 +81,7 @@
   border-top: 1px solid #999;
 }
 
-.tlHourView.tlHasLabel{
+.tlHourView:first-child{
   border-top: none;
 }
 
@@ -114,33 +100,33 @@
   border: 1px solid #777;
   text-align: center;
   line-height: 17px;
+}
 
-  .tlDraggingDisplay{
-    @include opacity(1);
+.tlDraggingDisplay{
+  @include opacity(1);
+  position: absolute;
+  top: -8px;
+  left: 117%;
+  border-radius: 4px;
+  border: 1px solid #aaa;
+  background-color: #000;
+  color: #fff;
+  width: 92%;
+  font-size: 11px;
+  font-weight: bold;
+  height: 18px;
+  line-height: 18px;
+  text-align: center;
+  @include box-shadow(2px 2px 7px rgba(black, 0.4));
+  &:after{
+    content: ' ';
+    height: 0;
     position: absolute;
-    top: -8px;
-    left: 117%;
-    border-radius: 4px;
-    border: 1px solid #aaa;
-    background-color: #000;
-    color: #fff;
-    width: 92%;
-    font-size: 11px;
-    font-weight: bold;
-    height: 18px;
-    line-height: 18px;
-    text-align: center;
-    @include box-shadow(2px 2px 7px rgba(black, 0.4));
-    &:after{
-      content: ' ';
-      height: 0;
-      position: absolute;
-      width: 0;
-      border: 9px solid transparent;
-      border-right-color: #000;
-      left: -32%;
-      top: 0;
-    }
+    width: 0;
+    border: 9px solid transparent;
+    border-right-color: #000;
+    left: -32%;
+    top: 0;
   }
 }
 
@@ -149,11 +135,11 @@
   z-index: 1;
 }
 
-.tlFlexibleEvent{
+.tlResizableEvent{
   z-index: 1;
 }
 
-.tlRisezeHandle{
+.tlResizeHandle{
   position: absolute;
   height: 18px;
   color: #333;

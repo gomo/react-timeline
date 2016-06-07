@@ -28,7 +28,7 @@ export default class LineLabel extends React.Component
     return (
       <div
         style={{width: this.props.width, marginLeft: this.state.hasRuler ? Ruler.width + 'px' : 0}}
-        className={classNames({tlLabel: true, tlHasRuler: this.state.hasRuler, tlPrevRuler: this.state.prevRuler || this.state.isLast})}
+        className={classNames({tlLabel: true, tlHasRuler: this.state.hasRuler, tlPrevRuler: this.state.prevRuler, tlLast: this.state.isLast})}
       >
         {this.props.label}
       </div>
