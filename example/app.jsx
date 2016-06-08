@@ -22,7 +22,7 @@ function calcHeight(timelineElement){
 
 window.onload = () => {
 
-  const menu = ReactDOM.render(
+  const eventMenu = ReactDOM.render(
     <Menu
       items={[
         {
@@ -70,7 +70,6 @@ window.onload = () => {
     document.getElementById('menu')
   );
 
-
   const lineData = [
     {label:'label1', id:'__1'},
     {label:'label2', id:'__2'},
@@ -104,7 +103,16 @@ window.onload = () => {
       rulerInterval={4}
       height={calcHeight(timelineElement)}
       lineDidClick={data => {
-        console.log('left', data);
+        timeline.actions.addEvents([
+          {
+            lineId: data.component.props.lineId,
+            timeSpan: new TimeSpan(data.time, data.time.addMin(120)),
+            color: '#FFB6B6',
+            display: [
+              {key: 'startTime', value: data.time.getDisplayTime()}
+            ]
+          }
+        ]);
       }}
       lineDidRightClick={data => {
         console.log('right', data);
@@ -114,7 +122,7 @@ window.onload = () => {
       }}
       eventDidRightClick={data => {
         data.event.preventDefault();
-        menu.show({top: data.event.clientY, left: data.event.clientX}, data);
+        eventMenu.show({top: data.event.clientY, left: data.event.clientX}, data);
       }}
       eventWillFix={data => {
         data.state.display = data.component.state.display.map(
