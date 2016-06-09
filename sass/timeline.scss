@@ -185,4 +185,13 @@
     color: #fff;
     background-color: #4d9cfb
   }
+  &.rmSeparator{
+    height: 1px;
+    margin: 5px 0;
+    overflow: hidden;
+    background-color: #dadada;
+  }
+  &.rmDisabled{
+    color: #ccc;
+  }
 }

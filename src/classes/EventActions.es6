@@ -71,6 +71,10 @@ export default class EventActions
     this.component.props.timeline.clearDraggingOver();
   }
 
+  remove(){
+    this.component.props.timeline.frameComponent.removeEvent(this.component);
+  }
+
   fix(){
     if(this.component.draggingPosition){
       const state = {

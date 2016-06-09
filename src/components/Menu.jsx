@@ -13,7 +13,13 @@ export default class Menu extends React.Component
         zIndex: this.props.zIndex
       }
     };
-    document.getElementsByTagName('body')[0].addEventListener('click', () => {this.close()});
+    document.getElementsByTagName('body')[0].addEventListener('click', (e) => {
+      var rect = this.refs.menu.getBoundingClientRect();
+      //メニューの外クリックで閉じる
+      if(e.clientX < rect.left || e.clientX > rect.left + rect.width || e.clientY < rect.top || e.clientY > rect.top + rect.height ){
+        this.close();
+      }
+    });
   }
 
   show(pos, context){
@@ -37,7 +43,7 @@ export default class Menu extends React.Component
 
   render(){
     return (
-      <div className="rmMenu" style={this.state.style}>
+      <div ref="menu" className="rmMenu" style={this.state.style}>
         <ul className="rmMenuItemList">
           {this.state.context ? this.props.items.map((item, key) => {
             if(!item.show || item.show(this.state.context)){
@@ -47,6 +53,7 @@ export default class Menu extends React.Component
                   name={item.name(this.state.context)}
                   onClick={item.onClick}
                   menu={this}
+                  enable={item.enable ? item.enable(this.state.context) : true}
                 />
               )
             }

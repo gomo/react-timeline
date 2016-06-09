@@ -160,6 +160,17 @@ class Frame extends React.Component
     );
   }
 
+  removeEvent(eventComponent){
+    var current = this.state.events;
+    var events = [];
+    current.forEach(ev => {
+      if(ev.id != eventComponent.props.id){
+        events.push(ev);
+      }
+    });
+    this.setState({events: events});
+  }
+
   addEvents(events){
     var current = this.state.events;
     events.forEach(event => {

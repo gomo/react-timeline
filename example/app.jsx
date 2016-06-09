@@ -63,6 +63,16 @@ window.onload = () => {
             }
           },
           show: context => !context.component.actions.isFixed()
+        },
+        {
+          name: context => '-'
+        },
+        {
+          name: context => 'remove',
+          onClick: context => {
+            context.component.actions.remove();
+          },
+          enable: context => context.component.actions.isFixed()
         }
       ]}
       zIndex={1000}

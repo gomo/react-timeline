@@ -11,27 +11,33 @@ export default class MenuItem extends React.Component
   }
 
   onMouseOut(){
-    this.setState({mouseOver: false});
+    if(this.props.enable){
+      this.setState({mouseOver: false});
+    }
   }
 
   onMouseOver(){
-    this.setState({mouseOver: true});
+    if(this.props.enable){
+      this.setState({mouseOver: true});
+    }
   }
 
   onClick(e){
-    this.props.onClick(this.props.menu.state.context);
-    this.props.menu.close();
+    if(this.props.enable){
+      this.props.onClick(this.props.menu.state.context);
+      this.props.menu.close();
+    }
   }
 
   render(){
     return (
       <li
-        className={classNames("rmMenuItem", {rmMouseOver: this.state.mouseOver})}
+        className={classNames("rmMenuItem", {rmMouseOver: this.state.mouseOver, rmDisabled: !this.props.enable, rmSeparator: this.props.name == '-'})}
         onMouseOver={e => this.onMouseOver(e)}
         onMouseOut={e => this.onMouseOut(e)}
         onClick={e => this.onClick(e)}
       >
-        {this.props.name}
+        {this.props.name == '-' ? null : this.props.name}
       </li>
     );
   }

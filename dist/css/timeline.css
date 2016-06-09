@@ -228,3 +228,12 @@
   color: #fff;
   background-color: #4d9cfb;
 }
+.rmMenuItem.rmSeparator {
+  height: 1px;
+  margin: 5px 0;
+  overflow: hidden;
+  background-color: #dadada;
+}
+.rmMenuItem.rmDisabled {
+  color: #ccc;
+}
