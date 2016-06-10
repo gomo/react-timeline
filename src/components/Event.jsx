@@ -45,6 +45,15 @@ class Event extends React.Component
     this.resizingTimeSpan = null;
     this.resizing = false;
     this.props.timeline.addEventComponent(this);
+    this.vars = {};
+  }
+
+  setVar(key, value){
+    this.vars[key] = value;
+  }
+
+  getVar(key){
+    return this.vars[key];
   }
 
   get currentTimeSpan(){
