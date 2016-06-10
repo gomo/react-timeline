@@ -35,6 +35,10 @@ export default class Menu extends React.Component
     this.overlay.style["zIndex"] = this.props.zIndex - 1;
     document.body.appendChild(this.overlay);
     this.overlay.addEventListener('click', e => this.close());
+    this.overlay.addEventListener('contextmenu', e => {
+      e.preventDefault();
+      this.close();
+    });
   }
 
   show(pos, context){
