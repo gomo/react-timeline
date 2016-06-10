@@ -4,6 +4,18 @@ import MenuItem from './MenuItem'
 
 export default class Menu extends React.Component
 {
+  static getWindowSize(){
+    const width = window.innerWidth
+    || document.documentElement.clientWidth
+    || document.body.clientWidth;
+
+    const height = window.innerHeight
+    || document.documentElement.clientHeight
+    || document.body.clientHeight;
+
+    return {width: width, height: height};
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -13,19 +25,27 @@ export default class Menu extends React.Component
         zIndex: this.props.zIndex
       }
     };
-    document.getElementsByTagName('body')[0].addEventListener('click', (e) => {
-      var rect = this.refs.menu.getBoundingClientRect();
-      //メニューの外クリックで閉じる
-      if(e.clientX < rect.left || e.clientX > rect.left + rect.width || e.clientY < rect.top || e.clientY > rect.top + rect.height ){
-        this.close();
-      }
-    });
+
+    this.overlay = document.createElement('div');
+    this.overlay.setAttribute('class', 'rmMenuOverlay');
+    this.overlay.style["position"] = 'absolute';
+    this.overlay.style["top"] = '0';
+    this.overlay.style["left"] = '0';
+    this.overlay.style["display"] = 'none';
+    this.overlay.style["zIndex"] = this.props.zIndex - 1;
+    document.body.appendChild(this.overlay);
+    this.overlay.addEventListener('click', e => this.close());
   }
 
   show(pos, context){
     this.setState({
       style: assign({}, this.state.style, pos, {display: 'block'}),
       context: context
+    }, () => {
+      let windowSize = Menu.getWindowSize();
+      this.overlay.style["width"] = windowSize.width + 'px';
+      this.overlay.style["height"] = windowSize.height + 'px';
+      this.overlay.style['display'] = 'block';
     });
   }
 
@@ -38,7 +58,12 @@ export default class Menu extends React.Component
   }
 
   close(){
-    this.setState({style: assign({}, this.state.style, {display: 'none'})});
+    this.setState(
+      {style: assign({}, this.state.style, {display: 'none'})},
+      () => {
+        this.overlay.style['display'] = 'none';
+      }
+    );
   }
 
   render(){
