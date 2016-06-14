@@ -1,7 +1,6 @@
 import ReactDOM from 'react-dom';
 import {Timeline, Time, TimeSpan} from '../index.es6';
-import {Menu} from '../../react-context-menu';
-
+import {ContextMenu} from '../../react-context-menu';
 
 function getWindowSize(){
   const width = window.innerWidth
@@ -24,7 +23,7 @@ function calcHeight(timelineElement){
 window.onload = () => {
 
   const eventMenu = ReactDOM.render(
-    <Menu
+    <ContextMenu
       items={[
         {
           name: context => 'float',

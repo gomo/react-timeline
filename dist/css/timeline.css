@@ -8,6 +8,7 @@
   -ms-user-select: none;
   -webkit-user-select: none;
   user-select: none;
+  box-sizing: content-box;
 }
 .tlFrameView:after {
   content: "";
@@ -23,6 +24,7 @@
   -ms-user-select: none;
   -webkit-user-select: none;
   user-select: none;
+  box-sizing: content-box;
 }
 
 .tlLineView {

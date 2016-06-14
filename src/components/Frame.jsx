@@ -58,7 +58,7 @@ class Frame extends React.Component
       lines: lines,
       labels: labels,
       events: [],
-      height: this.props.height
+      minWidth: 0
     }
 
     this.resizingEvent = null;
@@ -193,12 +193,18 @@ class Frame extends React.Component
     };
   }
 
+  componentDidMount(){
+    this.setState({
+      minWidth: this.props.timeline.getTotalWidth() + 'px'
+    });
+  }
+
   render(){
     const { connectDropTarget } = this.props;
     return connectDropTarget(
-      <div className="tlFrameView" style={{minWidth: this.props.timeline.getTotalWidth() + 'px'}}>
+      <div className="tlFrameView" style={{minWidth: this.state.minWidth}}>
         <div className="tlLabelView" style={{height: LineLabel.height}}>{this.state.labels}</div>
-        <div ref="linesWrapper" className="tlLinesWrapper" style={{height: this.state.height - LineLabel.height}}>
+        <div ref="linesWrapper" className="tlLinesWrapper" style={{height: this.props.height - LineLabel.height}}>
           {this.state.lines}
           {this.state.events.map(event => {
             return (

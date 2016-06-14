@@ -6,6 +6,7 @@
   border: 0;
   cursor: default;
   @include user-select(none);
+  box-sizing: content-box;
 }
 
 .tlFrameView{
