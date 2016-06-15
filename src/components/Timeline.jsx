@@ -187,6 +187,7 @@ export default class Timeline extends React.Component
         height={this.props.height}
         timeline={this}
         rulerInterval={this.props.rulerInterval}
+        events={this.props.events}
       />
     );
   }

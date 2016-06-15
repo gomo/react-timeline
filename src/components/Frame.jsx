@@ -57,7 +57,7 @@ class Frame extends React.Component
     this.state = {
       lines: lines,
       labels: labels,
-      events: [],
+      events: this.props.events,
       minWidth: 0
     }
 
