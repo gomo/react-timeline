@@ -177,29 +177,31 @@ class Event extends React.Component
 
     return this.props.connectDragSource(
       <div onContextMenu={e => this.onContextMenu(e)} className={classNames('tlEventView', {tlDraggingEvent: this.state.draggable, tlResizableEvent: this.state.resizable})} style={style} onClick={e => this.onClick(e)}>
-        {(() => {
-          if(this.state.resizable){
-            return (
-              <div className="tlResizeHandle" onTouchstart={e => this.resizeUp(e)} onMouseDown={e => this.resizeUp(e)}>
-                <i className="fa fa-bars" aria-hidden="true"></i>
-              </div>
-            )
-          }
-        })()}
-        <EventBase
-          draggingDisplay={this.state.draggingDisplay}
-          draggingDisplayTop={this.state.draggingDisplayTop}
-          display={this.state.display}
-        />
-        {(() => {
-          if(this.state.resizable){
-            return (
-              <div className="tlResizeHandle tlBottom" onTouchstart={e => this.resizeDown(e)} onMouseDown={e => this.resizeDown(e)}>
-                <i className="fa fa-bars" aria-hidden="true"></i>
-              </div>
-            )
-          }
-        })()}
+        <div ref="event">
+          {(() => {
+            if(this.state.resizable){
+              return (
+                <div className="tlResizeHandle" onTouchstart={e => this.resizeUp(e)} onMouseDown={e => this.resizeUp(e)}>
+                  <i className="fa fa-bars" aria-hidden="true"></i>
+                </div>
+              )
+            }
+          })()}
+          <EventBase
+            draggingDisplay={this.state.draggingDisplay}
+            draggingDisplayTop={this.state.draggingDisplayTop}
+            display={this.state.display}
+          />
+          {(() => {
+            if(this.state.resizable){
+              return (
+                <div className="tlResizeHandle tlBottom" onTouchstart={e => this.resizeDown(e)} onMouseDown={e => this.resizeDown(e)}>
+                  <i className="fa fa-bars" aria-hidden="true"></i>
+                </div>
+              )
+            }
+          })()}
+        </div>
       </div>
     );
   }

@@ -1,20 +1,7 @@
 @import "compass";
 
-@mixin reset {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  cursor: default;
-  @include user-select(none);
-  box-sizing: content-box;
-}
-
 .tlFrameView{
   @include pie-clearfix;
-  @include reset;
-  *{
-    @include reset;
-  }
 }
 
 .tlLineView{
@@ -80,6 +67,7 @@
 
 .tlHourView{
   border-top: 1px solid #999;
+  @include user-select(none);
 }
 
 .tlHourView:first-child{
@@ -87,6 +75,8 @@
 }
 
 .tlMinView{
+  box-sizing: content-box;
+  @include user-select(none);
   &.tl15, &.tl45{
     border-bottom: 1px dashed #ddd;
   }
@@ -100,6 +90,7 @@
 .tlEventView{
   @include opacity(0.7);
   @include border-radius(5px);
+  @include user-select(none);
   border: 1px solid #777;
   text-align: center;
   line-height: 17px;
@@ -107,6 +98,7 @@
 
 .tlDraggingDisplay{
   @include opacity(1);
+  @include user-select(none);
   position: absolute;
   top: -8px;
   left: 117%;
@@ -135,6 +127,7 @@
 
 .tlDraggingEvent{
   @include box-shadow(2px 2px 7px rgba(black, 0.4));
+  @include user-select(none);
   z-index: 1;
 }
 
@@ -162,4 +155,6 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
+  @include user-select(none);
+  cursor: default;
 }

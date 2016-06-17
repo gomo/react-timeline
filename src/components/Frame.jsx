@@ -220,6 +220,7 @@ class Frame extends React.Component
               />
             )
           })}
+          {this.props.children}
         </div>
         <EventPreview />
       </div>
