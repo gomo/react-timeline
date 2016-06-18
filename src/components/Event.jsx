@@ -4,6 +4,7 @@ import TimeSpan from '../classes/TimeSpan';
 import {DragSource} from 'react-dnd';
 import EventBase from './EventBase';
 import EventActions from '../classes/EventActions';
+import Timeline from './Timeline';
 
 const source = {
   beginDrag: function (props) {
@@ -46,6 +47,7 @@ class Event extends React.Component
     this.resizing = false;
     this.props.timeline.addEventComponent(this);
     this.vars = {};
+    this.element = null;
   }
 
   setVar(key, value){
@@ -114,9 +116,10 @@ class Event extends React.Component
       if(this.resizing){
         return ;
       }
+
       this.props.timeline.props.eventDidClick({
         component: this,
-        event: e
+        type: Timeline.EventTypes.Event
       });
     }
   }
@@ -159,9 +162,14 @@ class Event extends React.Component
     if(this.props.timeline.props.eventDidRightClick){
       this.props.timeline.props.eventDidRightClick({
         component: this,
-        event: e
+        type: Timeline.EventTypes.Event
       });
     }
+  }
+
+  componentDidMount(){
+    //connectDragSourceの直下のエレメントにrefを設定できないため
+    this.element = this.refs.innerElment.parentNode;
   }
 
   render(){
@@ -177,7 +185,7 @@ class Event extends React.Component
 
     return this.props.connectDragSource(
       <div onContextMenu={e => this.onContextMenu(e)} className={classNames('tlEventView', {tlDraggingEvent: this.state.draggable, tlResizableEvent: this.state.resizable})} style={style} onClick={e => this.onClick(e)}>
-        <div ref="event">
+        <div ref="innerElment">
           {(() => {
             if(this.state.resizable){
               return (

@@ -4,6 +4,7 @@ import Hour from './Hour';
 import Ruler from './Ruler';
 import LineLabel from './LineLabel';
 import classNames from 'classnames';
+import Timeline from './Timeline';
 
 export default class Line extends React.Component
 {
@@ -35,9 +36,9 @@ export default class Line extends React.Component
     if(this.props.timeline.props.lineDidClick){
       const time = this.props.timeline.topToTime(this.getRelativeTop(e));
       this.props.timeline.props.lineDidClick({
-        event: e,
         component: this,
-        time: time
+        time: time,
+        type: Timeline.EventTypes.Event
       });
     }
   }
@@ -46,7 +47,7 @@ export default class Line extends React.Component
     if(this.props.timeline.props.lineDidRightClick){
       this.props.timeline.props.lineDidRightClick({
         component: this,
-        event: e
+        type: Timeline.EventTypes.Line
       });
     }
   }
