@@ -212,8 +212,3 @@ Timeline.propTypes = {
 Timeline.defaultProps = {
   minInterval: 1
 }
-
-Timeline.EventTypes = {
-  Event: 'Event',
-  Line: 'Line'
-};

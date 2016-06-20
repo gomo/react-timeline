@@ -37,8 +37,7 @@ export default class Line extends React.Component
       const time = this.props.timeline.topToTime(this.getRelativeTop(e));
       this.props.timeline.props.lineDidClick({
         component: this,
-        time: time,
-        type: Timeline.EventTypes.Event
+        time: time
       });
     }
   }
@@ -46,8 +45,7 @@ export default class Line extends React.Component
   onContextMenu(e){
     if(this.props.timeline.props.lineDidRightClick){
       this.props.timeline.props.lineDidRightClick({
-        component: this,
-        type: Timeline.EventTypes.Line
+        component: this
       });
     }
   }

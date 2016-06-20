@@ -118,8 +118,7 @@ class Event extends React.Component
       }
 
       this.props.timeline.props.eventDidClick({
-        component: this,
-        type: Timeline.EventTypes.Event
+        component: this
       });
     }
   }
@@ -161,8 +160,7 @@ class Event extends React.Component
   onContextMenu(e){
     if(this.props.timeline.props.eventDidRightClick){
       this.props.timeline.props.eventDidRightClick({
-        component: this,
-        type: Timeline.EventTypes.Event
+        component: this
       });
     }
   }

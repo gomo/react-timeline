@@ -7,7 +7,7 @@ export default class TimelineActions
   }
 
   addEvents(events){
-    this.component.frameComponent.addEvents(events);
+    return this.component.frameComponent.addEvents(events);
   }
 
   setHeight(height){

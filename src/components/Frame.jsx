@@ -172,14 +172,24 @@ class Frame extends React.Component
   }
 
   addEvents(events){
-    var current = this.state.events;
-    events.forEach(event => {
-      if(!event.id){
-        event.id = this.props.timeline.createEventId();
-      }
-      current.push(event)
+    return new Promise(resolve => {
+      var current = this.state.events;
+      var eventIds = [];
+      events.forEach(event => {
+        if(!event.id){
+          event.id = this.props.timeline.createEventId();
+        }
+        eventIds.push(event.id);
+        current.push(event)
+      });
+      this.setState({events: current}, () => {
+        var results = this.props.timeline.eventComponents.filter(eventComponent => {
+          return eventIds.indexOf(eventComponent.props.id) !== -1;
+        });
+        resolve(results);
+      });
     });
-    this.setState({events: current});
+
   }
 
   setHeight(height){
