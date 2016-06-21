@@ -50,14 +50,6 @@ class Event extends React.Component
     this.element = null;
   }
 
-  setVar(key, value){
-    this.vars[key] = value;
-  }
-
-  getVar(key){
-    return this.vars[key];
-  }
-
   get currentTimeSpan(){
     return this.resizingTimeSpan || this.timeSpan;
   }

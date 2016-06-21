@@ -127,4 +127,12 @@ export default class EventActions
       })
     }
   }
+
+  setVar(key, value){
+    this.component.vars[key] = value;
+  }
+
+  getVar(key){
+    return this.component.vars[key];
+  }
 }
