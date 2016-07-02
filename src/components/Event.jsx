@@ -46,7 +46,7 @@ class Event extends React.Component
     this.resizingTimeSpan = null;
     this.resizing = false;
     this.props.timeline.addEventComponent(this);
-    this.vars = {};
+    this.vars = this.props.vars ? this.props.vars : {};
     this.element = null;
   }
 
