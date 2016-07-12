@@ -253,4 +253,8 @@ Frame.propTypes = {
   height: React.PropTypes.number.isRequired
 }
 
+Frame.defaultProps = {
+  events: []
+};
+
 export default DragDropContext(DndBackend({ enableMouseEvents: true }))(DropTarget("Event", target, collect)(Frame));
