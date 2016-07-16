@@ -199,13 +199,13 @@ class Event extends React.Component
   }
 }
 
-Event.propTypes = {
-  id: React.PropTypes.string.isRequired,
-  timeSpan: React.PropTypes.instanceOf(TimeSpan).isRequired,
-  color: React.PropTypes.string.isRequired,
-  //TODO 循環参照になるのでimportできず。とりあえずanyでごまかしてます。
-  timeline: React.PropTypes.any.isRequired,
-  lineId: React.PropTypes.string.isRequired
-}
+// Event.propTypes = {
+//   id: React.PropTypes.string.isRequired,
+//   timeSpan: React.PropTypes.instanceOf(TimeSpan).isRequired,
+//   color: React.PropTypes.string.isRequired,
+//   //TODO 循環参照になるのでimportできず。とりあえずanyでごまかしてます。
+//   timeline: React.PropTypes.any.isRequired,
+//   lineId: React.PropTypes.string.isRequired
+// }
 
 export default DragSource("Event", source, collect)(Event);

@@ -86,7 +86,7 @@ export default class Timeline extends React.Component
         left += Ruler.width;
       }
 
-      if(line.props.lineId == lineId){
+      if(line.props.id == lineId){
         break;
       }
 

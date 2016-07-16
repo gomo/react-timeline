@@ -115,7 +115,7 @@ window.onload = () => {
       lineDidClick={data => {
         timeline.actions.addEvents([
           {
-            lineId: data.component.props.lineId,
+            lineId: data.component.props.id,
             timeSpan: new TimeSpan(data.time, data.time.addMin(120)),
             color: '#FFB6B6',
             display: [

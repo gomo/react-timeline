@@ -28,7 +28,7 @@ const target = {
       const lineWrapperBounds = component.refs.linesWrapper.getBoundingClientRect();
       const lineComponent = props.timeline.draggingOver(clientOffset.x - lineWrapperBounds.left + (eventComponent.props.width / 2/*eventの真ん中を基準にする*/));
       const time = props.timeline.topToTime(clientOffset.y + component.refs.linesWrapper.scrollTop - lineWrapperBounds.top);
-      eventComponent.dragging(time, lineComponent.props.lineId);
+      eventComponent.dragging(time, lineComponent.props.id);
     }
   }
 };
@@ -150,7 +150,7 @@ class Frame extends React.Component
         hasRuler={hasRuler}
         label={data.l}
         key={data.id}
-        lineId={data.id}
+        id={data.id}
         width={this.props.lineWidth}
         minHeight={this.props.minHeight}
         timeSpan={this.props.timeSpan}
