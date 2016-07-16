@@ -84,14 +84,14 @@ export default class Line extends React.Component
 
 Line.sidePadding = 1;
 
-Line.propTypes = {
-  width: React.PropTypes.number.isRequired,
-  minHeight: React.PropTypes.number.isRequired,
-  timeSpan: React.PropTypes.instanceOf(TimeSpan).isRequired,
-  lineId: React.PropTypes.string.isRequired,
-  onClick: React.PropTypes.func,
-  even: React.PropTypes.bool.isRequired,
-  //TODO 循環参照になるのでimportできず。とりあえずanyでごまかしてます。
-  timeline: React.PropTypes.any.isRequired,
-  hasRuler: React.PropTypes.bool.isRequired
-}
+// Line.propTypes = {
+//   width: React.PropTypes.number.isRequired,
+//   minHeight: React.PropTypes.number.isRequired,
+//   timeSpan: React.PropTypes.instanceOf(TimeSpan).isRequired,
+//   lineId: React.PropTypes.string.isRequired,
+//   onClick: React.PropTypes.func,
+//   even: React.PropTypes.bool.isRequired,
+//   //TODO 循環参照になるのでimportできず。とりあえずanyでごまかしてます。
+//   timeline: React.PropTypes.any.isRequired,
+//   hasRuler: React.PropTypes.bool.isRequired
+// }

@@ -25,9 +25,9 @@ const target = {
     const clientOffset = monitor.getSourceClientOffset();
     if(clientOffset){
       const eventComponent = props.timeline.findEventById(monitor.getItem().id);
-      const lineWrapperBounds = props.timeline.frameComponent.refs.linesWrapper.getBoundingClientRect();
+      const lineWrapperBounds = component.refs.linesWrapper.getBoundingClientRect();
       const lineComponent = props.timeline.draggingOver(clientOffset.x - lineWrapperBounds.left + (eventComponent.props.width / 2/*eventの真ん中を基準にする*/));
-      const time = props.timeline.topToTime(clientOffset.y + props.timeline.frameComponent.refs.linesWrapper.scrollTop - lineWrapperBounds.top);
+      const time = props.timeline.topToTime(clientOffset.y + component.refs.linesWrapper.scrollTop - lineWrapperBounds.top);
       eventComponent.dragging(time, lineComponent.props.lineId);
     }
   }
@@ -160,11 +160,11 @@ class Frame extends React.Component
     );
   }
 
-  removeEvent(eventComponent){
+  removeEvent(eventId){
     var current = this.state.events;
     var events = [];
     current.forEach(ev => {
-      if(ev.id != eventComponent.props.id){
+      if(ev.id != eventId){
         events.push(ev);
       }
     });
@@ -189,7 +189,6 @@ class Frame extends React.Component
         resolve(results);
       });
     });
-
   }
 
   setHeight(height){
@@ -239,19 +238,19 @@ class Frame extends React.Component
   }
 }
 
-Frame.propTypes = {
-  timeSpan: React.PropTypes.instanceOf(TimeSpan).isRequired,
-  lineData: React.PropTypes.arrayOf(React.PropTypes.shape({
-    id: React.PropTypes.string.isRequired,
-    label: React.PropTypes.string.isRequired
-  })).isRequired,
-  lineWidth: React.PropTypes.number.isRequired,
-  minHeight: React.PropTypes.number.isRequired,
-  onClick: React.PropTypes.func,
-  timeline: React.PropTypes.any.isRequired,
-  rulerInterval: React.PropTypes.number.isRequired,
-  height: React.PropTypes.number.isRequired
-}
+// Frame.propTypes = {
+//   timeSpan: React.PropTypes.instanceOf(TimeSpan).isRequired,
+//   lineData: React.PropTypes.arrayOf(React.PropTypes.shape({
+//     id: React.PropTypes.string.isRequired,
+//     label: React.PropTypes.string.isRequired
+//   })).isRequired,
+//   lineWidth: React.PropTypes.number.isRequired,
+//   minHeight: React.PropTypes.number.isRequired,
+//   onClick: React.PropTypes.func,
+//   timeline: React.PropTypes.any.isRequired,
+//   rulerInterval: React.PropTypes.number.isRequired,
+//   height: React.PropTypes.number.isRequired
+// }
 
 Frame.defaultProps = {
   events: []

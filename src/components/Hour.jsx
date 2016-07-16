@@ -32,7 +32,7 @@ export default class Hour extends React.Component
   }
 }
 
-Hour.propTypes = {
-  minHeight: React.PropTypes.number.isRequired,
-  time: React.PropTypes.instanceOf(Time).isRequired
-}
+// Hour.propTypes = {
+//   minHeight: React.PropTypes.number.isRequired,
+//   time: React.PropTypes.instanceOf(Time).isRequired
+// }

@@ -195,19 +195,19 @@ export default class Timeline extends React.Component
   }
 }
 
-Timeline.propTypes = {
-  timeSpan: React.PropTypes.instanceOf(TimeSpan).isRequired,
-  lineData: React.PropTypes.arrayOf(React.PropTypes.shape({
-    id: React.PropTypes.string.isRequired,
-    label: React.PropTypes.string.isRequired
-  })).isRequired,
-  lineWidth: React.PropTypes.number.isRequired,
-  minHeight: React.PropTypes.number.isRequired,
-  onClick: React.PropTypes.func,
-  rulerInterval: React.PropTypes.number.isRequired,
-  minInterval: React.PropTypes.number,
-  height: React.PropTypes.number.isRequired
-}
+// Timeline.propTypes = {
+//   timeSpan: React.PropTypes.instanceOf(TimeSpan).isRequired,
+//   lineData: React.PropTypes.arrayOf(React.PropTypes.shape({
+//     id: React.PropTypes.string.isRequired,
+//     label: React.PropTypes.string.isRequired
+//   })).isRequired,
+//   lineWidth: React.PropTypes.number.isRequired,
+//   minHeight: React.PropTypes.number.isRequired,
+//   onClick: React.PropTypes.func,
+//   rulerInterval: React.PropTypes.number.isRequired,
+//   minInterval: React.PropTypes.number,
+//   height: React.PropTypes.number.isRequired
+// }
 
 Timeline.defaultProps = {
   minInterval: 1

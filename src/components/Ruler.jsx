@@ -26,9 +26,9 @@ export default class Ruler extends React.Component
   }
 }
 
-Ruler.propTypes = {
-  minHeight: React.PropTypes.number.isRequired,
-  timeSpan: React.PropTypes.instanceOf(TimeSpan).isRequired
-}
+// Ruler.propTypes = {
+//   minHeight: React.PropTypes.number.isRequired,
+//   timeSpan: React.PropTypes.instanceOf(TimeSpan).isRequired
+// }
 
 Ruler.width = 30;

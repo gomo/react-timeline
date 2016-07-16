@@ -13,4 +13,8 @@ export default class TimelineActions
   setHeight(height){
     this.component.frameComponent.setHeight(height);
   }
+
+  removeEvent(eventId){
+    this.component.frameComponent.removeEvent(eventId);
+  }
 }
