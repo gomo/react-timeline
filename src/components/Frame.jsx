@@ -14,21 +14,24 @@ import { DropTarget } from 'react-dnd';
 const target = {
   drop(props, monitor, component) {
     const item = monitor.getItem();
-    const eventComponent = item.timeline.findEventById(item.id);
     const delta = monitor.getDifferenceFromInitialOffset();
-    const top = Math.round(eventComponent.state.top + delta.y);
-    const left = Math.round(eventComponent.state.left + delta.x);
 
-    eventComponent.moveTo(top, left);
+    const initalOffset = item.draggingComponent.getOffset();
+    const top = Math.round(initalOffset.top + delta.y);
+    const left = Math.round(initalOffset.left + delta.x);
+
+    item.draggingComponent.moveTo(top, left);
   },
   hover(props, monitor, component){
-    const clientOffset = monitor.getSourceClientOffset();
-    if(clientOffset){
-      const eventComponent = props.timeline.findEventById(monitor.getItem().id);
-      const lineWrapperBounds = component.refs.linesWrapper.getBoundingClientRect();
-      const lineComponent = props.timeline.draggingOver(clientOffset.x - lineWrapperBounds.left + (eventComponent.props.width / 2/*eventの真ん中を基準にする*/));
-      const time = props.timeline.topToTime(clientOffset.y + component.refs.linesWrapper.scrollTop - lineWrapperBounds.top);
-      eventComponent.dragging(time, lineComponent.props.id);
+    if(monitor.getItemType() == "Event"){
+      const clientOffset = monitor.getSourceClientOffset();
+      if(clientOffset){
+        const item = monitor.getItem();
+        const lineWrapperBounds = component.refs.linesWrapper.getBoundingClientRect();
+        const lineComponent = props.timeline.draggingOver(clientOffset.x - lineWrapperBounds.left + (item.draggingComponent.props.width / 2/*eventの真ん中を基準にする*/));
+        const time = props.timeline.topToTime(clientOffset.y + component.refs.linesWrapper.scrollTop - lineWrapperBounds.top);
+        item.draggingComponent.dragging(time, lineComponent.props.id);
+      }
     }
   }
 };
@@ -256,4 +259,4 @@ Frame.defaultProps = {
   events: []
 };
 
-export default DragDropContext(DndBackend({ enableMouseEvents: true }))(DropTarget("Event", target, collect)(Frame));
+export default DragDropContext(DndBackend({ enableMouseEvents: true }))(DropTarget(["Event", "Free"], target, collect)(Frame));

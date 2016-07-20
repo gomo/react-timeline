@@ -1,14 +1,16 @@
 import React from 'react';
 import DragLayer from 'react-dnd/lib/DragLayer';
 import EventBase from './EventBase';
+import assign from 'object-assign';
 
 function collect (monitor){
   const props = {
     clientOffset: monitor.getSourceClientOffset()
   };
+
   const item = monitor.getItem();
-  if(item){
-    props['event'] = item.timeline.findEventById(item.id);
+  if(item && item['draggingComponent']){
+    props['draggingComponent'] = item['draggingComponent'];
   }
 
   return props;
@@ -25,24 +27,31 @@ class EventPreview extends React.Component {
     const x = this.props.clientOffset.x;
     const y = this.props.clientOffset.y;
     const transform = `translate(${x}px, ${y}px)`;
-    return {
-      position:'absolute',
+
+    return assign(this.props.draggingComponent.getDraggingStyle(), {
       top: 0,
       left: 0,
-      height: this.props.event.state.height,
-      width: this.props.event.props.width,
-      backgroundColor: this.props.event.state.color,
+      position:'absolute',
       transform: transform,
       WebkitTransform: transform
-    };
+    });
   }
 
   render () {
+    let draggingDisplay = '';
+    if(this.props.draggingComponent && this.props.draggingComponent.state.draggingDisplay){
+      draggingDisplay = this.props.draggingComponent.state.draggingDisplay;
+    }
+
+    let display = [];
+    if(this.props.draggingComponent && this.props.draggingComponent.state.display){
+      display = this.props.draggingComponent.state.display;
+    }
     return (
       <div ref="preview" className="tlEventView tlDraggingEvent" style={this.getItemStyles()}>
         <EventBase
-          draggingDisplay={this.props.event ? this.props.event.state.draggingDisplay : ''}
-          display={this.props.event ? this.props.event.state.display : []}
+          draggingDisplay={draggingDisplay}
+          display={display}
         />
       </div>
     );

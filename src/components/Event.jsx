@@ -5,12 +5,13 @@ import {DragSource} from 'react-dnd';
 import EventBase from './EventBase';
 import EventActions from '../classes/EventActions';
 import Timeline from './Timeline';
+import assign from 'object-assign'
 
 const source = {
-  beginDrag: function (props) {
-    return props;
+  beginDrag: function (props, monitor, component) {
+    return assign(props, {draggingComponent: component});
   },
-  canDrag: function(props, monitor){
+  canDrag: function(props, monitor, component){
     const draggable = props.timeline.findEventById(props.id).state.draggable;
     return !!draggable;
   }
@@ -155,6 +156,21 @@ class Event extends React.Component
         event: e,
         component: this
       });
+    }
+  }
+
+  getDraggingStyle(){
+    return {
+      height: this.state.height,
+      width: this.props.width,
+      backgroundColor: this.state.color,
+    }
+  }
+
+  getOffset(){
+    return {
+      top: this.state.top,
+      left: this.state.left
     }
   }
 
