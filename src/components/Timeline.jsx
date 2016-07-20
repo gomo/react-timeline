@@ -28,10 +28,6 @@ export default class Timeline extends React.Component
     this.lineComponents = [];
     this.eventComponents = [];
     this.lineLabelComponents = [];
-
-    if(this.props.refs){
-      this.props.refs.timeline = this;
-    }
   }
 
   createEventId(){
