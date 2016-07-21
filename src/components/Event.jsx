@@ -163,6 +163,8 @@ class Event extends React.Component
     return {
       height: this.state.height,
       width: this.props.width,
+      top: this.state.top,
+      left: this.state.left,
       backgroundColor: this.state.color,
     }
   }

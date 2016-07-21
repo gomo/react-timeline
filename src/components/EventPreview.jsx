@@ -5,7 +5,7 @@ import assign from 'object-assign';
 
 function collect (monitor){
   const props = {
-    clientOffset: monitor.getSourceClientOffset()
+    clientOffset: monitor.getDifferenceFromInitialOffset()
   };
 
   const item = monitor.getItem();
@@ -29,8 +29,6 @@ class EventPreview extends React.Component {
     const transform = `translate(${x}px, ${y}px)`;
 
     return assign(this.props.draggingComponent.getDraggingStyle(), {
-      top: 0,
-      left: 0,
       position:'absolute',
       transform: transform,
       WebkitTransform: transform

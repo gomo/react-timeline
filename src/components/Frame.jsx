@@ -217,25 +217,27 @@ class Frame extends React.Component
       <div className="tlFrameView" style={{minWidth: this.state.minWidth}}>
         <div className="tlLabelView" style={{height: LineLabel.height}}>{this.state.labels}</div>
         <div ref="linesWrapper" className="tlLinesWrapper" style={{height: this.props.height - LineLabel.height}}>
-          {this.state.lines}
-          {this.state.events.map(event => {
-            return (
-              <Event
-                key={event.id}
-                id={event.id}
-                color={event.color}
-                timeSpan={event.timeSpan}
-                display={event.display}
-                lineId={event.lineId}
-                timeline={this.props.timeline}
-                width={this.props.timeline.props.lineWidth - 2 - (Line.sidePadding * 2)}
-                vars={event.vars}
-              />
-            )
-          })}
-          {this.props.children}
+          <div style={{height: this.props.lineHeight, overflowY: "hidden", position:"relative"}}>
+            {this.state.lines}
+            {this.state.events.map(event => {
+              return (
+                <Event
+                  key={event.id}
+                  id={event.id}
+                  color={event.color}
+                  timeSpan={event.timeSpan}
+                  display={event.display}
+                  lineId={event.lineId}
+                  timeline={this.props.timeline}
+                  width={this.props.timeline.props.lineWidth - 2 - (Line.sidePadding * 2)}
+                  vars={event.vars}
+                />
+              )
+            })}
+            {this.props.children}
+            <EventPreview />
+          </div>
         </div>
-        <EventPreview />
       </div>
     );
   }
