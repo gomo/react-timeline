@@ -214,28 +214,30 @@ class Frame extends React.Component
   render(){
     const { connectDropTarget } = this.props;
     return connectDropTarget(
-      <div className="tlFrameView" style={{minWidth: this.state.minWidth}}>
-        <div className="tlLabelView" style={{height: LineLabel.height}}>{this.state.labels}</div>
-        <div ref="linesWrapper" className="tlLinesWrapper" style={{height: this.props.height - LineLabel.height}}>
-          <div style={{height: this.props.lineHeight, overflowY: "hidden", position:"relative"}}>
-            {this.state.lines}
-            {this.state.events.map(event => {
-              return (
-                <Event
-                  key={event.id}
-                  id={event.id}
-                  color={event.color}
-                  timeSpan={event.timeSpan}
-                  display={event.display}
-                  lineId={event.lineId}
-                  timeline={this.props.timeline}
-                  width={this.props.timeline.props.lineWidth - 2 - (Line.sidePadding * 2)}
-                  vars={event.vars}
-                />
-              )
-            })}
-            {this.props.children}
-            <EventPreview />
+      <div className="tlFrameView scrollWrapper" style={{width: this.props.width, overflowX: 'auto'}}>
+        <div style={{minWidth: this.state.minWidth}}>
+          <div className="tlLabelView" style={{height: LineLabel.height}}>{this.state.labels}</div>
+          <div ref="linesWrapper" className="tlLinesWrapper scrollWrapper" style={{height: this.props.height - LineLabel.height}}>
+            <div style={{height: this.props.lineHeight, overflowY: "hidden", position:"relative"}}>
+              {this.state.lines}
+              {this.state.events.map(event => {
+                return (
+                  <Event
+                    key={event.id}
+                    id={event.id}
+                    color={event.color}
+                    timeSpan={event.timeSpan}
+                    display={event.display}
+                    lineId={event.lineId}
+                    timeline={this.props.timeline}
+                    width={this.props.timeline.props.lineWidth - 2 - (Line.sidePadding * 2)}
+                    vars={event.vars}
+                  />
+                )
+              })}
+              {this.props.children}
+              <EventPreview />
+            </div>
           </div>
         </div>
       </div>
