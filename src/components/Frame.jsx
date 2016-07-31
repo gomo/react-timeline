@@ -147,11 +147,10 @@ class Frame extends React.Component
         timeline={this.props.timeline}
       />
     );
-
+    
     lines.push(
       <Line
         hasRuler={hasRuler}
-        label={data.l}
         key={data.id}
         id={data.id}
         width={this.props.lineWidth}
@@ -159,6 +158,7 @@ class Frame extends React.Component
         timeSpan={this.props.timeSpan}
         even={lines.length % 2 === 0}
         timeline={this.props.timeline}
+        vars={data.vars}
       />
     );
   }

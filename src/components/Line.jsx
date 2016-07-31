@@ -26,6 +26,8 @@ export default class Line extends React.Component
         />
       );
     });
+
+    this.vars = this.props.vars || {};
   }
 
   getRelativeTop(e){
