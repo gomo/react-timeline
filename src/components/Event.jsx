@@ -9,7 +9,7 @@ import assign from 'object-assign'
 
 const source = {
   beginDrag: function (props, monitor, component) {
-    return assign(props, {draggingComponent: component});
+    return assign({}, props, {draggingComponent: component});
   },
   canDrag: function(props, monitor, component){
     const draggable = props.timeline.findEventById(props.id).state.draggable;
