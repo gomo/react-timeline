@@ -111,7 +111,8 @@ class Event extends React.Component
 
       this.props.timeline.props.eventDidClick({
         event: e,
-        component: this
+        component: this,
+        lineComponent: this.props.timeline.lineComponents.find(lineComponent => lineComponent.props.id == this.lineId)
       });
     }
   }

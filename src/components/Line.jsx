@@ -31,7 +31,7 @@ export default class Line extends React.Component
   }
 
   getRelativeTop(e){
-    return e.clientY - e.currentTarget.parentNode.offsetTop + e.currentTarget.parentNode.scrollTop;
+    return e.clientY - e.currentTarget.parentNode.parentNode.offsetTop + e.currentTarget.parentNode.parentNode.scrollTop;
   }
 
   onClick(e){
