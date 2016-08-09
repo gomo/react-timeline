@@ -189,9 +189,7 @@ export default class Timeline extends React.Component
         timeline={this}
         rulerInterval={this.props.rulerInterval}
         events={this.props.events}
-      >
-        {this.props.children}
-      </Frame>
+      />
     );
   }
 }

@@ -23,15 +23,13 @@ const target = {
     item.draggingComponent.moveTo(top, left);
   },
   hover(props, monitor, component){
-    if(monitor.getItemType() == "Event"){
-      const clientOffset = monitor.getSourceClientOffset();
-      if(clientOffset){
-        const item = monitor.getItem();
-        const lineWrapperBounds = component.refs.linesWrapper.getBoundingClientRect();
-        const lineComponent = props.timeline.draggingOver(clientOffset.x - lineWrapperBounds.left + (item.draggingComponent.props.width / 2/*eventの真ん中を基準にする*/));
-        const time = props.timeline.topToTime(clientOffset.y + component.refs.linesWrapper.scrollTop - lineWrapperBounds.top);
-        item.draggingComponent.dragging(time, lineComponent.props.id);
-      }
+    const clientOffset = monitor.getSourceClientOffset();
+    if(clientOffset){
+      const item = monitor.getItem();
+      const lineWrapperBounds = component.refs.linesWrapper.getBoundingClientRect();
+      const lineComponent = props.timeline.draggingOver(clientOffset.x - lineWrapperBounds.left + (item.draggingComponent.props.width / 2/*eventの真ん中を基準にする*/));
+      const time = props.timeline.topToTime(clientOffset.y + component.refs.linesWrapper.scrollTop - lineWrapperBounds.top);
+      item.draggingComponent.dragging(time, lineComponent.props.id);
     }
   }
 };
@@ -147,7 +145,7 @@ class Frame extends React.Component
         timeline={this.props.timeline}
       />
     );
-    
+
     lines.push(
       <Line
         hasRuler={hasRuler}
@@ -235,7 +233,6 @@ class Frame extends React.Component
                   />
                 )
               })}
-              {this.props.children}
               <EventPreview />
             </div>
           </div>
@@ -263,4 +260,4 @@ Frame.defaultProps = {
   events: []
 };
 
-export default DragDropContext(DndBackend({ enableMouseEvents: true }))(DropTarget(["Event", "Free"], target, collect)(Frame));
+export default DragDropContext(DndBackend({ enableMouseEvents: true }))(DropTarget("Event", target, collect)(Frame));
