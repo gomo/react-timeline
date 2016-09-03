@@ -158,15 +158,24 @@ export default class Timeline extends React.Component
   }
 
   findNextEvent(eventComponent){
+    return this.findNextEventByTime(eventComponent.lineId, eventComponent.currentTimeSpan.getEndTime());
+    // return this.eventComponents
+    //   .filter(ev =>  !ev.state.draggable && ev.lineId == eventComponent.lineId)//同じ列のものだけに絞る
+    //   .sort((a, b) => a.currentTimeSpan.getStartTime().compare(b.currentTimeSpan.getStartTime()))//時間の昇順で並び替え
+    //   .find(ev => ev.currentTimeSpan.getStartTime().compare(eventComponent.currentTimeSpan.getEndTime()) >= 0)//昇順なので対象より最初に開始時間が遅いものがnext
+    //   ;
+  }
+
+  findNextEventByTime(lineId, time){
     return this.eventComponents
-      .filter(ev =>  !ev.state.draggable && ev.lineId == eventComponent.lineId)//同じ列のものだけに絞る
+      .filter(ev =>  !ev.state.draggable && ev.lineId == lineId)//同じ列のものだけに絞る
       .sort((a, b) => a.currentTimeSpan.getStartTime().compare(b.currentTimeSpan.getStartTime()))//時間の昇順で並び替え
-      .find(ev => ev.currentTimeSpan.getStartTime().compare(eventComponent.currentTimeSpan.getEndTime()) >= 0)//昇順なので対象より最初に開始時間が遅いものがnext
+      .find(ev => ev.currentTimeSpan.getStartTime().compare(time) >= 0)//昇順なので対象より最初に開始時間が遅いものがnext
       ;
   }
 
-  getNextTop(eventComponent){
-    const nextEvent = this.findNextEvent(eventComponent);
+  getNextTime(lineId, time){
+    const nextEvent = this.findNextEventByTime(lineId, time);
     let nextTime;
     if(nextEvent){
       nextTime = nextEvent.currentTimeSpan.getStartTime();
@@ -174,7 +183,24 @@ export default class Timeline extends React.Component
       nextTime = this.timeSpan.getEndTime();
     }
 
-    return this.timeToTop(nextTime);
+    return nextTime;
+  }
+
+  getFreeMinute(lineId, time){
+    const nextTime = this.getNextTime(lineId, time);
+    return time.getDistance(nextTime);
+  }
+
+  getNextTop(eventComponent){
+    // const nextEvent = this.findNextEvent(eventComponent);
+    // let nextTime;
+    // if(nextEvent){
+    //   nextTime = nextEvent.currentTimeSpan.getStartTime();
+    // } else {
+    //   nextTime = this.timeSpan.getEndTime();
+    // }
+
+    return this.timeToTop(this.getNextTime(eventComponent.lineId, eventComponent.currentTimeSpan.getEndTime()));
   }
 
   render(){

@@ -40,6 +40,7 @@ export default class Line extends React.Component
       this.props.timeline.props.lineDidClick({
         component: this,
         time: time,
+        freeMinute: this.props.timeline.getFreeMinute(this.props.id, time),
         event: e
       });
     }
