@@ -135,4 +135,18 @@ export default class EventActions
   getVar(key){
     return this.component.vars[key];
   }
+
+  setColor(color){
+    this.component.setColor(color);
+  }
+
+  //[{key: ***, value: ***}]
+  setDisplay(display){
+    this.component.setDisplay(display);
+  }
+
+  //{key: value}
+  updateDisplay(display){
+    this.component.updateDisplay(display);
+  }
 }
