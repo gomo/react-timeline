@@ -31,7 +31,9 @@ export default class Line extends React.Component
   }
 
   getRelativeTop(e){
-    return e.clientY - e.currentTarget.parentNode.parentNode.offsetTop + e.currentTarget.parentNode.parentNode.scrollTop;
+    const parentElement = this.props.frame.refs.linesWrapper;
+    const parentRect = parentElement.getBoundingClientRect();
+    return e.clientY - parentRect.top + parentElement.scrollTop;
   }
 
   onClick(e){
@@ -40,6 +42,7 @@ export default class Line extends React.Component
       this.props.timeline.props.lineDidClick({
         component: this,
         time: time,
+        freeMinute: this.props.timeline.getFreeMinute(this.props.id, time),
         event: e
       });
     }

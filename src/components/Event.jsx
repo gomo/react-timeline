@@ -185,18 +185,9 @@ class Event extends React.Component
     this.setState({display: display});
   }
 
-  updateDisplay(display){
-    const newDisplay = this.state.display.map(item => {
-      if(item.key in display){
-        return {key: item.key, value: display[item.key]}
-      }
-
-      return item;
-    });
-
-    this.setState({display: newDisplay});
+  componentWillUnmount(){
+    this.props.timeline.eventComponents = this.props.timeline.eventComponents.filter(ev => ev !== this);
   }
-
 
   render(){
     const style = {

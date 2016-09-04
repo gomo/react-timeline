@@ -157,6 +157,7 @@ class Frame extends React.Component
         even={lines.length % 2 === 0}
         timeline={this.props.timeline}
         vars={data.vars}
+        frame={this}
       />
     );
   }
