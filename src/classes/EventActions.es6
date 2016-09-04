@@ -144,9 +144,4 @@ export default class EventActions
   setDisplay(display){
     this.component.setDisplay(display);
   }
-
-  //{key: value}
-  updateDisplay(display){
-    this.component.updateDisplay(display);
-  }
 }
