@@ -136,12 +136,10 @@ export default class EventActions
     return this.component.vars[key];
   }
 
-  setColor(color){
-    this.component.setColor(color);
-  }
-
-  //[{key: ***, value: ***}]
-  setDisplay(display){
-    this.component.setDisplay(display);
+  /**
+   * timeSpan,display,color,vars
+   */
+  update(values){
+    return this.component.update(values)
   }
 }

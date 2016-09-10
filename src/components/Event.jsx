@@ -50,6 +50,28 @@ class Event extends React.Component
     this.vars = this.props.vars ? this.props.vars : {};
   }
 
+  update(values){
+    const newState = {};
+    if(values.timeSpan){
+      newState.height = this.props.timeline.timeSpanToHeight(values.timeSpan);
+      newState.top = this.props.timeline.timeToTop(values.timeSpan.getStartTime());
+    }
+
+    if(values.color){
+      newState.color = values.color;
+    }
+
+    if(values.display){
+      newState.display = values.display;
+    }
+
+    if(values.vars){
+      this.vars = values.vars;
+    }
+
+    this.setState(newState);
+  }
+
   get currentTimeSpan(){
     return this.resizingTimeSpan || this.timeSpan;
   }
