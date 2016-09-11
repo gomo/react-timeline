@@ -113,6 +113,7 @@
   height: 18px;
   line-height: 18px;
   text-align: center;
+  overflow: hidden;
   @include box-shadow(2px 2px 7px rgba(black, 0.4));
   &:after{
     content: ' ';
