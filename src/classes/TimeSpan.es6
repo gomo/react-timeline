@@ -10,6 +10,12 @@ export default class TimeSpan
   }
 
   constructor(startTime, endTime){
+    if(startTime === undefined){
+      startTime = new Time();
+    }
+    if(endTime === undefined){
+      endTime = new Time();
+    }
     while(startTime.compare(endTime) >= 0){
         endTime = endTime.addMin(24 * 60);
     }
