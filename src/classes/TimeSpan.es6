@@ -39,6 +39,14 @@ export default class TimeSpan
       return new TimeSpan(time.addMin(-this.getDistance()), time);
   }
 
+  shiftStartHour(hour){
+    return this.shiftStartTime(new Time(hour, this._startTime.getMin()));
+  }
+
+  shiftStartMin(min){
+    return this.shiftStartTime(new Time(this._startTime.getHour(), min));
+  }
+
   shiftStartTime(time){
       return new TimeSpan(time, time.addMin(this.getDistance()));
   }
