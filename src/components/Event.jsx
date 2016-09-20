@@ -55,6 +55,7 @@ class Event extends React.Component
     if(values.timeSpan){
       newState.height = this.props.timeline.timeSpanToHeight(values.timeSpan);
       newState.top = this.props.timeline.timeToTop(values.timeSpan.getStartTime());
+      this.timeSpan = values.timeSpan;
     }
 
     if(values.color){
