@@ -48,6 +48,7 @@ class Event extends React.Component
     this.resizing = false;
     this.props.timeline.addEventComponent(this);
     this.vars = this.props.vars ? this.props.vars : {};
+    this.element = null;
   }
 
   update(values){
@@ -133,7 +134,12 @@ class Event extends React.Component
       }
 
       this.props.timeline.props.eventDidClick({
-        event: e,
+        position: {
+          scrollTop: this.props.timeline.frameComponent.refs.linesWrapper.scrollTop,
+          scrollLeft: this.props.timeline.frameComponent.element.scrollLeft,
+          top: e.clientY,
+          left: e.clientX,
+        },
         component: this,
         lineComponent: this.props.timeline.lineComponents.find(lineComponent => lineComponent.props.id == this.lineId)
       });
@@ -224,7 +230,7 @@ class Event extends React.Component
     };
 
     return this.props.connectDragSource(
-      <div onContextMenu={e => this.onContextMenu(e)} className={classNames('tlEventView', {tlDraggingEvent: this.state.draggable, tlResizableEvent: this.state.resizable})} style={style} onClick={e => this.onClick(e)}>
+      <div ref={elem => this.element = elem} onContextMenu={e => this.onContextMenu(e)} className={classNames('tlEventView', {tlDraggingEvent: this.state.draggable, tlResizableEvent: this.state.resizable})} style={style} onClick={e => this.onClick(e)}>
         {(() => {
           if(this.state.resizable){
             return (

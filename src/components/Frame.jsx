@@ -63,6 +63,7 @@ class Frame extends React.Component
     }
 
     this.resizingEvent = null;
+    this.element = null;
   }
 
   resizeUp(eventComponent, clickedTop){
@@ -213,7 +214,7 @@ class Frame extends React.Component
   render(){
     const { connectDropTarget } = this.props;
     return connectDropTarget(
-      <div className="tlFrameView scrollWrapper" style={{width: this.props.width, overflowX: 'auto'}}>
+      <div ref={elem => this.element = elem} className="tlFrameView scrollWrapper" style={{width: this.props.width, overflowX: 'auto'}}>
         <div style={{minWidth: this.state.minWidth}}>
           <div className="tlLabelView" style={{height: LineLabel.height}}>{this.state.labels}</div>
           <div ref="linesWrapper" className="tlLinesWrapper scrollWrapper" style={{height: this.props.height - LineLabel.height}}>

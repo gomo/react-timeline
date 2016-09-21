@@ -43,7 +43,12 @@ export default class Line extends React.Component
         component: this,
         time: time,
         freeMinute: this.props.timeline.getFreeMinute(this.props.id, time),
-        event: e
+        position: {
+          scrollTop: this.props.timeline.frameComponent.refs.linesWrapper.scrollTop,
+          scrollLeft: this.props.timeline.frameComponent.element.scrollLeft,
+          top: e.clientY,
+          left: e.clientX,
+        },
       });
     }
   }
