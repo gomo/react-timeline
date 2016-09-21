@@ -72,7 +72,7 @@ export default class Line extends React.Component
 
   render(){
     return (
-      <div onClick={e => this.onClick(e)} onContextMenu={e => this.onContextMenu(e)}>
+      <div onContextMenu={e => this.onContextMenu(e)}>
         {(() => {
           if(this.props.hasRuler){
             return (
@@ -84,7 +84,7 @@ export default class Line extends React.Component
             )
           }
         })()}
-        <div className={classNames('tlLineView', {tlEven: this.props.even, tlOdd: !this.props.even}, {tlOver: this.state.draggingOver})} style={{width: this.props.width + 'px'}}>
+        <div onClick={e => this.onClick(e)} className={classNames('tlLineView', {tlEven: this.props.even, tlOdd: !this.props.even}, {tlOver: this.state.draggingOver})} style={{width: this.props.width + 'px'}}>
           {this.state.hours}
         </div>
       </div>
