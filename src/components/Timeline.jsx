@@ -36,12 +36,19 @@ export default class Timeline extends React.Component
 
   draggingOver(left){
     const lineComponent = this.findLineByLeft(left);
-    if(lineComponent && this.draggingOverLineConponent !== lineComponent){
+    if(lineComponent){
+      if(this.draggingOverLineConponent !== lineComponent){
+        if(this.draggingOverLineConponent){
+          this.draggingOverLineConponent.clearDraggingOver();
+        }
+        this.draggingOverLineConponent = lineComponent;
+        this.draggingOverLineConponent.draggingOver();
+      }
+    } else {
       if(this.draggingOverLineConponent){
         this.draggingOverLineConponent.clearDraggingOver();
+        this.draggingOverLineConponent = null;
       }
-      this.draggingOverLineConponent = lineComponent;
-      this.draggingOverLineConponent.draggingOver();
     }
 
     return lineComponent;

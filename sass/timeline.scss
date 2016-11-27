@@ -95,7 +95,6 @@
   text-align: center;
   line-height: 17px;
   box-sizing: content-box;
-  overflow: hidden;
 }
 
 .tlDraggingDisplay{
@@ -112,18 +111,17 @@
   font-size: 11px;
   font-weight: bold;
   height: 18px;
-  line-height: 18px;
+  line-height: 15px;
   text-align: center;
-  overflow: hidden;
   @include box-shadow(2px 2px 7px rgba(black, 0.4));
   &:after{
     content: ' ';
     height: 0;
     position: absolute;
     width: 0;
-    border: 9px solid transparent;
+    border: 8px solid transparent;
     border-right-color: #000;
-    left: -32%;
+    left: -29%;
     top: 0;
   }
 }

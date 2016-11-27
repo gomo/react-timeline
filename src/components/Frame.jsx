@@ -29,7 +29,7 @@ const target = {
       const lineWrapperBounds = component.refs.linesWrapper.getBoundingClientRect();
       const lineComponent = props.timeline.draggingOver(clientOffset.x - lineWrapperBounds.left + (item.draggingComponent.props.width / 2/*eventの真ん中を基準にする*/));
       const time = props.timeline.topToTime(clientOffset.y + component.refs.linesWrapper.scrollTop - lineWrapperBounds.top);
-      item.draggingComponent.dragging(time, lineComponent.props.id);
+      item.draggingComponent.dragging(time, lineComponent ? lineComponent.props.id : null);
     }
   }
 };
