@@ -30,11 +30,11 @@ class Event extends React.Component
     super(props);
     this.state = {
       height: this.props.timeline.timeSpanToHeight(this.props.timeSpan),
-      top: this.props.timeline.timeToTop(this.props.timeSpan.getStartTime()),
-      left: this.props.timeline.getLineLeft(this.props.lineId),
+      top: props.float === undefined ? this.props.timeline.timeToTop(this.props.timeSpan.getStartTime()) : props.float.top,
+      left: props.float === undefined ? this.props.timeline.getLineLeft(this.props.lineId) : props.float.left,
       color: this.props.color,
       display: this.props.display || [],
-      draggable: false,
+      draggable: props.float === undefined ? false : true,
       resizable: false,
       draggingDisplay: ''
     }

@@ -232,6 +232,7 @@ class Frame extends React.Component
                     timeline={this.props.timeline}
                     width={this.props.timeline.props.lineWidth - 2 - (Line.sidePadding * 2)}
                     vars={event.vars}
+                    float={event.float}
                   />
                 )
               })}

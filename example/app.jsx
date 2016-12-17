@@ -276,4 +276,12 @@ window.onload = () => {
     {id: '12818', lineId: '__18', timeSpan: TimeSpan.create([20, 30], [21, 30]), color: '#FFDCB6'},
     {id: '12918', lineId: '__18', timeSpan: TimeSpan.create([22, 30], [23, 30]), color: '#FFDCB6'},
   ]);
+
+  timeline.actions.addEvents([
+    {
+      timeSpan: TimeSpan.create([11, 0], [12, 0]),
+      color: '#FFB6B6',
+      float: {top: 10, left: 10}
+    }
+  ]);
 }
