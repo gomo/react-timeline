@@ -25,9 +25,7 @@ export default class Timeline extends React.Component
     this.frameComponent = null;
     this.createdEventId = 0;
     this.draggingOverLineConponent = null;
-    this.lineComponents = [];
     this.eventComponents = [];
-    this.lineLabelComponents = [];
   }
 
   createEventId(){
@@ -60,6 +58,17 @@ export default class Timeline extends React.Component
     }
   }
 
+  get lineComponents(){
+    var values = [];
+    for(var key in this.frameComponent.refs){
+      if(key.indexOf("line_") === 0){
+        values.push(this.frameComponent.refs[key]);
+      }
+    }
+
+    return values;
+  }
+
   getTotalWidth(){
     return this.lineComponents.reduce((val, line) => {
       return val + (line.props.hasRuler ? this.lineWidth + Ruler.width : this.lineWidth);
@@ -86,14 +95,14 @@ export default class Timeline extends React.Component
 
   getLineLeft(lineId){
     let left = 0;
-
-    for (var i = 0; i < this.lineComponents.length; i++) {
-      var line = this.lineComponents[i];
-      if(line.props.hasRuler){
+    for (var i = 0; i < this.frameComponent.props.lineData.length; i++) {
+      const lineData = this.frameComponent.props.lineData[i];
+      const hasRuler = i % this.props.rulerInterval === 0;
+      if(hasRuler){
         left += Ruler.width;
       }
 
-      if(line.props.id == lineId){
+      if(lineData.id == lineId){
         break;
       }
 
@@ -103,14 +112,6 @@ export default class Timeline extends React.Component
     left += Line.sidePadding;
 
     return left;
-  }
-
-  addLineComponent(line){
-    this.lineComponents.push(line);
-  }
-
-  addLineLabelComponent(line){
-    this.lineLabelComponents.push(line);
   }
 
   getTimeSpan(top, height){
@@ -166,11 +167,6 @@ export default class Timeline extends React.Component
 
   findNextEvent(eventComponent){
     return this.findNextEventByTime(eventComponent.lineId, eventComponent.currentTimeSpan.getEndTime());
-    // return this.eventComponents
-    //   .filter(ev =>  !ev.state.draggable && ev.lineId == eventComponent.lineId)//同じ列のものだけに絞る
-    //   .sort((a, b) => a.currentTimeSpan.getStartTime().compare(b.currentTimeSpan.getStartTime()))//時間の昇順で並び替え
-    //   .find(ev => ev.currentTimeSpan.getStartTime().compare(eventComponent.currentTimeSpan.getEndTime()) >= 0)//昇順なので対象より最初に開始時間が遅いものがnext
-    //   ;
   }
 
   findNextEventByTime(lineId, time){
@@ -199,14 +195,6 @@ export default class Timeline extends React.Component
   }
 
   getNextTop(eventComponent){
-    // const nextEvent = this.findNextEvent(eventComponent);
-    // let nextTime;
-    // if(nextEvent){
-    //   nextTime = nextEvent.currentTimeSpan.getStartTime();
-    // } else {
-    //   nextTime = this.timeSpan.getEndTime();
-    // }
-
     return this.timeToTop(this.getNextTime(eventComponent.lineId, eventComponent.currentTimeSpan.getEndTime()));
   }
 

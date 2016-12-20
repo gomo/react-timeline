@@ -50,7 +50,8 @@ class Frame extends React.Component
     const rulerInterval = 4;
 
     this.state = {
-      minWidth: 0
+      minWidth: 0,
+      events: this.props.events,
     }
 
     this.resizingEvent = null;
@@ -171,21 +172,15 @@ class Frame extends React.Component
     this.setState({
       minWidth: this.props.timeline.getTotalWidth() + 'px'
     });
-
-    console.log('frame did mount');
   }
 
-  componentWillUpdate(){
-    console.log('frame will update');
-  }
-
-  componentDidUpdate(){
-    // super.componentDidUpdate();
-    console.log('frame did update');
+  componentWillReceiveProps(nextProps){
+    if(nextProps.events !== this.state.events){
+      this.setState({events: nextProps.events});
+    }
   }
 
   render(){
-    console.log('frame render');
     const { connectDropTarget } = this.props;
     return connectDropTarget(
       <div ref={elem => this.element = elem} className="tlFrameView scrollWrapper" style={{width: this.props.width, overflowX: 'auto'}}>
@@ -213,6 +208,7 @@ class Frame extends React.Component
                 const prevRuler = (key + 1) % this.props.rulerInterval === 0;
                 return(
                   <Line
+                    ref={"line_" + key}
                     hasRuler={hasRuler}
                     key={data.id}
                     id={data.id}
@@ -226,7 +222,7 @@ class Frame extends React.Component
                   />
                 )
               })}
-              {this.props.events.map(event => {
+              {this.state.events.map(event => {
                 return (
                   <Event
                     key={event.id}
