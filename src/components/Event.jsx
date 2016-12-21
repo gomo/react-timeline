@@ -46,7 +46,6 @@ class Event extends React.Component
     this.draggingPosition = null;
     this.resizingTimeSpan = null;
     this.resizing = false;
-    this.props.timeline.addEventComponent(this);
     this.vars = this.props.vars ? this.props.vars : {};
     this.element = null;
   }
@@ -214,10 +213,6 @@ class Event extends React.Component
     this.setState({display: display});
   }
 
-  componentWillUnmount(){
-    this.props.timeline.eventComponents = this.props.timeline.eventComponents.filter(ev => ev !== this);
-  }
-
   render(){
     const style = {
       height: this.state.height,
@@ -234,7 +229,7 @@ class Event extends React.Component
         {(() => {
           if(this.state.resizable){
             return (
-              <div className="tlResizeHandle" onTouchstart={e => this.resizeUp(e)} onMouseDown={e => this.resizeUp(e)}>
+              <div className="tlResizeHandle" onTouchStart={e => this.resizeUp(e)} onMouseDown={e => this.resizeUp(e)}>
                 <i className="fa fa-bars" aria-hidden="true"></i>
               </div>
             )
@@ -248,7 +243,7 @@ class Event extends React.Component
         {(() => {
           if(this.state.resizable){
             return (
-              <div className="tlResizeHandle tlBottom" onTouchstart={e => this.resizeDown(e)} onMouseDown={e => this.resizeDown(e)}>
+              <div className="tlResizeHandle tlBottom" onTouchStart={e => this.resizeDown(e)} onMouseDown={e => this.resizeDown(e)}>
                 <i className="fa fa-bars" aria-hidden="true"></i>
               </div>
             )

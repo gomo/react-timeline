@@ -206,7 +206,7 @@ class Frame extends React.Component
                 const prevRuler = (key + 1) % this.props.rulerInterval === 0;
                 return(
                   <Line
-                    ref={"line_" + key}
+                    ref={"line@" + data.id}
                     hasRuler={hasRuler}
                     key={data.id}
                     id={data.id}
@@ -223,6 +223,7 @@ class Frame extends React.Component
               {this.state.events.map(event => {
                 return (
                   <Event
+                    ref={"event@" + event.id}
                     key={event.id}
                     id={event.id}
                     color={event.color}

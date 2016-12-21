@@ -24,7 +24,18 @@ export default class Timeline extends React.Component
 
     this.createdEventId = 0;
     this.draggingOverLineComponent = null;
-    this.eventComponents = [];
+  }
+
+  get eventComponents(){
+    const events = [];
+
+    for(var key in this.frameComponent.refs){
+      if(key.indexOf("event@") === 0){
+        events.push(this.frameComponent.refs[key].getDecoratedComponentInstance());
+      }
+    }
+
+    return events;
   }
 
   get frameComponent(){
@@ -34,7 +45,7 @@ export default class Timeline extends React.Component
   get lineComponents(){
     const lines = [];
     for(var key in this.frameComponent.refs){
-      if(key.indexOf("line_") === 0){
+      if(key.indexOf("line@") === 0){
         lines.push(this.frameComponent.refs[key]);
       }
     }
@@ -77,10 +88,6 @@ export default class Timeline extends React.Component
       const hasRuler = index % this.props.rulerInterval === 0;
       return val + (hasRuler ? this.lineWidth + Ruler.width : this.lineWidth);
     }, 0);
-  }
-
-  addEventComponent(event){
-    this.eventComponents.push(event);
   }
 
   findEventById(eventId){
