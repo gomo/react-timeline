@@ -72,7 +72,7 @@ export default class EventActions
   }
 
   remove(){
-    this.component.props.timeline.actions.removeEvent(this.component.props.id);
+    this.component.props.timeline.removeEvent(this.component.props.id);
   }
 
   fix(){

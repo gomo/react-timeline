@@ -1,6 +1,5 @@
 import React from 'react';
 import TimeSpan from '../classes/TimeSpan';
-import TimelineActions from '../classes/TimelineActions';
 import Frame from './Frame';
 import Ruler from './Ruler';
 import Line from './Line';
@@ -9,7 +8,6 @@ export default class Timeline extends React.Component
 {
   constructor(props) {
     super(props);
-    this.actions = new TimelineActions(this);
 
     //MinViewは一時間下に余分が生成されるので60分プラス
     this.timeSpan = this.props.timeSpan.addMin(60);
@@ -207,6 +205,17 @@ export default class Timeline extends React.Component
 
   getNextTop(eventComponent){
     return this.timeToTop(this.getNextTime(eventComponent.lineId, eventComponent.currentTimeSpan.getEndTime()));
+  }
+  addEvents(events){
+    return this.frameComponent.addEvents(events);
+  }
+
+  setHeight(height){
+    this.frameComponent.setHeight(height);
+  }
+
+  removeEvent(eventId){
+    this.frameComponent.removeEvent(eventId);
   }
 
   render(){
