@@ -39,7 +39,7 @@ export default class Timeline extends React.Component
   }
 
   get frameComponent(){
-    return this.refs.frame.getDecoratedComponentInstance().decoratedComponentInstance;
+    return this.refs.frame.getDecoratedComponentInstance().getDecoratedComponentInstance();
   }
 
   get lineComponents(){
