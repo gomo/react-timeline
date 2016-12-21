@@ -22,10 +22,24 @@ export default class Timeline extends React.Component
 
     this.lineWidth = props.lineWidth;
 
-    this.frameComponent = null;
     this.createdEventId = 0;
-    this.draggingOverLineConponent = null;
+    this.draggingOverLineComponent = null;
     this.eventComponents = [];
+  }
+
+  get frameComponent(){
+    return this.refs.frame.getDecoratedComponentInstance().decoratedComponentInstance;
+  }
+
+  get lineComponents(){
+    const lines = [];
+    for(var key in this.frameComponent.refs){
+      if(key.indexOf("line_") === 0){
+        lines.push(this.frameComponent.refs[key]);
+      }
+    }
+
+    return lines;
   }
 
   createEventId(){
@@ -35,17 +49,17 @@ export default class Timeline extends React.Component
   draggingOver(left){
     const lineComponent = this.findLineByLeft(left);
     if(lineComponent){
-      if(this.draggingOverLineConponent !== lineComponent){
-        if(this.draggingOverLineConponent){
-          this.draggingOverLineConponent.clearDraggingOver();
+      if(this.draggingOverLineComponent !== lineComponent){
+        if(this.draggingOverLineComponent){
+          this.draggingOverLineComponent.clearDraggingOver();
         }
-        this.draggingOverLineConponent = lineComponent;
-        this.draggingOverLineConponent.draggingOver();
+        this.draggingOverLineComponent = lineComponent;
+        this.draggingOverLineComponent.draggingOver();
       }
     } else {
-      if(this.draggingOverLineConponent){
-        this.draggingOverLineConponent.clearDraggingOver();
-        this.draggingOverLineConponent = null;
+      if(this.draggingOverLineComponent){
+        this.draggingOverLineComponent.clearDraggingOver();
+        this.draggingOverLineComponent = null;
       }
     }
 
@@ -53,25 +67,15 @@ export default class Timeline extends React.Component
   }
 
   clearDraggingOver(){
-    if(this.draggingOverLineConponent){
-      this.draggingOverLineConponent.clearDraggingOver();
+    if(this.draggingOverLineComponent){
+      this.draggingOverLineComponent.clearDraggingOver();
     }
-  }
-
-  get lineComponents(){
-    var values = [];
-    for(var key in this.frameComponent.refs){
-      if(key.indexOf("line_") === 0){
-        values.push(this.frameComponent.refs[key]);
-      }
-    }
-
-    return values;
   }
 
   getTotalWidth(){
-    return this.lineComponents.reduce((val, line) => {
-      return val + (line.props.hasRuler ? this.lineWidth + Ruler.width : this.lineWidth);
+    return this.props.lineData.reduce((val, data, index) => {
+      const hasRuler = index % this.props.rulerInterval === 0;
+      return val + (hasRuler ? this.lineWidth + Ruler.width : this.lineWidth);
     }, 0);
   }
 
@@ -95,8 +99,8 @@ export default class Timeline extends React.Component
 
   getLineLeft(lineId){
     let left = 0;
-    for (var i = 0; i < this.frameComponent.props.lineData.length; i++) {
-      const lineData = this.frameComponent.props.lineData[i];
+    for (var i = 0; i < this.props.lineData.length; i++) {
+      const lineData = this.props.lineData[i];
       const hasRuler = i % this.props.rulerInterval === 0;
       if(hasRuler){
         left += Ruler.width;
@@ -201,6 +205,7 @@ export default class Timeline extends React.Component
   render(){
     return (
       <Frame
+        ref="frame"
         lineData={this.props.lineData}
         timeSpan={this.props.timeSpan}
         lineWidth={this.props.lineWidth}

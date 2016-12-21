@@ -45,8 +45,6 @@ class Frame extends React.Component
   constructor(props) {
     super(props);
 
-    this.props.timeline.frameComponent = this;
-
     const rulerInterval = 4;
 
     this.state = {
