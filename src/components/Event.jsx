@@ -3,7 +3,6 @@ import classNames from 'classnames';
 import TimeSpan from '../classes/TimeSpan';
 import {DragSource} from 'react-dnd';
 import EventBase from './EventBase';
-import EventActions from '../classes/EventActions';
 import Timeline from './Timeline';
 import assign from 'object-assign'
 
@@ -38,8 +37,6 @@ class Event extends React.Component
       resizable: false,
       draggingDisplay: ''
     }
-
-    this.actions = new EventActions(this);
 
     this.lineId = this.props.lineId;
     this.timeSpan = this.props.timeSpan;
@@ -211,6 +208,138 @@ class Event extends React.Component
 
   setDisplay(display){
     this.setState({display: display});
+  }
+
+  resize(){
+    this.setState({
+      resizable: true
+    });
+  }
+
+  float(){
+    this.setState({
+      draggable: true,
+      draggingDisplay: this.timeSpan.getStartTime().getDisplayTime()
+    });
+  }
+
+  isFixed(){
+    return !this.state.draggable && !this.state.resizable;
+  }
+
+  isFixable(){
+    var newPosition = this.nextPosition;
+    if(!newPosition){
+      return true;
+    }
+
+    return this.isFreePosition(newPosition);
+  }
+
+  isCancelable(){
+    var newPosition = this.prevPosition;
+    if(!newPosition){
+      return true;
+    }
+
+    return this.isFreePosition(newPosition);
+  }
+
+  cancel(){
+    if(this.draggingPosition){
+      const left = this.props.timeline.getLineLeft(this.lineId);
+      const top = this.props.timeline.timeToTop(this.timeSpan.getStartTime());
+      this.draggingPosition = null;
+      this.setState({
+        draggable: false,
+        draggingDisplay: '',
+        top: top,
+        left: left
+      });
+    } else if(this.resizingTimeSpan){
+      const top = this.props.timeline.timeToTop(this.timeSpan.getStartTime());
+      const height = this.props.timeline.timeSpanToHeight(this.timeSpan);
+      this.resizingTimeSpan = null;
+      this.setState({
+        resizable: false,
+        draggingDisplay: '',
+        top: top,
+        height: height
+      });
+    } else {
+      this.setState({
+        draggable: false,
+        resizable: false,
+        draggingDisplay: ''
+      });
+    }
+
+    this.props.timeline.clearDraggingOver();
+  }
+
+  remove(){
+    this.props.timeline.removeEvent(this.props.id);
+  }
+
+  fix(){
+    if(this.draggingPosition){
+      const state = {
+        top: this.props.timeline.timeToTop(this.draggingPosition.time),
+        left: this.props.timeline.getLineLeft(this.draggingPosition.lineId),
+        draggable: false,
+        draggingDisplay: ''
+      };
+      const newTimeSpan = this.timeSpan.shiftStartTime(this.draggingPosition.time);
+      if(this.props.timeline.props.eventWillFix){
+        this.props.timeline.props.eventWillFix({
+          component: this,
+          state: state,
+          lineId: this.draggingPosition.lineId,
+          timeSpan: newTimeSpan
+        })
+      }
+      this.setState(state);
+      this.lineId = this.draggingPosition.lineId;
+      this.timeSpan = newTimeSpan;
+      this.draggingPosition = null;
+    } else if(this.resizingTimeSpan){
+      const state = {
+        resizable: false,
+        draggingDisplay: ''
+      }
+      if(this.props.timeline.props.eventWillFix){
+        this.props.timeline.props.eventWillFix({
+          component: this,
+          state: state,
+          lineId: this.lineId,
+          timeSpan: this.resizingTimeSpan
+        })
+      }
+      this.setState(state);
+      this.timeSpan = this.resizingTimeSpan;
+      this.resizingTimeSpan = null;
+    } else {
+      this.setState({
+        draggable: false,
+        resizable: false,
+        draggingDisplay: ''
+      });
+    }
+
+    this.props.timeline.clearDraggingOver();
+    if(this.props.timeline.props.eventDidFix){
+      this.props.timeline.props.eventDidFix({
+        component: this
+      })
+    }
+  }
+
+  setVar(key, value){
+    this.vars[key] = value;
+  }
+
+  getVar(key){
+    return this.vars[key];
   }
 
   render(){
