@@ -187,7 +187,7 @@ class Frame extends React.Component
               const prevRuler = (key + 1) % this.props.rulerInterval === 0;
               return(
                 <LineLabel
-                  key={data.id}
+                  key={data.id + "@" + key}
                   width={this.props.lineWidth}
                   hasRuler={hasRuler}
                   prevRuler={prevRuler}
@@ -206,7 +206,7 @@ class Frame extends React.Component
                   <Line
                     ref={"line@" + data.id}
                     hasRuler={hasRuler}
-                    key={data.id}
+                    key={data.id + "@" + key}
                     id={data.id}
                     width={this.props.lineWidth}
                     minHeight={this.props.minHeight}
