@@ -54,8 +54,6 @@ class Frame extends React.Component
 
     this.resizingEvent = null;
     this.element = null;
-
-    this.testCount = 0;
   }
 
   resizeUp(eventComponent, clickedTop){
