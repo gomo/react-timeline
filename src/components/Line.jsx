@@ -10,7 +10,6 @@ export default class Line extends React.Component
 {
   constructor(props) {
     super(props);
-    this.props.timeline.addLineComponent(this);
 
     this.state = {
       hours: [],

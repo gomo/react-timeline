@@ -1,6 +1,5 @@
 import React from 'react';
 import TimeSpan from '../classes/TimeSpan';
-import TimelineActions from '../classes/TimelineActions';
 import Frame from './Frame';
 import Ruler from './Ruler';
 import Line from './Line';
@@ -9,7 +8,6 @@ export default class Timeline extends React.Component
 {
   constructor(props) {
     super(props);
-    this.actions = new TimelineActions(this);
 
     //MinViewは一時間下に余分が生成されるので60分プラス
     this.timeSpan = this.props.timeSpan.addMin(60);
@@ -22,12 +20,35 @@ export default class Timeline extends React.Component
 
     this.lineWidth = props.lineWidth;
 
-    this.frameComponent = null;
     this.createdEventId = 0;
-    this.draggingOverLineConponent = null;
-    this.lineComponents = [];
-    this.eventComponents = [];
-    this.lineLabelComponents = [];
+    this.draggingOverLineComponent = null;
+  }
+
+  get eventComponents(){
+    const events = [];
+
+    for(var key in this.frameComponent.refs){
+      if(key.indexOf("event@") === 0){
+        events.push(this.frameComponent.refs[key].getDecoratedComponentInstance());
+      }
+    }
+
+    return events;
+  }
+
+  get frameComponent(){
+    return this.refs.frame.getDecoratedComponentInstance().getDecoratedComponentInstance();
+  }
+
+  get lineComponents(){
+    const lines = [];
+    for(var key in this.frameComponent.refs){
+      if(key.indexOf("line@") === 0){
+        lines.push(this.frameComponent.refs[key]);
+      }
+    }
+
+    return lines;
   }
 
   createEventId(){
@@ -37,17 +58,17 @@ export default class Timeline extends React.Component
   draggingOver(left){
     const lineComponent = this.findLineByLeft(left);
     if(lineComponent){
-      if(this.draggingOverLineConponent !== lineComponent){
-        if(this.draggingOverLineConponent){
-          this.draggingOverLineConponent.clearDraggingOver();
+      if(this.draggingOverLineComponent !== lineComponent){
+        if(this.draggingOverLineComponent){
+          this.draggingOverLineComponent.clearDraggingOver();
         }
-        this.draggingOverLineConponent = lineComponent;
-        this.draggingOverLineConponent.draggingOver();
+        this.draggingOverLineComponent = lineComponent;
+        this.draggingOverLineComponent.draggingOver();
       }
     } else {
-      if(this.draggingOverLineConponent){
-        this.draggingOverLineConponent.clearDraggingOver();
-        this.draggingOverLineConponent = null;
+      if(this.draggingOverLineComponent){
+        this.draggingOverLineComponent.clearDraggingOver();
+        this.draggingOverLineComponent = null;
       }
     }
 
@@ -55,19 +76,16 @@ export default class Timeline extends React.Component
   }
 
   clearDraggingOver(){
-    if(this.draggingOverLineConponent){
-      this.draggingOverLineConponent.clearDraggingOver();
+    if(this.draggingOverLineComponent){
+      this.draggingOverLineComponent.clearDraggingOver();
     }
   }
 
   getTotalWidth(){
-    return this.lineComponents.reduce((val, line) => {
-      return val + (line.props.hasRuler ? this.lineWidth + Ruler.width : this.lineWidth);
+    return this.props.lineData.reduce((val, data, index) => {
+      const hasRuler = index % this.props.rulerInterval === 0;
+      return val + (hasRuler ? this.lineWidth + Ruler.width : this.lineWidth);
     }, 0);
-  }
-
-  addEventComponent(event){
-    this.eventComponents.push(event);
   }
 
   findEventById(eventId){
@@ -86,14 +104,14 @@ export default class Timeline extends React.Component
 
   getLineLeft(lineId){
     let left = 0;
-
-    for (var i = 0; i < this.lineComponents.length; i++) {
-      var line = this.lineComponents[i];
-      if(line.props.hasRuler){
+    for (var i = 0; i < this.props.lineData.length; i++) {
+      const lineData = this.props.lineData[i];
+      const hasRuler = i % this.props.rulerInterval === 0;
+      if(hasRuler){
         left += Ruler.width;
       }
 
-      if(line.props.id == lineId){
+      if(lineData.id == lineId){
         break;
       }
 
@@ -103,14 +121,6 @@ export default class Timeline extends React.Component
     left += Line.sidePadding;
 
     return left;
-  }
-
-  addLineComponent(line){
-    this.lineComponents.push(line);
-  }
-
-  addLineLabelComponent(line){
-    this.lineLabelComponents.push(line);
   }
 
   getTimeSpan(top, height){
@@ -166,11 +176,6 @@ export default class Timeline extends React.Component
 
   findNextEvent(eventComponent){
     return this.findNextEventByTime(eventComponent.lineId, eventComponent.currentTimeSpan.getEndTime());
-    // return this.eventComponents
-    //   .filter(ev =>  !ev.state.draggable && ev.lineId == eventComponent.lineId)//同じ列のものだけに絞る
-    //   .sort((a, b) => a.currentTimeSpan.getStartTime().compare(b.currentTimeSpan.getStartTime()))//時間の昇順で並び替え
-    //   .find(ev => ev.currentTimeSpan.getStartTime().compare(eventComponent.currentTimeSpan.getEndTime()) >= 0)//昇順なので対象より最初に開始時間が遅いものがnext
-    //   ;
   }
 
   findNextEventByTime(lineId, time){
@@ -199,20 +204,24 @@ export default class Timeline extends React.Component
   }
 
   getNextTop(eventComponent){
-    // const nextEvent = this.findNextEvent(eventComponent);
-    // let nextTime;
-    // if(nextEvent){
-    //   nextTime = nextEvent.currentTimeSpan.getStartTime();
-    // } else {
-    //   nextTime = this.timeSpan.getEndTime();
-    // }
-
     return this.timeToTop(this.getNextTime(eventComponent.lineId, eventComponent.currentTimeSpan.getEndTime()));
+  }
+  addEvents(events){
+    return this.frameComponent.addEvents(events);
+  }
+
+  setHeight(height){
+    this.frameComponent.setHeight(height);
+  }
+
+  removeEvent(eventId){
+    this.frameComponent.removeEvent(eventId);
   }
 
   render(){
     return (
       <Frame
+        ref="frame"
         lineData={this.props.lineData}
         timeSpan={this.props.timeSpan}
         lineWidth={this.props.lineWidth}

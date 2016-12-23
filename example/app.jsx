@@ -28,26 +28,26 @@ window.onload = () => {
         {
           name: context => 'float',
           onClick: context => {
-            context.component.actions.float();
+            context.component.float();
           },
-          show: context => context.component.actions.isFixed()
+          show: context => context.component.isFixed()
         },
         {
           name: context => 'resize',
           onClick: context => {
-            context.component.actions.resize();
+            context.component.resize();
           },
-          show: context => context.component.actions.isFixed()
+          show: context => context.component.isFixed()
         },
         {
           name: context => 'cancel',
           onClick: context => {
-            context.component.actions.cancel();
+            context.component.cancel();
           },
-          show: context => !context.component.actions.isFixed(),
+          show: context => !context.component.isFixed(),
           onClick: context => {
-            if(context.component.actions.isCancelable()){
-              context.component.actions.cancel();
+            if(context.component.isCancelable()){
+              context.component.cancel();
             } else {
               alert('You can\'t cancel!');
             }
@@ -56,13 +56,13 @@ window.onload = () => {
         {
           name: context => 'fix',
           onClick: context => {
-            if(context.component.actions.isFixable()){
-              context.component.actions.fix();
+            if(context.component.isFixable()){
+              context.component.fix();
             } else {
               alert('You can\'t fix!');
             }
           },
-          show: context => !context.component.actions.isFixed()
+          show: context => !context.component.isFixed()
         },
         {
           name: context => '-'
@@ -70,9 +70,9 @@ window.onload = () => {
         {
           name: context => 'remove',
           onClick: context => {
-            context.component.actions.remove();
+            context.component.remove();
           },
-          enable: context => context.component.actions.isFixed()
+          enable: context => context.component.isFixed()
         }
       ]}
       zIndex={1000}
@@ -113,7 +113,7 @@ window.onload = () => {
       rulerInterval={4}
       height={calcHeight(timelineElement)}
       lineDidClick={data => {
-        timeline.actions.addEvents([
+        timeline.addEvents([
           {
             lineId: data.component.props.id,
             timeSpan: new TimeSpan(data.time, data.time.addMin(120)),
@@ -148,10 +148,10 @@ window.onload = () => {
 
 
   window.onresize = () => {
-    timeline.actions.setHeight(calcHeight(timelineElement));
+    timeline.setHeight(calcHeight(timelineElement));
   };
 
-  timeline.actions.addEvents([
+  timeline.addEvents([
     {
       lineId: '__1',
       timeSpan: TimeSpan.create([11, 0], [12, 0]),
@@ -164,7 +164,7 @@ window.onload = () => {
     }
   ]);
 
-  timeline.actions.addEvents([
+  timeline.addEvents([
     {id: '1231', lineId: '__1', timeSpan: TimeSpan.create([12, 30], [13, 30]), color: '#FFDCB6'},
     {id: '1241', lineId: '__1', timeSpan: TimeSpan.create([14, 0], [16, 30]), color: '#FFDCB6'},
     {id: '1251', lineId: '__1', timeSpan: TimeSpan.create([17, 0], [18, 30]), color: '#FFDCB6'},
@@ -277,7 +277,7 @@ window.onload = () => {
     {id: '12918', lineId: '__18', timeSpan: TimeSpan.create([22, 30], [23, 30]), color: '#FFDCB6'},
   ]);
 
-  timeline.actions.addEvents([
+  timeline.addEvents([
     {
       timeSpan: TimeSpan.create([11, 0], [12, 0]),
       color: '#FFB6B6',

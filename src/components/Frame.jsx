@@ -45,21 +45,11 @@ class Frame extends React.Component
   constructor(props) {
     super(props);
 
-    this.props.timeline.frameComponent = this;
-
     const rulerInterval = 4;
 
-    const lines = [];
-    const labels = [];
-    this.props.lineData.forEach(data => {
-      this.createLineComponent(data, lines, labels);
-    })
-
     this.state = {
-      lines: lines,
-      labels: labels,
+      minWidth: 0,
       events: this.props.events,
-      minWidth: 0
     }
 
     this.resizingEvent = null;
@@ -132,37 +122,6 @@ class Frame extends React.Component
     this.refs.linesWrapper.addEventListener('mouseleave', stopMoveEvent);
   }
 
-  createLineComponent(data, lines, labels){
-    const hasRuler = lines.length % this.props.rulerInterval === 0;
-    const prevRuler = (lines.length + 1) % this.props.rulerInterval === 0;
-
-    labels.push(
-      <LineLabel
-        key={data.id}
-        width={this.props.lineWidth}
-        hasRuler={hasRuler}
-        prevRuler={prevRuler}
-        label={data.label}
-        timeline={this.props.timeline}
-      />
-    );
-
-    lines.push(
-      <Line
-        hasRuler={hasRuler}
-        key={data.id}
-        id={data.id}
-        width={this.props.lineWidth}
-        minHeight={this.props.minHeight}
-        timeSpan={this.props.timeSpan}
-        even={lines.length % 2 === 0}
-        timeline={this.props.timeline}
-        vars={data.vars}
-        frame={this}
-      />
-    );
-  }
-
   removeEvent(eventId){
     var current = this.state.events;
     var events = [];
@@ -211,18 +170,58 @@ class Frame extends React.Component
     });
   }
 
+  componentWillReceiveProps(nextProps){
+    if(nextProps.events !== this.state.events){
+      this.setState({events: nextProps.events});
+    }
+  }
+
   render(){
     const { connectDropTarget } = this.props;
     return connectDropTarget(
       <div ref={elem => this.element = elem} className="tlFrameView scrollWrapper" style={{width: this.props.width, overflowX: 'auto'}}>
         <div style={{minWidth: this.state.minWidth}}>
-          <div className="tlLabelView" style={{height: LineLabel.height}}>{this.state.labels}</div>
+          <div className="tlLabelView" style={{height: LineLabel.height}}>
+            {this.props.lineData.map((data, key) => {
+              const hasRuler = key % this.props.rulerInterval === 0;
+              const prevRuler = (key + 1) % this.props.rulerInterval === 0;
+              return(
+                <LineLabel
+                  key={data.id}
+                  width={this.props.lineWidth}
+                  hasRuler={hasRuler}
+                  prevRuler={prevRuler}
+                  label={data.label}
+                  timeline={this.props.timeline}
+                />
+              )
+            })}
+          </div>
           <div ref="linesWrapper" className="tlLinesWrapper scrollWrapper" style={{height: this.props.height - LineLabel.height}}>
             <div style={{height: this.props.lineHeight, overflowY: "hidden", position:"relative"}}>
-              {this.state.lines}
+              {this.props.lineData.map((data, key) => {
+                const hasRuler = key % this.props.rulerInterval === 0;
+                const prevRuler = (key + 1) % this.props.rulerInterval === 0;
+                return(
+                  <Line
+                    ref={"line@" + data.id}
+                    hasRuler={hasRuler}
+                    key={data.id}
+                    id={data.id}
+                    width={this.props.lineWidth}
+                    minHeight={this.props.minHeight}
+                    timeSpan={this.props.timeSpan}
+                    even={key % 2 === 0}
+                    timeline={this.props.timeline}
+                    vars={data.vars}
+                    frame={this}
+                  />
+                )
+              })}
               {this.state.events.map(event => {
                 return (
                   <Event
+                    ref={"event@" + event.id}
                     key={event.id}
                     id={event.id}
                     color={event.color}
