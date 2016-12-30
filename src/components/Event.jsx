@@ -45,6 +45,27 @@ class Event extends React.Component
     this.resizing = false;
     this.vars = this.props.vars ? this.props.vars : {};
     this.element = null;
+
+    if(this.props.float){
+      const lineId = this.props.timeline.findLineByLeft(this.state.left).props.id;
+      const time = this.props.timeline.topToTime(this.state.top);
+      this.dragging(time, lineId);
+    }
+  }
+
+  toJson(){
+    return {
+      id: this.props.id,
+      lineId: this.lineId,
+      timeSpan: this.timeSpan,
+      vars: this.vars,
+      color: this.state.color,
+      display: this.state.display,
+      position: {
+        top: this.state.top,
+        left: this.state.left,
+      }
+    }
   }
 
   update(values){
