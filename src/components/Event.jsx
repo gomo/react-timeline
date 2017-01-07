@@ -58,7 +58,7 @@ class Event extends React.Component
       id: this.props.id,
       lineId: this.lineId,
       timeSpan: this.timeSpan,
-      vars: this.vars,
+      vars: JSON.parse(JSON.stringify(this.vars)),
       color: this.state.color,
       display: this.state.display,
       position: {
