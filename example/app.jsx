@@ -282,6 +282,11 @@ window.onload = () => {
       timeSpan: TimeSpan.create([11, 0], [12, 0]),
       color: '#FFB6B6',
       float: {top: 10, left: 10}
+    },
+    {
+      timeSpan: TimeSpan.create([13, 0], [15, 0]),
+      color: '#FFB6B6',
+      float: {top: 100, left: 100}
     }
   ]);
 }

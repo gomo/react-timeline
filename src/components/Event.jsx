@@ -49,7 +49,8 @@ class Event extends React.Component
     if(this.props.float){
       const lineId = this.props.timeline.findLineByLeft(this.state.left).props.id;
       const time = this.props.timeline.topToTime(this.state.top);
-      this.dragging(time, lineId);
+      this.draggingPosition = {time: time, lineId: lineId};
+      this.state.draggingDisplay = time.getDisplayTime();
     }
   }
 
