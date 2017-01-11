@@ -222,7 +222,7 @@ class Frame extends React.Component
                 return (
                   <Event
                     ref={"event@" + event.id}
-                    key={event.id}
+                    key={event.key||event.id}
                     id={event.id}
                     color={event.color}
                     timeSpan={event.timeSpan}

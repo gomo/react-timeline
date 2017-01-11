@@ -32,7 +32,6 @@ class Event extends React.Component
       top: props.float === undefined ? this.props.timeline.timeToTop(this.props.timeSpan.getStartTime()) : props.float.top,
       left: props.float === undefined ? this.props.timeline.getLineLeft(this.props.lineId) : props.float.left,
       color: this.props.color,
-      display: this.props.display || [],
       draggable: props.float === undefined ? false : true,
       resizable: false,
       draggingDisplay: ''
@@ -61,7 +60,7 @@ class Event extends React.Component
       timeSpan: this.timeSpan,
       vars: JSON.parse(JSON.stringify(this.vars)),
       color: this.state.color,
-      display: this.state.display,
+      display: this.props.display,
       position: {
         top: this.state.top,
         left: this.state.left,
@@ -389,7 +388,7 @@ class Event extends React.Component
         <EventBase
           draggingDisplay={this.state.draggingDisplay}
           draggingDisplayTop={this.state.draggingDisplayTop}
-          display={this.state.display}
+          display={this.props.display}
         />
         {(() => {
           if(this.state.resizable){
