@@ -34,7 +34,8 @@ class Event extends React.Component
       color: this.props.color,
       draggable: props.float === undefined ? false : true,
       resizable: false,
-      draggingDisplay: ''
+      draggingDisplay: '',
+      display: props.display,
     }
 
     this.lineId = this.props.lineId;
@@ -388,7 +389,7 @@ class Event extends React.Component
         <EventBase
           draggingDisplay={this.state.draggingDisplay}
           draggingDisplayTop={this.state.draggingDisplayTop}
-          display={this.props.display}
+          display={this.state.display}
         />
         {(() => {
           if(this.state.resizable){
