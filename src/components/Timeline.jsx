@@ -227,6 +227,7 @@ export default class Timeline extends React.Component
         lineWidth={this.props.lineWidth}
         minHeight={this.props.minHeight}
         height={this.props.height}
+        width={this.props.width}
         lineHeight={this.lineHeight}
         timeline={this}
         rulerInterval={this.props.rulerInterval}
