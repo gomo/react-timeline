@@ -43,3 +43,5 @@ export default class EventBase extends React.Component
     );
   }
 }
+
+EventBase.defaultProps = {display: []};
