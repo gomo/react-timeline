@@ -27,8 +27,8 @@ class Event extends React.Component
 {
   constructor(props) {
     super(props);
+
     this.state = {
-      height: this.props.timeline.timeSpanToHeight(this.props.timeSpan),
       top: props.float === undefined ? this.props.timeline.timeToTop(this.props.timeSpan.getStartTime()) : props.float.top,
       left: props.float === undefined ? this.props.timeline.getLineLeft(this.props.lineId) : props.float.left,
       color: this.props.color,
@@ -51,6 +51,9 @@ class Event extends React.Component
       const time = this.props.timeline.topToTime(this.state.top);
       this.draggingPosition = {time: time, lineId: lineId};
       this.state.draggingDisplay = time.getDisplayTime();
+      this.state.height = this.props.timeline.minuteToHeight(this.props.float.minute);
+    } else {
+      this.state.height = this.props.timeline.timeSpanToHeight(this.props.timeSpan);
     }
   }
 

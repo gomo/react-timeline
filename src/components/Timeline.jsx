@@ -130,8 +130,12 @@ export default class Timeline extends React.Component
     return new TimeSpan(startTime, endTime);
   }
 
+  minuteToHeight(minute){
+    return (minute * this.perMinHeight) - 1;
+  }
+
   timeSpanToHeight(timeSpan){
-    return (timeSpan.getDistance() * this.perMinHeight) - 1;
+    return this.minuteToHeight(timeSpan.getDistance());
   }
 
   timeToTop(time){

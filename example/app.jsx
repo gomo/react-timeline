@@ -279,14 +279,12 @@ window.onload = () => {
 
   timeline.addEvents([
     {
-      timeSpan: TimeSpan.create([11, 0], [12, 0]),
       color: '#FFB6B6',
-      float: {top: 10, left: 10}
+      float: {top: 10, left: 10, minute: 60}
     },
     {
-      timeSpan: TimeSpan.create([13, 0], [15, 0]),
       color: '#FFB6B6',
-      float: {top: 100, left: 100}
+      float: {top: 100, left: 100, minute: 60}
     }
   ]);
 }
