@@ -38,8 +38,8 @@ class Event extends React.Component
       display: props.display,
     }
 
-    this.lineId = this.props.lineId;
-    this.timeSpan = this.props.timeSpan;
+    this.lineId = this.props.lineId;//TODO これはpropsにあるのでメンバー変数に持たせるの冗長なのでやめる？
+    this.timeSpan = this.props.timeSpan;//TODO これはpropsにあるのでメンバー変数に持たせるの冗長なのでやめる？
     this.draggingPosition = null;
     this.resizingTimeSpan = null;
     this.resizing = false;
@@ -304,6 +304,14 @@ class Event extends React.Component
 
   remove(){
     this.props.timeline.removeEvent(this.props.id);
+  }
+
+  getMinute(){
+    if(this.props.timeSpan){
+      return this.props.timeSpan.getDistance();
+    } else if(this.props.float){
+      return parseInt(this.props.float.minute, 10);
+    }
   }
 
   fix(){
