@@ -123,19 +123,12 @@ class Frame extends React.Component
   }
 
   removeEvent(eventId){
-    var current = this.state.events;
-    var events = [];
-    current.forEach(ev => {
-      if(ev.id != eventId){
-        events.push(ev);
-      }
-    });
-    this.setState({events: events});
+    this.setState({events: this.state.events.filter(ev => ev.id != eventId)});
   }
 
   addEvents(events){
     return new Promise(resolve => {
-      var current = this.state.events;
+      var current = [...this.state.events];
       var eventIds = [];
       events.forEach(event => {
         if(!event.id){
