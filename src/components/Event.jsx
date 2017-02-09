@@ -38,8 +38,8 @@ class Event extends React.Component
       display: props.display,
     }
 
-    this.lineId = this.props.lineId;//TODO これはpropsにあるのでメンバー変数に持たせるの冗長なのでやめる？
-    this.timeSpan = this.props.timeSpan;//TODO これはpropsにあるのでメンバー変数に持たせるの冗長なのでやめる？
+    this.lineId = this.props.lineId;
+    this.timeSpan = this.props.timeSpan;
     this.draggingPosition = null;
     this.resizingTimeSpan = null;
     this.resizing = false;
@@ -246,6 +246,8 @@ class Event extends React.Component
       draggable: true,
       draggingDisplay: this.timeSpan.getStartTime().getDisplayTime()
     });
+
+    this.draggingPosition = {time: this.timeSpan.getStartTime(), lineId: this.lineId};
   }
 
   isFixed(){
@@ -308,8 +310,8 @@ class Event extends React.Component
   }
 
   getMinute(){
-    if(this.props.timeSpan){
-      return this.props.timeSpan.getDistance();
+    if(this.timeSpan){
+      return this.timeSpan.getDistance();
     } else if(this.props.float){
       return parseInt(this.props.float.minute, 10);
     }
