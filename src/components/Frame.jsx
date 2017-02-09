@@ -164,9 +164,16 @@ class Frame extends React.Component
   }
 
   componentWillReceiveProps(nextProps){
+    const newState = {};
     if(nextProps.events !== this.state.events){
-      this.setState({events: nextProps.events});
+      newState.events = nextProps.events;
     }
+
+    if(nextProps.lineData !== this.props.lineData){
+      newState.minWidth = this.props.timeline.getTotalWidth() + 'px';
+    }
+
+    this.setState(newState);
   }
 
   render(){
