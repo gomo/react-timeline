@@ -49,7 +49,7 @@ class Frame extends React.Component
 
     this.state = {
       minWidth: 0,
-      events: this.props.events,
+      events: this.props.initialEvents,
     }
 
     this.resizingEvent = null;
@@ -126,6 +126,10 @@ class Frame extends React.Component
     this.setState({events: this.state.events.filter(ev => ev.id != eventId)});
   }
 
+  updateEvents(callback){
+    this.setState({events: callback(this.state.events)});
+  }
+
   addEvents(events){
     return new Promise(resolve => {
       var current = [...this.state.events];
@@ -165,8 +169,10 @@ class Frame extends React.Component
 
   componentWillReceiveProps(nextProps){
     const newState = {};
-    if(nextProps.events !== this.state.events){
-      newState.events = nextProps.events;
+    //イベントは数が多いので走査を最小限にするためstateにしたが、timelineを丸っと読み込み直すのに対応するためチェック。
+    //イベントを変更するときは基本timelineの関数経由で行い、全て読み込み直す時だけinitialEventsを変更する。
+    if(nextProps.initialEvents !== this.props.initialEvents){
+      newState.events = nextProps.initialEvents;
     }
 
     if(nextProps.lineData !== this.props.lineData){

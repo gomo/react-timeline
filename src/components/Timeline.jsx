@@ -222,6 +222,10 @@ export default class Timeline extends React.Component
     this.frameComponent.removeEvent(eventId);
   }
 
+  updateEvents(callback){
+    this.frameComponent.updateEvents(callback);
+  }
+
   render(){
     return (
       <Frame
@@ -235,7 +239,7 @@ export default class Timeline extends React.Component
         lineHeight={this.lineHeight}
         timeline={this}
         rulerInterval={this.props.rulerInterval}
-        events={this.props.events}
+        initialEvents={this.props.initialEvents}
       />
     );
   }
