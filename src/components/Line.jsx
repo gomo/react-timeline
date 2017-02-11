@@ -17,13 +17,15 @@ export default class Line extends React.Component
       draggingOver: false
     }
     this.props.timeSpan.eachTime((key, time) => {
-      this.state.hours.push(
-        <Hour
-          key={time.getHour()}
-          time={time}
-          minHeight={this.props.minHeight}
-        />
-      );
+      if(!time.equals(this.props.timeSpan.getEndTime())){
+        this.state.hours.push(
+          <Hour
+            key={time.getHour()}
+            time={time}
+            minHeight={this.props.minHeight}
+          />
+        );
+      }
     });
 
     this.vars = this.props.vars || {};

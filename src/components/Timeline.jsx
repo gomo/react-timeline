@@ -9,8 +9,8 @@ export default class Timeline extends React.Component
   constructor(props) {
     super(props);
 
-    //MinViewは一時間下に余分が生成されるので60分プラス
-    this.timeSpan = this.props.timeSpan.addMin(60);
+
+    this.timeSpan = this.props.timeSpan;
 
     //minViewがいくつあるかカウント。minViewは15分おき。それを元に高さを計算。border分1px足す
     this.lineHeight = (this.timeSpan.getDistance() / 15) * (this.props.minHeight + 1);

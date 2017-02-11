@@ -9,13 +9,15 @@ export default class Ruler extends React.Component
       hours: []
     }
     this.props.timeSpan.eachTime((key, time) => {
-      const style = {
-        //border1pxを足す
-        height: (this.props.minHeight + 1) * 4
+      if(!time.equals(this.props.timeSpan.getEndTime())){
+        const style = {
+          //border1pxを足す
+          height: (this.props.minHeight + 1) * 4
+        }
+        this.state.hours.push(
+          <div key={time.getHour()} style={style}>{time.getDisplayHour()}</div>
+        );
       }
-      this.state.hours.push(
-        <div key={time.getHour()} style={style}>{time.getDisplayHour()}</div>
-      );
     });
   }
 
