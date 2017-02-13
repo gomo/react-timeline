@@ -240,6 +240,8 @@ export default class Timeline extends React.Component
         timeline={this}
         rulerInterval={this.props.rulerInterval}
         initialEvents={this.props.initialEvents}
+        children={this.props.children}
+        childWidth={this.props.childWidth}
       />
     );
   }
@@ -260,5 +262,6 @@ export default class Timeline extends React.Component
 // }
 
 Timeline.defaultProps = {
-  minInterval: 1
+  minInterval: 1,
+  childWidth: 0
 }
