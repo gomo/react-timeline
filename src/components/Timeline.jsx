@@ -190,6 +190,10 @@ export default class Timeline extends React.Component
       ;
   }
 
+  getEventsOnLine(lineId){
+    return this.eventComponents.filter(ev =>  !ev.state.draggable && ev.lineId == lineId)
+  }
+
   getNextTime(lineId, time){
     const nextEvent = this.findNextEventByTime(lineId, time);
     let nextTime;
