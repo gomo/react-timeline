@@ -186,8 +186,8 @@ class Frame extends React.Component
     const { connectDropTarget } = this.props;
     return connectDropTarget(
       <div ref={elem => this.element = elem} className="tlFrameView scrollWrapper" style={{width: this.props.width, overflowX: 'auto'}}>
-        <div className="clearfix" style={{minWidth: this.state.minWidth + this.props.childWidth}}>
-          <div className="pull-left" style={{width: this.state.minWidth, overflow: 'hidden'}}>
+        <div style={{minWidth: this.state.minWidth + this.props.childWidth, display:"flex"}}>
+          <div style={{width: this.state.minWidth, overflow: 'hidden'}}>
             <div style={{width: this.state.minWidth + 20}}>
               <div className="tlLabelView" style={{height: LineLabel.height}}>
                 {this.props.lineData.map((data, key) => {
@@ -248,7 +248,7 @@ class Frame extends React.Component
               </div>
             </div>
           </div>
-          <div className="pull-left">
+          <div>
             {this.props.children}
           </div>
         </div>
