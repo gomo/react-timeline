@@ -162,7 +162,8 @@ class Event extends React.Component
           left: e.clientX,
         },
         component: this,
-        lineComponent: this.props.timeline.lineComponents.find(lineComponent => lineComponent.props.id == this.lineId)
+        lineComponent: this.props.timeline.lineComponents.find(lineComponent => lineComponent.props.id == this.lineId),
+        event: e
       });
     }
   }

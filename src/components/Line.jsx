@@ -50,6 +50,7 @@ export default class Line extends React.Component
           top: e.clientY,
           left: e.clientX,
         },
+        event: e
       });
     }
   }
