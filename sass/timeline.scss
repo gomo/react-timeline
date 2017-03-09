@@ -102,7 +102,6 @@
   @include user-select(none);
   position: absolute;
   top: -8px;
-  left: 117%;
   @include border-radius(4px);
   border: 1px solid #aaa;
   background-color: #000;
@@ -114,15 +113,27 @@
   line-height: 15px;
   text-align: center;
   @include box-shadow(2px 2px 7px rgba(black, 0.4));
+  &.right{
+    left: 117%;
+  }
+  &.left{
+    left: -107%;
+  }
   &:after{
     content: ' ';
     height: 0;
     position: absolute;
     width: 0;
     border: 8px solid transparent;
+    top: 0;
+  }
+  &.right:after{
     border-right-color: #000;
     left: -29%;
-    top: 0;
+  }
+  &.left:after{
+    border-left-color: #000;
+    left: 97%;
   }
 }
 

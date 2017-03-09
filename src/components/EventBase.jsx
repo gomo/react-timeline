@@ -28,11 +28,23 @@ export default class EventBase extends React.Component
     )
   }
   render(){
+    let displayPosition = 'right';
+    if(this.refs.base){
+      var wrapper = $(this.refs.base).closest('.linesFrame')[0];
+      var wrapperRect = wrapper.getBoundingClientRect();
+      var wrapperRightSide = wrapperRect.left + wrapperRect.width;
+
+      var previewRect = this.refs.base.getBoundingClientRect();
+      var previewRightSide = previewRect.left + previewRect.width;
+      if(wrapperRightSide < previewRightSide + 70){
+        displayPosition = 'left';
+      }
+    }
     return (
-      <div style={{height: '100%'}}>
+      <div ref="base" style={{height: '100%'}}>
         {(() => {
           if(this.props.draggingDisplay){
-            return (<div className="tlDraggingDisplay" style={{top: this.props.draggingDisplayTop}}>{this.props.draggingDisplay}</div>);
+            return (<div className={classNames('tlDraggingDisplay', displayPosition)} style={{top: this.props.draggingDisplayTop}}>{this.props.draggingDisplay}</div>);
           }
         })()}
         <div className="tlEventDisplay">

@@ -187,7 +187,7 @@ class Frame extends React.Component
     return connectDropTarget(
       <div ref={elem => this.element = elem} className="tlFrameView scrollWrapper" style={{width: this.props.width, overflowX: 'auto'}}>
         <div style={{minWidth: this.state.minWidth + this.props.childWidth, display:"flex"}}>
-          <div style={{width: this.state.minWidth, overflow: 'hidden'}}>
+          <div className="linesFrame" style={{width: this.state.minWidth, overflow: 'hidden'}}>
             <div style={{width: this.state.minWidth + 20}}>
               <div className="tlLabelView" style={{height: LineLabel.height}}>
                 {this.props.lineData.map((data, key) => {
@@ -243,8 +243,8 @@ class Frame extends React.Component
                       />
                     )
                   })}
-                  <EventPreview />
                 </div>
+                <EventPreview />
               </div>
             </div>
           </div>

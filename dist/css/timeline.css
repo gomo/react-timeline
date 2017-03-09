@@ -136,7 +136,6 @@
   user-select: none;
   position: absolute;
   top: -8px;
-  left: 117%;
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px;
   border-radius: 4px;
@@ -153,15 +152,27 @@
   -webkit-box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.4);
   box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.4);
 }
+.tlDraggingDisplay.right {
+  left: 117%;
+}
+.tlDraggingDisplay.left {
+  left: -107%;
+}
 .tlDraggingDisplay:after {
   content: ' ';
   height: 0;
   position: absolute;
   width: 0;
   border: 8px solid transparent;
+  top: 0;
+}
+.tlDraggingDisplay.right:after {
   border-right-color: #000;
   left: -29%;
-  top: 0;
+}
+.tlDraggingDisplay.left:after {
+  border-left-color: #000;
+  left: 97%;
 }
 
 .tlDraggingEvent {

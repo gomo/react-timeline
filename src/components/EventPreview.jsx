@@ -40,7 +40,7 @@ class EventPreview extends React.Component {
     if(this.props.draggingComponent && this.props.draggingComponent.state.draggingDisplay){
       draggingDisplay = this.props.draggingComponent.state.draggingDisplay;
     }
-    
+
     let display = [];
     if(this.props.draggingComponent && this.props.draggingComponent.state.display){
       display = this.props.draggingComponent.state.display;
