@@ -31,7 +31,7 @@ const target = {
       const time = props.timeline.topToTime(clientOffset.y + component.refs.linesWrapper.scrollTop - lineWrapperBounds.top);
       item.draggingComponent.dragging(time, lineComponent ? lineComponent.props.id : null);
     }
-  }
+  },
 };
 
 function collect(connect, monitor) {
@@ -184,70 +184,74 @@ class Frame extends React.Component
 
   render(){
     const { connectDropTarget } = this.props;
-    return connectDropTarget(
+    return (
       <div ref={elem => this.element = elem} className="tlFrameView scrollWrapper" style={{width: this.props.width, overflowX: 'auto'}}>
         <div style={{minWidth: this.state.minWidth + this.props.childWidth, display:"flex"}}>
-          <div className="linesFrame" style={{width: this.state.minWidth, overflow: 'hidden'}}>
-            <div style={{width: this.state.minWidth + 20}}>
-              <div className="tlLabelView" style={{height: LineLabel.height}}>
-                {this.props.lineData.map((data, key) => {
-                  const hasRuler = key % this.props.rulerInterval === 0;
-                  const prevRuler = (key + 1) % this.props.rulerInterval === 0;
-                  return(
-                    <LineLabel
-                      key={data.id + "@" + key}
-                      width={this.props.lineWidth}
-                      hasRuler={hasRuler}
-                      prevRuler={prevRuler}
-                      label={data.label}
-                      timeline={this.props.timeline}
-                    />
-                  )
-                })}
-              </div>
-              <div ref="linesWrapper" className="tlLinesWrapper scrollWrapper" style={{height: this.props.height - LineLabel.height}}>
-                <div style={{height: this.props.lineHeight, overflowY: "hidden", position:"relative"}}>
-                  {this.props.lineData.map((data, key) => {
-                    const hasRuler = key % this.props.rulerInterval === 0;
-                    const prevRuler = (key + 1) % this.props.rulerInterval === 0;
-                    return(
-                      <Line
-                        ref={"line@" + data.id}
-                        hasRuler={hasRuler}
-                        key={data.id + "@" + key}
-                        id={data.id}
-                        width={this.props.lineWidth}
-                        minHeight={this.props.minHeight}
-                        timeSpan={this.props.timeSpan}
-                        even={key % 2 === 0}
-                        timeline={this.props.timeline}
-                        vars={data.vars}
-                        frame={this}
-                      />
-                    )
-                  })}
-                  {this.state.events.map(event => {
-                    return (
-                      <Event
-                        ref={"event@" + event.id}
-                        key={event.key||event.id}
-                        id={event.id}
-                        color={event.color}
-                        timeSpan={event.timeSpan}
-                        display={event.display}
-                        lineId={event.lineId}
-                        timeline={this.props.timeline}
-                        width={this.props.timeline.props.lineWidth - 2 - (Line.sidePadding * 2)}
-                        vars={event.vars}
-                        float={event.float}
-                      />
-                    )
-                  })}
+          {(() => {
+            return connectDropTarget(
+              <div className="linesFrame" style={{width: this.state.minWidth, overflow: 'hidden'}}>
+                <div style={{width: this.state.minWidth + 20}}>
+                  <div className="tlLabelView" style={{height: LineLabel.height}}>
+                    {this.props.lineData.map((data, key) => {
+                      const hasRuler = key % this.props.rulerInterval === 0;
+                      const prevRuler = (key + 1) % this.props.rulerInterval === 0;
+                      return(
+                        <LineLabel
+                          key={data.id + "@" + key}
+                          width={this.props.lineWidth}
+                          hasRuler={hasRuler}
+                          prevRuler={prevRuler}
+                          label={data.label}
+                          timeline={this.props.timeline}
+                        />
+                      )
+                    })}
+                  </div>
+                  <div ref="linesWrapper" className="tlLinesWrapper scrollWrapper" style={{height: this.props.height - LineLabel.height}}>
+                    <div style={{height: this.props.lineHeight, overflowY: "hidden", position:"relative"}}>
+                      {this.props.lineData.map((data, key) => {
+                        const hasRuler = key % this.props.rulerInterval === 0;
+                        const prevRuler = (key + 1) % this.props.rulerInterval === 0;
+                        return(
+                          <Line
+                            ref={"line@" + data.id}
+                            hasRuler={hasRuler}
+                            key={data.id + "@" + key}
+                            id={data.id}
+                            width={this.props.lineWidth}
+                            minHeight={this.props.minHeight}
+                            timeSpan={this.props.timeSpan}
+                            even={key % 2 === 0}
+                            timeline={this.props.timeline}
+                            vars={data.vars}
+                            frame={this}
+                          />
+                        )
+                      })}
+                      {this.state.events.map(event => {
+                        return (
+                          <Event
+                            ref={"event@" + event.id}
+                            key={event.key||event.id}
+                            id={event.id}
+                            color={event.color}
+                            timeSpan={event.timeSpan}
+                            display={event.display}
+                            lineId={event.lineId}
+                            timeline={this.props.timeline}
+                            width={this.props.timeline.props.lineWidth - 2 - (Line.sidePadding * 2)}
+                            vars={event.vars}
+                            float={event.float}
+                          />
+                        )
+                      })}
+                    </div>
+                    <EventPreview />
+                  </div>
                 </div>
-                <EventPreview />
               </div>
-            </div>
-          </div>
+            )
+          })()}
           <div>
             {this.props.children}
           </div>
