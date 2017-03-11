@@ -23,6 +23,8 @@
   float: left;
   text-align: center;
   font-size: 14px;
+  @include user-select(none);
+  cursor: default;
 }
 
 /* tlTimeline */
