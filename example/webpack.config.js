@@ -1,13 +1,11 @@
 var webpack = require("webpack");
 
 module.exports = {
-  entry: __dirname + '/app.jsx',
   output: {
-      path: __dirname,
-      filename: 'timeline.js'
+    filename: 'timeline.js'
   },
   resolve: {
-    extensions: ['', ".js", ".jsx", ".es6"]
+    extensions: [".js", ".jsx", ".es6"]
   },
   externals: {
     'react': 'React',
@@ -16,9 +14,9 @@ module.exports = {
   watch: true,
   devtool: "#inline-source-map",
   module: {
-    loaders: [{
+    rules: [{
       test: /(\.jsx?$|\.es6?$)/,
-      loader: 'babel',
+      loader: 'babel-loader',
       query:
       {
           presets:['es2015', 'react']

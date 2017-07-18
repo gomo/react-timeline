@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom';
-import {Timeline, Time, TimeSpan} from '../index.es6';
+import {Timeline, Time, TimeSpan} from '../index.js';
 import {ContextMenu} from '../../react-context-menu';
 
 function getWindowSize(){

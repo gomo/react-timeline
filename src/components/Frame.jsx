@@ -49,7 +49,7 @@ class Frame extends React.Component
 
     this.state = {
       minWidth: 0,
-      events: this.props.initialEvents,
+      events: this.props.initialEvents||[],
     }
 
     this.resizingEvent = null;
