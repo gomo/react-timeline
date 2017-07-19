@@ -52,8 +52,9 @@ class Event extends React.Component
       this.draggingPosition = {time: time, lineId: lineId};
       this.state.draggingDisplay = time.getDisplayTime();
       this.state.height = this.props.timeline.minuteToHeight(this.props.float.minute);
+      this.timeSpan = new TimeSpan(time, time.addMin(this.props.float.minute));
     } else {
-      this.state.height = this.props.timeline.timeSpanToHeight(this.props.timeSpan);
+      this.state.height = this.props.timeline.timeSpanToHeight(this.timeSpan);
     }
   }
 
@@ -420,13 +421,8 @@ class Event extends React.Component
   }
 }
 
-// Event.propTypes = {
-//   id: React.PropTypes.string.isRequired,
-//   timeSpan: React.PropTypes.instanceOf(TimeSpan).isRequired,
-//   color: React.PropTypes.string.isRequired,
-//   //TODO 循環参照になるのでimportできず。とりあえずanyでごまかしてます。
-//   timeline: React.PropTypes.any.isRequired,
-//   lineId: React.PropTypes.string.isRequired
-// }
+Event.defaultProps = {
+  display: []
+};
 
 export default DragSource("Event", source, collect)(Event);

@@ -135,9 +135,9 @@ window.onload = () => {
         eventMenu.show({top: data.event.clientY, left: data.event.clientX}, data);
       }}
       eventWillFix={data => {
-        data.state.display = data.component.state.display.map(
-          row => row.key == 'startTime' ? {key: 'startTime', value: data.timeSpan.getStartTime().getDisplayTime()} : row
-        );
+        var display = data.component.state.display.filter(row => row.key != 'startTime');
+        display.push({key: 'startTime', value: data.timeSpan.getStartTime().getDisplayTime()})
+        data.state.display = display;
       }}
       eventDidFix={data => {
         console.log(data);
