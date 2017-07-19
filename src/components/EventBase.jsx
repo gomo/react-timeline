@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
+import {closest} from '../utils';
 
 export default class EventBase extends React.Component
 {
@@ -29,8 +30,9 @@ export default class EventBase extends React.Component
   }
   render(){
     let displayPosition = 'right';
+    
     if(this.refs.base){
-      var wrapper = $(this.refs.base).closest('.linesFrame')[0];
+      var wrapper = closest(this.refs.base, '.linesFrame');
       var wrapperRect = wrapper.getBoundingClientRect();
       var wrapperRightSide = wrapperRect.left + wrapperRect.width;
 
