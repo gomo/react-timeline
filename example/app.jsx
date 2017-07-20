@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom';
 import {Timeline, Time, TimeSpan} from '../index.js';
-import {ContextMenu} from '../../react-context-menu';
+import ContextMenu from '@gomo/react-context-menu';
 
 function getWindowSize(){
   const width = window.innerWidth
