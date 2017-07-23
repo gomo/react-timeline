@@ -280,4 +280,4 @@ Frame.defaultProps = {
   childWidth: 0
 };
 
-export default DragDropContext(DndBackend({ enableMouseEvents: true }))(DropTarget("Event", target, collect)(Frame));
+export default DragDropContext(DndBackend({ enableMouseEvents: true }), {withRef: true})(DropTarget("Event", target, collect)(Frame));
