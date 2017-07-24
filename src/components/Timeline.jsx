@@ -22,22 +22,9 @@ export default class Timeline extends React.Component
 
     this.createdEventId = 0;
     this.draggingOverLineComponent = null;
-  }
 
-  get eventComponents(){
-    const events = [];
-
-    for(var key in this.frameComponent.refs){
-      if(key.indexOf("event@") === 0){
-        events.push(this.frameComponent.refs[key].getDecoratedComponentInstance());
-      }
-    }
-
-    return events;
-  }
-
-  get frameComponent(){
-    return this.refs.frame.getDecoratedComponentInstance().getDecoratedComponentInstance();
+    this.frameComponent = undefined;
+    this.eventComponents = []
   }
 
   get lineComponents(){
@@ -223,7 +210,7 @@ export default class Timeline extends React.Component
   }
 
   removeEvent(eventId){
-    this.frameComponent.removeEvent(eventId);
+    return this.frameComponent.removeEvent(eventId);
   }
 
   updateEvents(callback){

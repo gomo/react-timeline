@@ -70,7 +70,10 @@ window.onload = () => {
         {
           name: context => 'remove',
           onClick: context => {
-            context.component.remove();
+            const lineId = context.component.lineId;
+            context.component.remove().then(() => {
+              console.log(timeline.getEventsOnLine(lineId))
+            });
           },
           enable: context => context.component.isFixed()
         }
@@ -287,4 +290,8 @@ window.onload = () => {
       float: {top: 100, left: 100, minute: 60}
     }
   ]);
+
+  setTimeout(function() {
+    console.log(timeline.getEventsOnLine('__18'))
+  }, 500)
 }

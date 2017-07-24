@@ -307,8 +307,8 @@ class Event extends React.Component
   }
 
   remove(){
-    this.props.timeline.removeEvent(this.props.id);
     this.props.timeline.clearDraggingOver();
+    return this.props.timeline.removeEvent(this.props.id);
   }
 
   getMinute(){
@@ -378,6 +378,14 @@ class Event extends React.Component
 
   getVar(key){
     return this.vars[key];
+  }
+
+  componentDidMount(){
+    this.props.timeline.eventComponents.push(this)
+  }
+
+  componentWillUnmount(){
+    this.props.timeline.eventComponents = this.props.timeline.eventComponents.filter(ev => ev !== this)
   }
 
   render(){

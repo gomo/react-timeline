@@ -123,7 +123,9 @@ class Frame extends React.Component
   }
 
   removeEvent(eventId){
-    this.setState({events: this.state.events.filter(ev => ev.id != eventId)});
+    return new Promise(resolve => {
+      this.setState({events: this.state.events.filter(ev => ev.id != eventId)}, resolve);
+    })
   }
 
   updateEvents(callback){
@@ -162,6 +164,7 @@ class Frame extends React.Component
   }
 
   componentDidMount(){
+    this.props.timeline.frameComponent = this;
     this.setState({
       minWidth: this.props.timeline.getTotalWidth()
     });
@@ -280,4 +283,4 @@ Frame.defaultProps = {
   childWidth: 0
 };
 
-export default DragDropContext(DndBackend({ enableMouseEvents: true }), {withRef: true})(DropTarget("Event", target, collect)(Frame));
+export default DragDropContext(DndBackend({ enableMouseEvents: true }))(DropTarget("Event", target, collect)(Frame));
