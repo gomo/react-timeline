@@ -206,6 +206,7 @@ class Frame extends React.Component
                           prevRuler={prevRuler}
                           label={data.label}
                           timeline={this.props.timeline}
+                          isLast={key == this.props.lineData.length - 1}
                         />
                       )
                     })}

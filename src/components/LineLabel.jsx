@@ -6,11 +6,10 @@ export default class LineLabel extends React.Component
 {
   constructor(props) {
     super(props);
-
     this.state = {
       hasRuler: this.props.hasRuler,
       prevRuler: this.props.prevRuler,
-      isLast: true
+      isLast: this.props.isLast
     }
   }
 
