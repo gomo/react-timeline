@@ -291,6 +291,13 @@ window.onload = () => {
     }
   ]);
 
+  timeline.addEvents([
+    {
+      color: '#6b77ff',
+      float: {top: 10000, left: 10000, minute: 60}
+    }
+  ]);
+
   setTimeout(function() {
     console.log(timeline.getEventsOnLine('__18'))
   }, 500)

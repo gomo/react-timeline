@@ -29,8 +29,7 @@ export default class EventBase extends React.Component
     )
   }
   render(){
-    let displayPosition = 'right';
-    
+    let displayPosition = 'left';
     if(this.refs.base){
       var wrapper = closest(this.refs.base, '.linesFrame');
       var wrapperRect = wrapper.getBoundingClientRect();
@@ -38,8 +37,9 @@ export default class EventBase extends React.Component
 
       var previewRect = this.refs.base.getBoundingClientRect();
       var previewRightSide = previewRect.left + previewRect.width;
-      if(wrapperRightSide < previewRightSide + 70){
-        displayPosition = 'left';
+      
+      if(wrapperRightSide > previewRightSide + 70){
+        displayPosition = 'right';
       }
     }
     return (
