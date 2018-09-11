@@ -413,7 +413,7 @@ class Event extends React.Component
     };
 
     return this.props.connectDragSource(
-      <div ref={elem => this.element = elem} onContextMenu={e => this.onContextMenu(e)} className={classNames('tlEventView', {tlDraggingEvent: this.state.draggable, tlResizableEvent: this.state.resizable})} style={style} onClick={e => this.onClick(e)}>
+      <div data-id={this.props.id} ref={elem => this.element = elem} onContextMenu={e => this.onContextMenu(e)} className={classNames('tlEventView', {tlDraggingEvent: this.state.draggable, tlResizableEvent: this.state.resizable})} style={style} onClick={e => this.onClick(e)}>
         {(() => {
           if(this.state.resizable){
             return (

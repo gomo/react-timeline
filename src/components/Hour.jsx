@@ -18,7 +18,7 @@ export default class Hour extends React.Component
       this.state.minutes.push(
         <div
           key={min}
-          className={classNames('tlMinView', 'tl' + (min + 15))}
+          className={classNames('tlMinView', 'tl' + min)}
           style={minStyle}
         >&nbsp;</div>
       );
@@ -27,7 +27,7 @@ export default class Hour extends React.Component
 
   render(){
     return (
-      <div className="tlHourView">{this.state.minutes}</div>
+      <div className={classNames('tlHourView', 'tl' + this.props.time.getHour())}>{this.state.minutes}</div>
     );
   }
 }
