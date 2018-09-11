@@ -74,7 +74,7 @@ export default class Line extends React.Component
 
   render(){
     return (
-      <div data-id={this.props.id} onContextMenu={e => this.onContextMenu(e)}>
+      <div className="tlLineWrapper" data-id={this.props.id} onContextMenu={e => this.onContextMenu(e)}>
         {(() => {
           if(this.props.hasRuler){
             return (
