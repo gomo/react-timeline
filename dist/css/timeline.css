@@ -98,10 +98,10 @@
   -webkit-user-select: none;
   -ms-user-select: none;
 }
-.tlMinView.tl15, .tlMinView.tl45 {
+.tlMinView.tl0, .tlMinView.tl30 {
   border-bottom: 1px dashed #ddd;
 }
-.tlMinView.tl30 {
+.tlMinView.tl15 {
   border-bottom: 1px solid #ccc;
 }
 

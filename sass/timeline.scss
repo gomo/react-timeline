@@ -100,11 +100,11 @@
 
   @include user-select(none);
 
-  &.tl15, &.tl45 {
+  &.tl0, &.tl30 {
     border-bottom: 1px dashed #ddd;
   }
 
-  &.tl30 {
+  &.tl15 {
     border-bottom: 1px solid #ccc;
   }
 }
