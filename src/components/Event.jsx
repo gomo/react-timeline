@@ -69,9 +69,9 @@ class Event extends React.Component
       if(this.state.top > bottom){
         this.state.top = bottom
       }
-
+      
       const time = this.props.timeline.topToTime(this.state.top);
-      this.draggingPosition = {time: time, lineId: line ? line.id : undefined};
+      this.draggingPosition = {time: time, lineId: line ? line.props.id : undefined};
       this.state.draggingDisplay = time.getDisplayTime();
       this.timeSpan = new TimeSpan(time, time.addMin(this.props.float.minute));
     } else {
