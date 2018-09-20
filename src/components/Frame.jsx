@@ -140,10 +140,17 @@ class Frame extends React.Component
         if(!event.id){
           event.id = this.props.timeline.createEventId();
         }
+
+        if(current.some(e => e.id == event.id)){
+          throw new Error('You are trying to add an event with the same ID[' + event.id + ']')
+        }
+
         eventIds.push(event.id);
         current.push(event)
       });
+
       this.setState({events: current}, () => {
+        // 今回追加したEventを集めてresolverへ渡す
         var results = this.props.timeline.eventComponents.filter(eventComponent => {
           return eventIds.indexOf(eventComponent.props.id) !== -1;
         });
