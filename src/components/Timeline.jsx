@@ -28,14 +28,12 @@ export default class Timeline extends React.Component
   }
 
   get lineComponents(){
-    const lines = [];
-    for(var key in this.frameComponent.refs){
-      if(key.indexOf("line@") === 0){
-        lines.push(this.frameComponent.refs[key]);
-      }
-    }
-
-    return lines;
+    // refsはオブジェクトなので順番の保証がないためDOMからとります。
+    const lines = this.frameComponent.refs.linesWrapper.querySelectorAll('.tlLineWrapper');
+    return Array.prototype.slice.call(lines).map(elem => {
+      const id = elem.getAttribute('data-id')
+      return this.frameComponent.refs['line@' + id]
+    })
   }
 
   get lastLine(){
@@ -48,6 +46,7 @@ export default class Timeline extends React.Component
   }
 
   draggingOver(left){
+
     const lineComponent = this.findLineByLeft(left);
     if(lineComponent){
       if(this.draggingOverLineComponent !== lineComponent){
