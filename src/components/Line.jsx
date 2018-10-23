@@ -72,6 +72,12 @@ export default class Line extends React.Component
     this.setState({draggingOver: false});
   }
 
+  componentWillUnmount(){
+    if(this.props.timeline.draggingOverLineComponent == this){
+      this.props.timeline.draggingOverLineComponent = undefined
+    }
+  }
+
   render(){
     return (
       <div className="tlLineWrapper" data-id={this.props.id} onContextMenu={e => this.onContextMenu(e)}>
