@@ -240,11 +240,12 @@ class Frame extends React.Component
                         )
                       })}
                       {this.state.events.map(event => {
+                        const eventId = event.id||this.props.timeline.createEventId()
                         return (
                           <Event
-                            ref={"event@" + event.id}
-                            key={event.key||event.id}
-                            id={event.id}
+                            ref={"event@" + eventId}
+                            key={event.key||eventId}
+                            id={eventId}
                             color={event.color}
                             timeSpan={event.timeSpan}
                             display={event.display}

@@ -8,11 +8,11 @@
   <link rel="stylesheet" href="../../react-context-menu/dist/css/context-menu.css" charset="utf-8">
   <link rel="stylesheet" href="../dist/css/timeline.css" charset="utf-8">
   <script
-  src="https://code.jquery.com/jquery-3.2.1.min.js"
-  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  src="https://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
   crossorigin="anonymous"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/react/15.5.0/react.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/react/15.5.0/react-dom.js"></script>
+  <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
   <script src="timeline.js"></script>
   <style media="screen">
     body{
@@ -20,14 +20,13 @@
       padding: 0;
       font-family: 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', Meiryo, メイリオ, Osaka, 'MS PGothic', arial, helvetica, sans-serif;
     }
-    #timeline{
+    #app{
       margin-top: 50px;
       margin-left: 60px
     }
   </style>
 </head>
 <body>
-  <div id="timeline"></div>
-  <div id="menu"></div>
+  <div id="app"></div>
 </body>
 </html>
