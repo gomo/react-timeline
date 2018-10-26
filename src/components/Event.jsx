@@ -27,7 +27,6 @@ class Event extends React.Component
 {
   constructor(props) {
     super(props);
-
     this.state = {
       top: props.float === undefined ? this.props.timeline.timeToTop(this.props.timeSpan.getStartTime()) : props.float.top,
       left: props.float === undefined ? this.props.timeline.getLineLeft(this.props.lineId) : props.float.left,
@@ -407,6 +406,22 @@ class Event extends React.Component
 
   componentWillUnmount(){
     this.props.timeline.eventComponents = this.props.timeline.eventComponents.filter(ev => ev !== this)
+  }
+
+  componentWillReceiveProps(nextProps){
+    if(this.isFixed()){
+      if(nextProps.action == 'float'){
+        this.float()
+      } else if(nextProps.action == 'resize'){
+        this.resize()
+      }
+    } else {
+      if(nextProps.action == 'fix'){
+        this.fix()
+      } else if(nextProps.action == 'cancel'){
+        this.cancel()
+      }
+    }
   }
 
   render(){

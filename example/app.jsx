@@ -9,6 +9,7 @@ class App extends React.Component
   constructor(props) {
     super(props)
     this.$wrapper = $('#app')
+    this.eventMenu = null
     this.state = {
       lines: [
         {label:'label1', id:'__1'},
@@ -70,37 +71,118 @@ class App extends React.Component
     }]})
   }
 
+  floatEvent(context){
+    this.setActionToEvent(context.component.props.id, 'float')
+  }
+
+  resizeEvent(context){
+    this.setActionToEvent(context.component.props.id, 'resize')
+  }
+
+  cancelEvent(context){
+    this.setActionToEvent(context.component.props.id, 'cancel')
+  }
+
+  fixEvent(context){
+    this.setActionToEvent(context.component.props.id, 'fix')
+  }
+
+  setActionToEvent(eventId, action){
+    this.setState({events: this.state.events.map(event => {
+      if(event.id == eventId){
+        return Object.assign(event, {action: action})
+      } else {
+        return event
+      }
+    })})
+  }
+
   render(){
     return (
-      <Timeline
-        lineData={this.state.lines}
-        timeSpan={this.state.timeSpan}
-        initialEvents={this.state.events}
-        lineWidth={62}
-        minHeight={17}
-        minInterval={5}
-        rulerInterval={4}
-        height={this.state.height}
-        lineDidClick={data => this.addEvent(data)}
-        lineDidRightClick={data => {
-          console.log('right', data);
-        }}
-        eventDidClick={data => {
-          console.log('left', data);
-        }}
-        eventDidRightClick={data => {
-          // data.event.preventDefault();
-          // eventMenu.show({top: data.event.clientY, left: data.event.clientX}, data);
-        }}
-        eventWillFix={data => {
-          var display = data.component.state.display.filter(row => row.key != 'startTime');
-          display.push({key: 'startTime', value: data.timeSpan.getStartTime().getDisplayTime()})
-          data.state.display = display;
-        }}
-        eventDidFix={data => {
-          console.log(data);
-        }}
-      />
+      <div>
+        <ContextMenu
+          ref={menu => this.eventMenu = menu}
+          items={[
+            {
+              name: context => 'float',
+              onClick: context => this.floatEvent(context),
+              show: context => context.component.isFixed()
+            },
+            {
+              name: context => 'resize',
+              onClick: context => this.resizeEvent(context),
+              show: context => context.component.isFixed()
+            },
+            {
+              name: context => 'cancel',
+              onClick: context => this.cancelEvent(context),
+              show: context => !context.component.isFixed()
+              // onClick: context => {
+              //   if(context.component.isCancelable()){
+              //     context.component.cancel();
+              //   } else {
+              //     alert('You can\'t cancel!');
+              //   }
+              // }
+            },
+            {
+              name: context => 'fix',
+              onClick: context => this.fixEvent(context),
+              // onClick: context => {
+              //   if(context.component.isFixable()){
+              //     context.component.fix();
+              //   } else {
+              //     alert('You can\'t fix!');
+              //   }
+              // },
+              show: context => !context.component.isFixed()
+            },
+            {
+              name: context => '-'
+            },
+            {
+              name: context => 'remove',
+              onClick: context => {
+                const lineId = context.component.lineId;
+                context.component.remove().then(() => {
+                  console.log(timeline.getEventsOnLine(lineId))
+                });
+              },
+              enable: context => context.component.isFixed()
+            }
+          ]}
+          zIndex={1000}
+        />
+        <Timeline
+          lineData={this.state.lines}
+          timeSpan={this.state.timeSpan}
+          initialEvents={this.state.events}
+          lineWidth={62}
+          minHeight={17}
+          minInterval={5}
+          rulerInterval={4}
+          height={this.state.height}
+          lineDidClick={data => this.addEvent(data)}
+          lineDidRightClick={data => {
+            console.log('right', data);
+          }}
+          eventDidClick={data => {
+            console.log('left', data);
+          }}
+          eventDidRightClick={data => {
+            data.event.preventDefault();
+            this.eventMenu.show({top: data.event.clientY, left: data.event.clientX}, data);
+          }}
+          eventWillFix={data => {
+            var display = data.component.state.display.filter(row => row.key != 'startTime');
+            display.push({key: 'startTime', value: data.timeSpan.getStartTime().getDisplayTime()})
+            data.state.display = display;
+          }}
+          eventDidFix={data => {
+            console.log(data);
+          }}
+        />
+      </div>
     );
   }
 }

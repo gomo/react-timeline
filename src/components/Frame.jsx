@@ -254,6 +254,7 @@ class Frame extends React.Component
                             width={this.props.timeline.props.lineWidth - 2 - (Line.sidePadding * 2)}
                             vars={event.vars}
                             float={event.float}
+                            action={event.action}
                           />
                         )
                       })}
