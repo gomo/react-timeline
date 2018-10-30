@@ -54,6 +54,7 @@ class Frame extends React.Component
 
     this.resizingEvent = null;
     this.element = null;
+    this.props.timeline.frameComponent = this;
   }
 
   resizeUp(eventComponent, clickedTop){
@@ -132,33 +133,6 @@ class Frame extends React.Component
     this.setState({events: callback(this.state.events)});
   }
 
-  addEvents(events){
-    return new Promise(resolve => {
-      var current = [...this.state.events];
-      var eventIds = [];
-      events.forEach(event => {
-        if(!event.id){
-          event.id = this.props.timeline.createEventId();
-        }
-
-        if(current.some(e => e.id == event.id)){
-          throw new Error('You are trying to add an event with the same ID[' + event.id + ']')
-        }
-
-        eventIds.push(event.id);
-        current.push(event)
-      });
-
-      this.setState({events: current}, () => {
-        // 今回追加したEventを集めてresolverへ渡す
-        var results = this.props.timeline.eventComponents.filter(eventComponent => {
-          return eventIds.indexOf(eventComponent.props.id) !== -1;
-        });
-        resolve(results);
-      });
-    });
-  }
-
   setHeight(height){
     this.setState({height: height});
   }
@@ -171,10 +145,11 @@ class Frame extends React.Component
   }
 
   componentDidMount(){
-    this.props.timeline.frameComponent = this;
-    this.setState({
+    const newState = {
       minWidth: this.props.timeline.getTotalWidth()
-    });
+    }
+
+    this.setState(newState, this.correctOutsideEvents);
   }
 
   componentWillReceiveProps(nextProps){
@@ -182,14 +157,48 @@ class Frame extends React.Component
     //イベントは数が多いので走査を最小限にするためstateにしたが、timelineを丸っと読み込み直すのに対応するためチェック。
     //イベントを変更するときは基本timelineの関数経由で行い、全て読み込み直す時だけinitialEventsを変更する。
     if(nextProps.initialEvents !== this.props.initialEvents){
-      newState.events = nextProps.initialEvents;
+      newState.events = nextProps.initialEvents
     }
 
     if(nextProps.lineData !== this.props.lineData){
       newState.minWidth = this.props.timeline.getTotalWidth()
     }
 
-    this.setState(newState);
+    this.setState(newState, this.correctOutsideEvents);
+  }
+
+  correctOutsideEvents(){
+    this.props.timeline.eventComponents.forEach(event => {
+      if(event.state.draggable){
+        const newPos = {}
+        // lineを特定する
+        var line = this.props.timeline.findLineByLeft(event.state.left)
+        // はみ出てたら移動
+        if(!line){
+          line = this.props.timeline.lastLine
+          newPos.left = this.props.timeline.getLineLeft(line.props.id)
+        }
+
+        if(line){
+          event.draggingPosition.lineId = line.props.id
+        }
+
+        // 高さがはみ出てないかチェック
+        const bottom = this.props.timeline.timeToTop(this.props.timeline.timeSpan.getEndTime()) - event.state.height
+        if(event.state.top > bottom){
+          newPos.top = bottom
+
+          const time = this.props.timeline.topToTime(newPos.top)
+          event.draggingPosition.time = time
+          newPos.draggingDisplay = time.getDisplayTime()
+          event.timeSpan = new TimeSpan(time, time.addMin(event.timeSpan.getDistance()))
+        }
+
+        if(Object.keys(newPos).length){
+          event.setState(newPos)
+        }
+      }
+    })
   }
 
   render(){
@@ -240,12 +249,11 @@ class Frame extends React.Component
                         )
                       })}
                       {this.state.events.map(event => {
-                        const eventId = event.id||this.props.timeline.createEventId()
                         return (
                           <Event
-                            ref={"event@" + eventId}
-                            key={event.key||eventId}
-                            id={eventId}
+                            ref={"event@" + event.id}
+                            key={event.key||event.id}
+                            id={event.id}
                             color={event.color}
                             timeSpan={event.timeSpan}
                             display={event.display}

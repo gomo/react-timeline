@@ -41,10 +41,6 @@ export default class Timeline extends React.Component
     return lines[lines.length - 1]
   }
 
-  createEventId(){
-    return 'new_' + (++this.createdEventId);
-  }
-
   draggingOver(left){
 
     const lineComponent = this.findLineByLeft(left);

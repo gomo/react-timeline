@@ -59,9 +59,15 @@ class App extends React.Component
     return {width: width, height: height};
   }
 
+  generateEventId(){
+    this.lastEventId = this.lastEventId||0
+    this.lastEventId += 1
+    return 'new_' + this.lastEventId
+  }
+
   addEvent(data){
     this.setState({events: [...this.state.events, {
-      // id: 99999,
+      id: this.generateEventId(),
       lineId: data.component.props.id,
       timeSpan: new TimeSpan(data.time, data.time.addMin(60)),
       color: '#FFDCB6',

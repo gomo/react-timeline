@@ -111,12 +111,14 @@ export default [
   {id: '12718', lineId: '__18', timeSpan: TimeSpan.create([19, 30], [20, 30]), color: '#FFDCB6'},
   {id: '12818', lineId: '__18', timeSpan: TimeSpan.create([20, 30], [21, 30]), color: '#FFDCB6'},
   {id: '12918', lineId: '__18', timeSpan: TimeSpan.create([22, 30], [23, 30]), color: '#FFDCB6'},
-  // {
-  //   color: '#FFB6B6',
-  //   float: {top: 10, left: 10, minute: 60}
-  // },
-  // {
-  //   color: '#FFB6B6',
-  //   float: {top: 100, left: 100, minute: 60}
-  // }
+  {
+    id: 'float1',
+    color: '#FFB6B6',
+    float: {top: 10, left: 10, minute: 60}
+  },
+  {
+    id: 'float2',
+    color: '#FFB6B6',
+    float: {top: 10000, left: 10000, minute: 60}
+  }
 ]

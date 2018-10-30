@@ -48,29 +48,8 @@ class Event extends React.Component
     if(this.props.float){
       // 高さを設定
       this.state.height = this.props.timeline.minuteToHeight(this.props.float.minute);
-
-      // 右がはみ出てないかチェック
-      var line = this.props.timeline.findLineByLeft(this.state.left)
-      if(!line){
-        line = this.props.timeline.lastLine
-        if(line){
-          this.state.left = this.props.timeline.getLineLeft(line.props.id)
-        } else {
-          const leftLimit = this.props.timeline.frameComponent.refs.linesWrapper.offsetWidth - this.props.width
-          if(this.state.left > leftLimit){
-            this.state.left = leftLimit
-          }
-        }
-      }
-      
-      // 高さがはみ出てないかチェック
-      const bottom = this.props.timeline.timeToTop(this.props.timeline.timeSpan.getEndTime()) - this.state.height
-      if(this.state.top > bottom){
-        this.state.top = bottom
-      }
-      
       const time = this.props.timeline.topToTime(this.state.top);
-      this.draggingPosition = {time: time, lineId: line ? line.props.id : undefined};
+      this.draggingPosition = {time: time, lineId: undefined};
       this.state.draggingDisplay = time.getDisplayTime();
       this.timeSpan = new TimeSpan(time, time.addMin(this.props.float.minute));
     } else {
