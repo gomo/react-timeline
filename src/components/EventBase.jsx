@@ -31,14 +31,9 @@ export default class EventBase extends React.Component
   render(){
     let displayPosition = 'left';
     if(this.refs.base){
-      var wrapper = closest(this.refs.base, '.linesFrame');
-      var wrapperRect = wrapper.getBoundingClientRect();
-      var wrapperRightSide = wrapperRect.left + wrapperRect.width;
-
       var previewRect = this.refs.base.getBoundingClientRect();
       var previewRightSide = previewRect.left + previewRect.width;
-      
-      if(wrapperRightSide > previewRightSide + 70){
+      if(this.props.timeline.getTotalWidth() > previewRightSide + 70){
         displayPosition = 'right';
       }
     }

@@ -50,6 +50,7 @@ class EventPreview extends React.Component {
         <EventBase
           draggingDisplay={draggingDisplay}
           display={display}
+          timeline={this.props.timeline}
         />
       </div>
     );

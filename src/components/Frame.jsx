@@ -267,7 +267,7 @@ class Frame extends React.Component
                         )
                       })}
                     </div>
-                    <EventPreview />
+                    <EventPreview timeline={this.props.timeline} />
                   </div>
                 </div>
               </div>
