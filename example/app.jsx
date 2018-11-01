@@ -39,6 +39,8 @@ class App extends React.Component
     window.onresize = () => {
       this.setState({height: this.calcHeight()})
     }
+
+    this.lastLineId = 18
   }
 
   calcHeight(){
@@ -103,9 +105,19 @@ class App extends React.Component
     })})
   }
 
+  addLine(){
+    ++this.lastLineId
+    this.setState({lines: [...this.state.lines, {
+      label:'label' + this.lastLineId, id:'__' + this.lastLineId
+    }]})
+  }
+
   render(){
     return (
       <div>
+        <div style={{marginBottom: '20px'}}>
+          <button onClick={() => this.addLine()}>LINEを追加</button>
+        </div>
         <ContextMenu
           ref={menu => this.eventMenu = menu}
           items={[

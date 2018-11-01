@@ -69,10 +69,14 @@ export default class Timeline extends React.Component
   }
 
   getTotalWidth(){
-    return this.props.lineData.reduce((val, data, index) => {
-      const hasRuler = index % this.props.rulerInterval === 0;
-      return val + (hasRuler ? this.lineWidth + Ruler.width : this.lineWidth);
-    }, 0);
+    if(this.totalWidthCache === undefined){
+      this.totalWidthCache = this.props.lineData.reduce((val, data, index) => {
+        const hasRuler = index % this.props.rulerInterval === 0;
+        return val + (hasRuler ? this.lineWidth + Ruler.width : this.lineWidth);
+      }, 0);
+    }
+
+    return this.totalWidthCache
   }
 
   findEventById(eventId){
@@ -215,6 +219,12 @@ export default class Timeline extends React.Component
 
   updateEvents(callback){
     this.frameComponent.updateEvents(callback);
+  }
+
+  componentWillReceiveProps(nextProps){
+    if(nextProps.lineData !== this.props.lineData){
+      this.totalWidthCache = undefined
+    }
   }
 
   render(){
