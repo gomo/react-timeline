@@ -403,6 +403,38 @@ class Event extends React.Component
     }
   }
 
+  correctPosition(){
+    if(this.state.draggable){
+      const newPos = {}
+      // lineを特定する
+      var line = this.props.timeline.findLineByLeft(this.state.left)
+      // はみ出てたら移動
+      if(!line){
+        line = this.props.timeline.lastLine
+        newPos.left = this.props.timeline.getLineLeft(line.props.id)
+      }
+
+      if(line){
+        this.draggingPosition.lineId = line.props.id
+      }
+
+      // 高さがはみ出てないかチェック
+      const bottom = this.props.timeline.timeToTop(this.props.timeline.timeSpan.getEndTime()) - this.state.height
+      if(this.state.top > bottom){
+        newPos.top = bottom
+
+        const time = this.props.timeline.topToTime(newPos.top)
+        this.draggingPosition.time = time
+        newPos.draggingDisplay = time.getDisplayTime()
+        this.timeSpan = new TimeSpan(time, time.addMin(this.timeSpan.getDistance()))
+      }
+
+      if(Object.keys(newPos).length){
+        this.setState(newPos)
+      }
+    }
+  }
+
   render(){
     const style = {
       height: this.state.height,

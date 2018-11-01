@@ -164,41 +164,11 @@ class Frame extends React.Component
       newState.minWidth = this.props.timeline.getTotalWidth()
     }
 
-    this.setState(newState, this.correctOutsideEvents);
+    this.setState(newState, this.correctOutsideEvents)
   }
 
   correctOutsideEvents(){
-    this.props.timeline.eventComponents.forEach(event => {
-      if(event.state.draggable){
-        const newPos = {}
-        // lineを特定する
-        var line = this.props.timeline.findLineByLeft(event.state.left)
-        // はみ出てたら移動
-        if(!line){
-          line = this.props.timeline.lastLine
-          newPos.left = this.props.timeline.getLineLeft(line.props.id)
-        }
-
-        if(line){
-          event.draggingPosition.lineId = line.props.id
-        }
-
-        // 高さがはみ出てないかチェック
-        const bottom = this.props.timeline.timeToTop(this.props.timeline.timeSpan.getEndTime()) - event.state.height
-        if(event.state.top > bottom){
-          newPos.top = bottom
-
-          const time = this.props.timeline.topToTime(newPos.top)
-          event.draggingPosition.time = time
-          newPos.draggingDisplay = time.getDisplayTime()
-          event.timeSpan = new TimeSpan(time, time.addMin(event.timeSpan.getDistance()))
-        }
-
-        if(Object.keys(newPos).length){
-          event.setState(newPos)
-        }
-      }
-    })
+    this.props.timeline.eventComponents.forEach(event => event.correctPosition())
   }
 
   render(){
