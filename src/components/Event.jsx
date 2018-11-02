@@ -28,6 +28,7 @@ class Event extends React.Component
   constructor(props) {
     super(props);
 
+    // ドラッグ&ドロップのパフォーマンスを上げるため、見た目に関係のないstateはメンバー変数にしてます。
     this.lineId = this.props.initialLineId;
     this.timeSpan = this.props.initialTimeSpan;
     this.draggingPosition = null;
@@ -276,15 +277,21 @@ class Event extends React.Component
 
   cancel(){
     if(this.draggingPosition){
-      const left = this.props.timeline.getLineLeft(this.lineId);
-      const top = this.props.timeline.timeToTop(this.timeSpan.getStartTime());
       this.draggingPosition = null;
-      this.setState({
-        draggable: false,
-        draggingDisplay: '',
-        top: top,
-        left: left
-      });
+      const newState = {}
+
+      if(this.lineId === undefined){
+        newState.left = this.props.float.left
+        newState.top = this.props.float.top
+        newState.draggingDisplay = this.timeSpan.getStartTime().getDisplayTime()
+      } else {
+        newState.left = this.props.timeline.getLineLeft(this.lineId);
+        newState.top = this.props.timeline.timeToTop(this.timeSpan.getStartTime());
+        newState.draggable = false
+        newState.draggingDisplay = ''
+      }
+
+      this.setState(newState);
     } else if(this.resizingTimeSpan){
       const top = this.props.timeline.timeToTop(this.timeSpan.getStartTime());
       const height = this.props.timeline.timeSpanToHeight(this.timeSpan);
