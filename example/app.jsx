@@ -112,6 +112,10 @@ class App extends React.Component
     }]})
   }
 
+  removeLine(id){
+    this.setState({lines: this.state.lines.filter(line => line.id != id)})    
+  }
+
   render(){
     return (
       <div>
@@ -124,49 +128,50 @@ class App extends React.Component
             {
               name: context => 'float',
               onClick: context => this.floatEvent(context),
-              show: context => context.component.isFixed()
+              show: context => context.component.constructor.name == 'Event' && context.component.isFixed()
             },
             {
               name: context => 'resize',
               onClick: context => this.resizeEvent(context),
-              show: context => context.component.isFixed()
+              show: context => context.component.constructor.name == 'Event' && context.component.isFixed()
             },
             {
               name: context => 'cancel',
               onClick: context => this.cancelEvent(context),
-              show: context => !context.component.isFixed()
-              // onClick: context => {
-              //   if(context.component.isCancelable()){
-              //     context.component.cancel();
-              //   } else {
-              //     alert('You can\'t cancel!');
-              //   }
-              // }
+              show: context => context.component.constructor.name == 'Event' && !context.component.isFixed()
             },
             {
               name: context => 'fix',
               onClick: context => this.fixEvent(context),
-              // onClick: context => {
-              //   if(context.component.isFixable()){
-              //     context.component.fix();
-              //   } else {
-              //     alert('You can\'t fix!');
-              //   }
-              // },
-              show: context => !context.component.isFixed()
+              show: context => context.component.constructor.name == 'Event' && !context.component.isFixed()
             },
             {
-              name: context => '-'
+              name: context => '-',
+              show: context => context.component.constructor.name == 'Event',
             },
             {
               name: context => 'remove',
               onClick: context => {
-                const lineId = context.component.lineId;
-                context.component.remove().then(() => {
-                  console.log(timeline.getEventsOnLine(lineId))
-                });
+                const timeline = context.component.props.timeline
+                if(context.component.constructor.name == 'Line'){
+                  this.removeLine(context.component.props.id)
+                } else {
+                  const lineId = context.component.lineId;
+                  context.component.remove().then(() => {
+                    console.log(timeline.getEventsOnLine(lineId))
+                  })
+                }
               },
-              enable: context => context.component.isFixed()
+              enable: context => {
+                const timeline = context.component.props.timeline
+                if(context.component.constructor.name == 'Line'){
+                  return true
+                  const events = timeline.getEventsOnLine(context.component.props.id)
+                  return events.length === 0
+                } else {
+                  return context.component.isFixed()
+                }
+              }
             }
           ]}
           zIndex={1000}
@@ -182,7 +187,8 @@ class App extends React.Component
           height={this.state.height}
           lineDidClick={data => this.addEvent(data)}
           lineDidRightClick={data => {
-            console.log('right', data);
+            data.event.preventDefault();
+            this.eventMenu.show({top: data.event.clientY, left: data.event.clientX}, data);
           }}
           eventDidClick={data => {
             console.log('left', data);
