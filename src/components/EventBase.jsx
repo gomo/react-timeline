@@ -30,16 +30,8 @@ export default class EventBase extends React.Component
   }
   render(){
     let displayPosition = 'left';
-    if(this.refs.base){
-      var previewRect = this.refs.base.getBoundingClientRect();
-      // ドラッグ中に0で取れることがある。
-      // 特に右端でドラッグをやめると０で終わってdisplayPositionがrightになってしう
-      if(previewRect.width !== 0 && previewRect.width !== 0){
-        var previewRightSide = previewRect.left + previewRect.width;
-        if(this.props.timeline.getTotalWidth() > previewRightSide + 70){
-          displayPosition = 'right';
-        }
-      }
+    if(this.props.timeline.getTotalWidth() > this.props.right + 70){
+      displayPosition = 'right';
     }
     return (
       <div ref="base" style={{height: '100%'}}>

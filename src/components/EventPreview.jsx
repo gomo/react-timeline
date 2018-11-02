@@ -35,7 +35,19 @@ class EventPreview extends React.Component {
     });
   }
 
+  getRight(){
+    if(!this.props.draggingComponent) return undefined
+
+    const width = this.props.draggingComponent.props.width
+    if(this.props.clientOffset){
+      return this.props.draggingComponent.state.left + this.props.clientOffset.x + width
+    } else {
+      return this.props.draggingComponent.state.left + width
+    }
+  }
+
   render () {
+
     let draggingDisplay = '';
     if(this.props.draggingComponent && this.props.draggingComponent.state.draggingDisplay){
       draggingDisplay = this.props.draggingComponent.state.draggingDisplay;
@@ -51,6 +63,7 @@ class EventPreview extends React.Component {
           draggingDisplay={draggingDisplay}
           display={display}
           timeline={this.props.timeline}
+          right={this.getRight()}
         />
       </div>
     );

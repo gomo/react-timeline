@@ -449,6 +449,7 @@ class Event extends React.Component
           draggingDisplayTop={this.state.draggingDisplayTop}
           display={this.state.display}
           timeline={this.props.timeline}
+          right={this.state.left + this.props.width}
         />
         {(() => {
           if(this.state.resizable){
