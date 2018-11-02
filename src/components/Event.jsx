@@ -382,22 +382,6 @@ class Event extends React.Component
     this.props.timeline.eventComponents = this.props.timeline.eventComponents.filter(ev => ev !== this)
   }
 
-  componentWillReceiveProps(nextProps){
-    if(this.isFixed()){
-      if(nextProps.action == 'float'){
-        this.float()
-      } else if(nextProps.action == 'resize'){
-        this.resize()
-      }
-    } else {
-      if(nextProps.action == 'fix'){
-        this.fix()
-      } else if(nextProps.action == 'cancel'){
-        this.cancel()
-      }
-    }
-  }
-
   correctPosition(){
     if(this.state.draggable){
       const newPos = {}

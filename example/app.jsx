@@ -79,32 +79,6 @@ class App extends React.Component
     }]})
   }
 
-  floatEvent(context){
-    this.setActionToEvent(context.component.props.id, 'float')
-  }
-
-  resizeEvent(context){
-    this.setActionToEvent(context.component.props.id, 'resize')
-  }
-
-  cancelEvent(context){
-    this.setActionToEvent(context.component.props.id, 'cancel')
-  }
-
-  fixEvent(context){
-    this.setActionToEvent(context.component.props.id, 'fix')
-  }
-
-  setActionToEvent(eventId, action){
-    this.setState({events: this.state.events.map(event => {
-      if(event.id == eventId){
-        return Object.assign(event, {action: action})
-      } else {
-        return event
-      }
-    })})
-  }
-
   addLine(){
     ++this.lastLineId
     this.setState({lines: [...this.state.lines, {
@@ -131,22 +105,22 @@ class App extends React.Component
           items={[
             {
               name: context => 'float',
-              onClick: context => this.floatEvent(context),
+              onClick: context => context.component.float(),
               show: context => context.component.constructor.name == 'Event' && context.component.isFixed()
             },
             {
               name: context => 'resize',
-              onClick: context => this.resizeEvent(context),
+              onClick: context => context.component.resize(),
               show: context => context.component.constructor.name == 'Event' && context.component.isFixed()
             },
             {
               name: context => 'cancel',
-              onClick: context => this.cancelEvent(context),
+              onClick: context => context.component.cancel(),
               show: context => context.component.constructor.name == 'Event' && !context.component.isFixed()
             },
             {
               name: context => 'fix',
-              onClick: context => this.fixEvent(context),
+              onClick: context => context.component.fix(),
               show: context => context.component.constructor.name == 'Event' && !context.component.isFixed()
             },
             {
