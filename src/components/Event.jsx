@@ -27,23 +27,24 @@ class Event extends React.Component
 {
   constructor(props) {
     super(props);
-    this.state = {
-      top: props.float === undefined ? this.props.timeline.timeToTop(this.props.timeSpan.getStartTime()) : props.float.top,
-      left: props.float === undefined ? this.props.timeline.getLineLeft(this.props.lineId) : props.float.left,
-      color: this.props.color,
-      draggable: props.float === undefined ? false : true,
-      resizable: false,
-      draggingDisplay: '',
-      display: props.display,
-    }
 
-    this.lineId = this.props.lineId;
-    this.timeSpan = this.props.timeSpan;
+    this.lineId = this.props.initialLineId;
+    this.timeSpan = this.props.initialTimeSpan;
     this.draggingPosition = null;
     this.resizingTimeSpan = null;
     this.resizing = false;
-    this.vars = this.props.vars ? this.props.vars : {};
+    this.vars = this.props.vars;
     this.element = null;
+
+    this.state = {
+      top: props.float === undefined ? this.props.timeline.timeToTop(this.timeSpan.getStartTime()) : props.float.top,
+      left: props.float === undefined ? this.props.timeline.getLineLeft(this.lineId) : props.float.left,
+      color: this.props.initialColor,
+      draggable: this.props.float === undefined ? false : true,
+      resizable: false,
+      draggingDisplay: '',
+      display: this.props.initialDisplay,
+    }
 
     if(this.props.float){
       // 高さを設定
@@ -64,7 +65,7 @@ class Event extends React.Component
       timeSpan: this.timeSpan,
       vars: JSON.parse(JSON.stringify(this.vars)),
       color: this.state.color,
-      display: this.props.display,
+      display: this.state.display,
       position: {
         top: this.state.top,
         left: this.state.left,
@@ -457,7 +458,8 @@ class Event extends React.Component
 }
 
 Event.defaultProps = {
-  display: []
+  initialDisplay: [],
+  vars: {}
 };
 
 export default DragSource("Event", source, collect)(Event);

@@ -206,12 +206,12 @@ class Frame extends React.Component
                         return (
                           <Event
                             ref={"event@" + event.id}
-                            key={event.key||event.id}
+                            key={event.id}
                             id={event.id}
-                            color={event.color}
-                            timeSpan={event.timeSpan}
-                            display={event.display}
-                            lineId={event.lineId}
+                            initialColor={event.color}
+                            initialTimeSpan={event.timeSpan}
+                            initialDisplay={event.display}
+                            initialLineId={event.lineId}
                             timeline={this.props.timeline}
                             width={this.props.timeline.props.lineWidth - 2 - (Line.sidePadding * 2)}
                             vars={event.vars}
