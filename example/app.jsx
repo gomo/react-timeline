@@ -113,7 +113,11 @@ class App extends React.Component
   }
 
   removeLine(id){
-    this.setState({lines: this.state.lines.filter(line => line.id != id)})    
+    this.setState({lines: this.state.lines.filter(line => line.id != id)})
+  }
+
+  removeEvent(id){
+    this.setState({events: this.state.events.filter(event => event.id != id)})
   }
 
   render(){
@@ -156,10 +160,7 @@ class App extends React.Component
                 if(context.component.constructor.name == 'Line'){
                   this.removeLine(context.component.props.id)
                 } else {
-                  const lineId = context.component.lineId;
-                  context.component.remove().then(() => {
-                    console.log(timeline.getEventsOnLine(lineId))
-                  })
+                  this.removeEvent(context.component.props.id)
                 }
               },
               enable: context => {
@@ -179,7 +180,7 @@ class App extends React.Component
         <Timeline
           lineData={this.state.lines}
           timeSpan={this.state.timeSpan}
-          initialEvents={this.state.events}
+          events={this.state.events}
           lineWidth={62}
           minHeight={17}
           minInterval={5}

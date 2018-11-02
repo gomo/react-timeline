@@ -213,14 +213,6 @@ export default class Timeline extends React.Component
     this.frameComponent.setHeight(height);
   }
 
-  removeEvent(eventId){
-    return this.frameComponent.removeEvent(eventId);
-  }
-
-  updateEvents(callback){
-    this.frameComponent.updateEvents(callback);
-  }
-
   componentWillReceiveProps(nextProps){
     if(nextProps.lineData !== this.props.lineData){
       this.totalWidthCache = undefined
@@ -240,7 +232,7 @@ export default class Timeline extends React.Component
         lineHeight={this.lineHeight}
         timeline={this}
         rulerInterval={this.props.rulerInterval}
-        initialEvents={this.props.initialEvents}
+        events={this.props.events}
         children={this.props.children}
         childWidth={this.props.childWidth}
       />

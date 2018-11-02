@@ -49,7 +49,6 @@ class Frame extends React.Component
 
     this.state = {
       minWidth: 0,
-      events: this.props.initialEvents||[],
     }
 
     this.resizingEvent = null;
@@ -123,16 +122,6 @@ class Frame extends React.Component
     this.refs.linesWrapper.addEventListener('mouseleave', stopMoveEvent);
   }
 
-  removeEvent(eventId){
-    return new Promise(resolve => {
-      this.setState({events: this.state.events.filter(ev => ev.id != eventId)}, resolve);
-    })
-  }
-
-  updateEvents(callback){
-    this.setState({events: callback(this.state.events)});
-  }
-
   setHeight(height){
     this.setState({height: height});
   }
@@ -154,11 +143,6 @@ class Frame extends React.Component
 
   componentWillReceiveProps(nextProps){
     const newState = {};
-    //イベントは数が多いので走査を最小限にするためstateにしたが、timelineを丸っと読み込み直すのに対応するためチェック。
-    //イベントを変更するときは基本timelineの関数経由で行い、全て読み込み直す時だけinitialEventsを変更する。
-    if(nextProps.initialEvents !== this.props.initialEvents){
-      newState.events = nextProps.initialEvents
-    }
 
     if(nextProps.lineData !== this.props.lineData){
       newState.minWidth = this.props.timeline.getTotalWidth()
@@ -218,7 +202,7 @@ class Frame extends React.Component
                           />
                         )
                       })}
-                      {this.state.events.map(event => {
+                      {this.props.events.map(event => {
                         return (
                           <Event
                             ref={"event@" + event.id}

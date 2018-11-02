@@ -305,11 +305,6 @@ class Event extends React.Component
     this.props.timeline.clearDraggingOver();
   }
 
-  remove(){
-    this.props.timeline.clearDraggingOver();
-    return this.props.timeline.removeEvent(this.props.id);
-  }
-
   getMinute(){
     if(this.timeSpan){
       return this.timeSpan.getDistance();
