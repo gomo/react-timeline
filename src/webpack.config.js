@@ -40,9 +40,7 @@ module.exports = {
         commonjs: 'classnames',
         amd: 'classnames'
       }
-    },
-    {'react-dnd': 'react-dnd'},
-    {'react-dnd-touch-backend': 'react-dnd-touch-backend'}
+    }
   ],
   watch: true,
   // devtool: "#inline-source-map",
