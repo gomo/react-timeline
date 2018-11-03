@@ -1,5 +1,5 @@
 import React from 'react';
-import DragLayer from 'react-dnd/lib/DragLayer';
+import {DragLayer} from 'react-dnd';
 import EventBase from './EventBase';
 import assign from 'object-assign';
 
