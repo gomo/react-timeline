@@ -16,13 +16,24 @@ module.exports = {
   module: {
     rules: [{
       test: /(\.jsx?$|\.es6?$)/,
-      loader: 'babel-loader',
-      query:
-      {
-          presets:['es2015', 'react']
-      },
-      exclude: /node_modules/
+      exclude: /node_modules/,
+      use: {
+        loader: 'babel-loader',
+        options: {
+          presets: [
+            ["@babel/preset-env", {
+              "modules": false,
+              "targets": "> 1%, last 2 versions, Firefox ESR",
+              "forceAllTransforms": true,
+              "useBuiltIns": "entry"
+            }],
+            "@babel/preset-react"
+          ],
+          plugins: [
+            "@babel/plugin-proposal-object-rest-spread"
+          ]
+        }
+      }      
     }]
-  },
-  plugins: []
+  }
 }
