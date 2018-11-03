@@ -281,7 +281,7 @@ class Event extends React.Component
   cancel(){
     if(this.draggingPosition){
       const newState = {}
-
+      this.props.timeline.findLineById(this.draggingPosition.lineId).clearDraggingOver()
       if(this.lineId === undefined){
         newState.left = this.initialFloat.left
         newState.top = this.initialFloat.top
@@ -311,8 +311,6 @@ class Event extends React.Component
         draggingDisplay: ''
       });
     }
-
-    this.props.timeline.clearDraggingOver();
   }
 
   getMinute(){
@@ -343,6 +341,7 @@ class Event extends React.Component
       this.setState(state);
       this.lineId = this.draggingPosition.lineId;
       this.timeSpan = newTimeSpan;
+      this.props.timeline.findLineById(this.draggingPosition.lineId).clearDraggingOver()
       this.draggingPosition = null;
     } else if(this.resizingTimeSpan){
       const state = {
@@ -368,7 +367,6 @@ class Event extends React.Component
       });
     }
 
-    this.props.timeline.clearDraggingOver();
     if(this.props.timeline.props.eventDidFix){
       this.props.timeline.props.eventDidFix({
         component: this
@@ -390,6 +388,9 @@ class Event extends React.Component
 
   componentWillUnmount(){
     this.props.timeline.eventComponents = this.props.timeline.eventComponents.filter(ev => ev !== this)
+    if(this.draggingPosition){
+      this.props.timeline.findLineById(this.draggingPosition.lineId).clearDraggingOver()
+    }
   }
 
   correctPosition(){

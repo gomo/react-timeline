@@ -93,6 +93,10 @@ export default class Timeline extends React.Component
     });
   }
 
+  findLineById(lineId){
+    return this.lineComponents.find(line => line.props.id == lineId);
+  }
+
   getLineLeft(lineId){
     let left = 0;
     for (var i = 0; i < this.props.lineData.length; i++) {

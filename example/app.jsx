@@ -144,7 +144,7 @@ class App extends React.Component
                   const events = timeline.getEventsOnLine(context.component.props.id)
                   return events.length === 0
                 } else {
-                  return context.component.isFixed()
+                  return true
                 }
               }
             }

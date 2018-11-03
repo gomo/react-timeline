@@ -1382,6 +1382,13 @@ function (_React$Component) {
       });
     }
   }, {
+    key: "findLineById",
+    value: function findLineById(lineId) {
+      return this.lineComponents.find(function (line) {
+        return line.props.id == lineId;
+      });
+    }
+  }, {
     key: "getLineLeft",
     value: function getLineLeft(lineId) {
       var left = 0;
@@ -10164,6 +10171,7 @@ function (_React$Component) {
     value: function cancel() {
       if (this.draggingPosition) {
         var newState = {};
+        this.props.timeline.findLineById(this.draggingPosition.lineId).clearDraggingOver();
 
         if (this.lineId === undefined) {
           newState.left = this.initialFloat.left;
@@ -10195,8 +10203,6 @@ function (_React$Component) {
           draggingDisplay: ''
         });
       }
-
-      this.props.timeline.clearDraggingOver();
     }
   }, {
     key: "getMinute",
@@ -10231,6 +10237,7 @@ function (_React$Component) {
         this.setState(state);
         this.lineId = this.draggingPosition.lineId;
         this.timeSpan = newTimeSpan;
+        this.props.timeline.findLineById(this.draggingPosition.lineId).clearDraggingOver();
         this.draggingPosition = null;
       } else if (this.resizingTimeSpan) {
         var _state = {
@@ -10257,8 +10264,6 @@ function (_React$Component) {
           draggingDisplay: ''
         });
       }
-
-      this.props.timeline.clearDraggingOver();
 
       if (this.props.timeline.props.eventDidFix) {
         this.props.timeline.props.eventDidFix({
@@ -10289,6 +10294,10 @@ function (_React$Component) {
       this.props.timeline.eventComponents = this.props.timeline.eventComponents.filter(function (ev) {
         return ev !== _this4;
       });
+
+      if (this.draggingPosition) {
+        this.props.timeline.findLineById(this.draggingPosition.lineId).clearDraggingOver();
+      }
     }
   }, {
     key: "correctPosition",
