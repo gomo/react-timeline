@@ -36,6 +36,9 @@ class Event extends React.Component
     this.resizing = false;
     this.vars = this.props.vars;
     this.element = null;
+    // 初期フロートのイベントはlineIdを持っていません。これはキャンセルした時にフローとした状態に戻したいからです。
+    // 代わりにfloatの値を保持し、そこにフロートのまま戻すようにしています。
+    this.initialFloat = this.props.float
 
     this.state = {
       top: props.float === undefined ? this.props.timeline.timeToTop(this.timeSpan.getStartTime()) : props.float.top,
@@ -277,21 +280,20 @@ class Event extends React.Component
 
   cancel(){
     if(this.draggingPosition){
-      this.draggingPosition = null;
       const newState = {}
 
       if(this.lineId === undefined){
-        newState.left = this.props.float.left
-        newState.top = this.props.float.top
+        newState.left = this.initialFloat.left
+        newState.top = this.initialFloat.top
         newState.draggingDisplay = this.timeSpan.getStartTime().getDisplayTime()
       } else {
+        this.draggingPosition = null;
         newState.left = this.props.timeline.getLineLeft(this.lineId);
         newState.top = this.props.timeline.timeToTop(this.timeSpan.getStartTime());
         newState.draggable = false
         newState.draggingDisplay = ''
       }
-
-      this.setState(newState);
+      this.setState(newState)
     } else if(this.resizingTimeSpan){
       const top = this.props.timeline.timeToTop(this.timeSpan.getStartTime());
       const height = this.props.timeline.timeSpanToHeight(this.timeSpan);
@@ -399,6 +401,7 @@ class Event extends React.Component
       if(!line){
         line = this.props.timeline.lastLine
         newPos.left = this.props.timeline.getLineLeft(line.props.id)
+        this.initialFloat.left = newPos.left
       }
 
       if(line){
@@ -409,7 +412,7 @@ class Event extends React.Component
       const bottom = this.props.timeline.timeToTop(this.props.timeline.timeSpan.getEndTime()) - this.state.height
       if(this.state.top > bottom){
         newPos.top = bottom
-
+        this.initialFloat.top = newPos.top
         const time = this.props.timeline.topToTime(newPos.top)
         this.draggingPosition.time = time
         newPos.draggingDisplay = time.getDisplayTime()
