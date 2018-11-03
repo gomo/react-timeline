@@ -17,9 +17,9 @@
   },
   "homepage": "https://github.com/gomo/react-timeline#readme",
   "dependencies": {
-    "classnames": "^2.2.5",
-    "react-dnd": "^2.4.0",
-    "react-dnd-touch-backend": "^0.3.12"
+    "classnames": "^2.2.6",
+    "react-dnd": "^5.0.0",
+    "react-dnd-touch-backend": "^0.5.2"
   },
   "devDependencies": {
     "@gomo/react-context-menu": "^0.1.1",
