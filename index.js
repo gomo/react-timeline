@@ -1575,10 +1575,12 @@ function (_React$Component) {
 
       // refsはオブジェクトなので順番の保証がないためDOMからとります。
       var lines = this.frameComponent.refs.linesWrapper.querySelectorAll('.tlLineWrapper');
-      return Array.prototype.slice.call(lines).map(function (elem) {
+      return Array.prototype.map.call(lines, function (elem) {
         var id = elem.getAttribute('data-id');
         return _this4.frameComponent.refs['line@' + id];
-      });
+      }).filter(function (elem) {
+        return elem !== undefined;
+      }); //unmount後querySelectorAllで取れてしまうことがある。
     }
   }, {
     key: "lastLine",

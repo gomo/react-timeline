@@ -30,10 +30,10 @@ export default class Timeline extends React.Component
   get lineComponents(){
     // refsはオブジェクトなので順番の保証がないためDOMからとります。
     const lines = this.frameComponent.refs.linesWrapper.querySelectorAll('.tlLineWrapper');
-    return Array.prototype.slice.call(lines).map(elem => {
+    return Array.prototype.map.call(lines, elem => {
       const id = elem.getAttribute('data-id')
       return this.frameComponent.refs['line@' + id]
-    })
+    }).filter(elem => elem !== undefined)//unmount後querySelectorAllで取れてしまうことがある。
   }
 
   get lastLine(){
