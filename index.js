@@ -9844,6 +9844,10 @@ function closest(elem, selector) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_object_assign___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_object_assign__);
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -9940,18 +9944,29 @@ function (_React$Component) {
   _createClass(Event, [{
     key: "toJson",
     value: function toJson() {
-      return {
+      var json = {
         id: this.props.id,
-        lineId: this.lineId,
-        timeSpan: this.timeSpan,
-        vars: JSON.parse(JSON.stringify(this.vars)),
+        vars: _objectSpread({}, this.vars),
         color: this.state.color,
-        display: this.state.display,
-        position: {
+        display: this.state.display
+      };
+
+      if (this.state.draggable) {
+        json.float = {
+          top: this.state.top,
+          left: this.state.left,
+          minute: this.timeSpan.getDistance()
+        };
+      } else {
+        json.position = {
           top: this.state.top,
           left: this.state.left
-        }
-      };
+        };
+        json.lineId = this.lineId;
+        json.timeSpan = this.timeSpan;
+      }
+
+      return json;
     }
   }, {
     key: "update",

@@ -63,18 +63,29 @@ class Event extends React.Component
   }
 
   toJson(){
-    return {
+    const json = {
       id: this.props.id,
-      lineId: this.lineId,
-      timeSpan: this.timeSpan,
-      vars: JSON.parse(JSON.stringify(this.vars)),
+      vars: {...this.vars},
       color: this.state.color,
-      display: this.state.display,
-      position: {
+      display: this.state.display
+    }
+
+    if(this.state.draggable){
+      json.float = {
+        top: this.state.top,
+        left: this.state.left,
+        minute: this.timeSpan.getDistance()
+      }
+    } else {
+      json.position = {
         top: this.state.top,
         left: this.state.left,
       }
+      json.lineId = this.lineId
+      json.timeSpan = this.timeSpan
     }
+
+    return json
   }
 
   update(values){
