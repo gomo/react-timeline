@@ -281,7 +281,7 @@ class Event extends React.Component
   cancel(){
     if(this.draggingPosition){
       const newState = {}
-      this.props.timeline.findLineById(this.draggingPosition.lineId).clearDraggingOver()
+      this.clearCurrentDraggingOver()
       if(this.lineId === undefined){
         newState.left = this.initialFloat.left
         newState.top = this.initialFloat.top
@@ -341,7 +341,7 @@ class Event extends React.Component
       this.setState(state);
       this.lineId = this.draggingPosition.lineId;
       this.timeSpan = newTimeSpan;
-      this.props.timeline.findLineById(this.draggingPosition.lineId).clearDraggingOver()
+      this.clearCurrentDraggingOver();
       this.draggingPosition = null;
     } else if(this.resizingTimeSpan){
       const state = {
@@ -388,9 +388,7 @@ class Event extends React.Component
 
   componentWillUnmount(){
     this.props.timeline.eventComponents = this.props.timeline.eventComponents.filter(ev => ev !== this)
-    if(this.draggingPosition){
-      this.props.timeline.findLineById(this.draggingPosition.lineId).clearDraggingOver()
-    }
+    this.clearCurrentDraggingOver()
   }
 
   clearCurrentDraggingOver(){

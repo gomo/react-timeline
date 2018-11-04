@@ -10171,7 +10171,7 @@ function (_React$Component) {
     value: function cancel() {
       if (this.draggingPosition) {
         var newState = {};
-        this.props.timeline.findLineById(this.draggingPosition.lineId).clearDraggingOver();
+        this.clearCurrentDraggingOver();
 
         if (this.lineId === undefined) {
           newState.left = this.initialFloat.left;
@@ -10237,7 +10237,7 @@ function (_React$Component) {
         this.setState(state);
         this.lineId = this.draggingPosition.lineId;
         this.timeSpan = newTimeSpan;
-        this.props.timeline.findLineById(this.draggingPosition.lineId).clearDraggingOver();
+        this.clearCurrentDraggingOver();
         this.draggingPosition = null;
       } else if (this.resizingTimeSpan) {
         var _state = {
@@ -10294,10 +10294,7 @@ function (_React$Component) {
       this.props.timeline.eventComponents = this.props.timeline.eventComponents.filter(function (ev) {
         return ev !== _this4;
       });
-
-      if (this.draggingPosition) {
-        this.props.timeline.findLineById(this.draggingPosition.lineId).clearDraggingOver();
-      }
+      this.clearCurrentDraggingOver();
     }
   }, {
     key: "clearCurrentDraggingOver",
