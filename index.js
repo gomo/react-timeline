@@ -10300,6 +10300,15 @@ function (_React$Component) {
       }
     }
   }, {
+    key: "clearCurrentDraggingOver",
+    value: function clearCurrentDraggingOver() {
+      if (!this.draggingPosition) return;
+      if (!this.draggingPosition.lineId) return;
+      var line = this.props.timeline.findLineById(this.draggingPosition.lineId);
+      if (!line) return;
+      line.clearDraggingOver();
+    }
+  }, {
     key: "correctPosition",
     value: function correctPosition() {
       if (this.state.draggable) {
@@ -10309,11 +10318,11 @@ function (_React$Component) {
 
         if (!line) {
           line = this.props.timeline.lastLine;
-          newPos.left = this.props.timeline.getLineLeft(line.props.id);
-          this.initialFloat.left = newPos.left;
         }
 
         if (line) {
+          newPos.left = this.props.timeline.getLineLeft(line.props.id);
+          this.initialFloat.left = newPos.left;
           this.draggingPosition.lineId = line.props.id;
         } // 高さがはみ出てないかチェック
 

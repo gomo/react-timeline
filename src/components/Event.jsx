@@ -393,6 +393,14 @@ class Event extends React.Component
     }
   }
 
+  clearCurrentDraggingOver(){
+    if(!this.draggingPosition) return;
+    if(!this.draggingPosition.lineId) return;
+    const line = this.props.timeline.findLineById(this.draggingPosition.lineId);
+    if(!line) return;
+    line.clearDraggingOver()
+  }
+
   correctPosition(){
     if(this.state.draggable){
       const newPos = {}
@@ -401,11 +409,11 @@ class Event extends React.Component
       // はみ出てたら移動
       if(!line){
         line = this.props.timeline.lastLine
-        newPos.left = this.props.timeline.getLineLeft(line.props.id)
-        this.initialFloat.left = newPos.left
       }
 
       if(line){
+        newPos.left = this.props.timeline.getLineLeft(line.props.id)
+        this.initialFloat.left = newPos.left
         this.draggingPosition.lineId = line.props.id
       }
 
