@@ -10336,7 +10336,7 @@ function (_React$Component) {
 
         if (line) {
           newPos.left = this.props.timeline.getLineLeft(line.props.id);
-          this.initialFloat.left = newPos.left;
+          if (this.initialFloat) this.initialFloat.left = newPos.left;
           this.draggingPosition.lineId = line.props.id;
         } // 高さがはみ出てないかチェック
 
@@ -10345,7 +10345,7 @@ function (_React$Component) {
 
         if (this.state.top > bottom) {
           newPos.top = bottom;
-          this.initialFloat.top = newPos.top;
+          if (this.initialFloat) this.initialFloat.top = newPos.top;
           var time = this.props.timeline.topToTime(newPos.top);
           this.draggingPosition.time = time;
           newPos.draggingDisplay = time.getDisplayTime();
