@@ -298,12 +298,12 @@ class Event extends React.Component
         newState.top = this.initialFloat.top
         newState.draggingDisplay = this.timeSpan.getStartTime().getDisplayTime()
       } else {
-        this.draggingPosition = null;
         newState.left = this.props.timeline.getLineLeft(this.lineId);
         newState.top = this.props.timeline.timeToTop(this.timeSpan.getStartTime());
         newState.draggable = false
         newState.draggingDisplay = ''
       }
+      this.draggingPosition = null;
       this.setState(newState)
     } else if(this.resizingTimeSpan){
       const top = this.props.timeline.timeToTop(this.timeSpan.getStartTime());
