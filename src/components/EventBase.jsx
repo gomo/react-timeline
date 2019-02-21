@@ -43,7 +43,6 @@ export default class EventBase extends React.Component
         <div className="tlEventDisplay">
           {this.props.display.map(row => this.renderDisplay(row))}
         </div>
-        &nbsp;
       </div>
     );
   }

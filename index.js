@@ -3187,7 +3187,7 @@ function (_React$Component) {
         className: "tlEventDisplay"
       }, this.props.display.map(function (row) {
         return _this.renderDisplay(row);
-      })), "\xA0");
+      })));
     }
   }]);
 
