@@ -2,7 +2,7 @@ var gulp = require('gulp');
 var gutil = require("gulp-util");
 var webpack = require("webpack");
 var notifier = require('node-notifier');
-var compass = require('gulp-compass');
+const sass = require('gulp-sass');
 var cleanCSS = require('gulp-clean-css');
 var rename = require('gulp-rename');
 var webpackStream = require('webpack-stream');
@@ -18,13 +18,7 @@ function logError(error){
 
 gulp.task('build-sass', function() {
   return gulp.src(['sass/*.scss', 'sass/**/*.scss'])
-    .pipe(compass({
-      css: 'dist/css',
-      sass: 'sass',
-      image: 'dist/img',
-      import_path: ["sass"]
-    }))
-    .on('error', logError)
+    .pipe(sass().on('error', sass.logError))
     .pipe(gulp.dest('dist/css'))
     .pipe(rename({ suffix: '.min' }))
     .pipe(cleanCSS())

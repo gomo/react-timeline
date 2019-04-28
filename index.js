@@ -9971,6 +9971,8 @@ function (_React$Component) {
   }, {
     key: "update",
     value: function update(values) {
+      var _this2 = this;
+
       var newState = {};
 
       if (values.timeSpan) {
@@ -9988,7 +9990,9 @@ function (_React$Component) {
       }
 
       if (values.vars) {
-        this.vars = values.vars;
+        Object.keys(values.vars).forEach(function (key) {
+          _this2.vars[key] = values.vars[key];
+        });
       }
 
       this.setState(newState);
@@ -10025,7 +10029,7 @@ function (_React$Component) {
   }, {
     key: "onClick",
     value: function onClick(e) {
-      var _this2 = this;
+      var _this3 = this;
 
       if (this.props.timeline.props.eventDidClick) {
         if (this.resizing) {
@@ -10041,7 +10045,7 @@ function (_React$Component) {
           },
           component: this,
           lineComponent: this.props.timeline.lineComponents.find(function (lineComponent) {
-            return lineComponent.props.id == _this2.lineId;
+            return lineComponent.props.id == _this3.lineId;
           }),
           event: e
         });
@@ -10071,7 +10075,7 @@ function (_React$Component) {
   }, {
     key: "endResizing",
     value: function endResizing(e) {
-      var _this3 = this;
+      var _this4 = this;
 
       if (this.resizingTimeSpan) {
         var newState = {
@@ -10091,7 +10095,7 @@ function (_React$Component) {
 
 
       setTimeout(function () {
-        return _this3.resizing = false;
+        return _this4.resizing = false;
       }, 100);
     }
   }, {
@@ -10306,10 +10310,10 @@ function (_React$Component) {
   }, {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {
-      var _this4 = this;
+      var _this5 = this;
 
       this.props.timeline.eventComponents = this.props.timeline.eventComponents.filter(function (ev) {
-        return ev !== _this4;
+        return ev !== _this5;
       });
       this.clearCurrentDraggingOver();
     }
@@ -10360,7 +10364,7 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this5 = this;
+      var _this6 = this;
 
       var style = {
         height: this.state.height,
@@ -10374,10 +10378,10 @@ function (_React$Component) {
       return this.props.connectDragSource(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
         "data-id": this.props.id,
         ref: function ref(elem) {
-          return _this5.element = elem;
+          return _this6.element = elem;
         },
         onContextMenu: function onContextMenu(e) {
-          return _this5.onContextMenu(e);
+          return _this6.onContextMenu(e);
         },
         className: __WEBPACK_IMPORTED_MODULE_1_classnames___default()('tlEventView', {
           tlDraggingEvent: this.state.draggable,
@@ -10385,17 +10389,17 @@ function (_React$Component) {
         }),
         style: style,
         onClick: function onClick(e) {
-          return _this5.onClick(e);
+          return _this6.onClick(e);
         }
       }, function () {
-        if (_this5.state.resizable) {
+        if (_this6.state.resizable) {
           return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
             className: "tlResizeHandle",
             onTouchStart: function onTouchStart(e) {
-              return _this5.resizeUp(e);
+              return _this6.resizeUp(e);
             },
             onMouseDown: function onMouseDown(e) {
-              return _this5.resizeUp(e);
+              return _this6.resizeUp(e);
             }
           }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", {
             className: "fa fa-bars",
@@ -10409,14 +10413,14 @@ function (_React$Component) {
         timeline: this.props.timeline,
         right: this.state.left + this.props.width
       }), function () {
-        if (_this5.state.resizable) {
+        if (_this6.state.resizable) {
           return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", {
             className: "tlResizeHandle tlBottom",
             onTouchStart: function onTouchStart(e) {
-              return _this5.resizeDown(e);
+              return _this6.resizeDown(e);
             },
             onMouseDown: function onMouseDown(e) {
-              return _this5.resizeDown(e);
+              return _this6.resizeDown(e);
             }
           }, __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", {
             className: "fa fa-bars",

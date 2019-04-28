@@ -1,30 +1,25 @@
 .tlFrameView {
-  *zoom: 1;
-}
-.tlFrameView:after {
-  content: "";
-  display: table;
-  clear: both;
-}
+  *zoom: 1; }
+  .tlFrameView:after {
+    content: "";
+    display: table;
+    clear: both; }
 
 .tlLineView {
   *zoom: 1;
   float: left;
-  overflow: hidden;
-}
-.tlLineView:after {
-  content: "";
-  display: table;
-  clear: both;
-}
+  overflow: hidden; }
+  .tlLineView:after {
+    content: "";
+    display: table;
+    clear: both; }
 
 .tlLinesWrapper {
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
-  position: relative;
-}
+  position: relative; }
 
 /* tlRuler */
 .tlRulerView {
@@ -35,30 +30,26 @@
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
-  cursor: default;
-}
+  cursor: default; }
 
 /* tlTimeline */
 .tlLineView.tlEven {
-  background-color: #f3f3f3;
-}
+  background-color: #f3f3f3; }
+
 .tlLineView.tlOdd {
-  background-color: #fbfbfb;
-}
+  background-color: #fbfbfb; }
+
 .tlLineView.tlOver {
-  background-color: #FFFED6;
-}
+  background-color: #FFFED6; }
 
 .tlLabelView {
   *zoom: 1;
   position: relative;
-  z-index: 1000;
-}
-.tlLabelView:after {
-  content: "";
-  display: table;
-  clear: both;
-}
+  z-index: 1000; }
+  .tlLabelView:after {
+    content: "";
+    display: table;
+    clear: both; }
 
 .tlLabel {
   font-size: 11px;
@@ -68,42 +59,34 @@
   color: #fff;
   background-color: #337ab7;
   overflow: hidden;
-  float: left;
-}
+  float: left; }
 
 .tlLabel.tlHasRuler {
-  border-radius: 2px 0 0 2px;
-}
+  border-radius: 2px 0 0 2px; }
 
 .tlLabel.tlPrevRuler, .tlLabel.tlLast {
-  border-radius: 0 2px 2px 0;
-}
+  border-radius: 0 2px 2px 0; }
 
 .tlHourView {
   border-top: 1px solid #999;
   user-select: none;
   -moz-user-select: none;
   -webkit-user-select: none;
-  -ms-user-select: none;
-}
+  -ms-user-select: none; }
 
 .tlHourView:first-child {
-  border-top: none;
-}
+  border-top: none; }
 
 .tlMinView {
   box-sizing: content-box;
   user-select: none;
   -moz-user-select: none;
   -webkit-user-select: none;
-  -ms-user-select: none;
-}
-.tlMinView.tl0, .tlMinView.tl30 {
-  border-bottom: 1px dashed #ddd;
-}
-.tlMinView.tl15 {
-  border-bottom: 1px solid #ccc;
-}
+  -ms-user-select: none; }
+  .tlMinView.tl0, .tlMinView.tl30 {
+    border-bottom: 1px dashed #ddd; }
+  .tlMinView.tl15 {
+    border-bottom: 1px solid #ccc; }
 
 /* tlEventView */
 .tlEventView {
@@ -116,8 +99,7 @@
   border: 1px solid #777;
   text-align: center;
   line-height: 17px;
-  box-sizing: content-box;
-}
+  box-sizing: content-box; }
 
 .tlDraggingDisplay {
   opacity: 1;
@@ -137,30 +119,24 @@
   height: 18px;
   line-height: 15px;
   text-align: center;
-  box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.4);
-}
-.tlDraggingDisplay.right {
-  left: 117%;
-}
-.tlDraggingDisplay.left {
-  left: -107%;
-}
-.tlDraggingDisplay:after {
-  content: ' ';
-  height: 0;
-  position: absolute;
-  width: 0;
-  border: 8px solid transparent;
-  top: 0;
-}
-.tlDraggingDisplay.right:after {
-  border-right-color: #000;
-  left: -29%;
-}
-.tlDraggingDisplay.left:after {
-  border-left-color: #000;
-  left: 97%;
-}
+  box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.4); }
+  .tlDraggingDisplay.right {
+    left: 117%; }
+  .tlDraggingDisplay.left {
+    left: -107%; }
+  .tlDraggingDisplay:after {
+    content: ' ';
+    height: 0;
+    position: absolute;
+    width: 0;
+    border: 8px solid transparent;
+    top: 0; }
+  .tlDraggingDisplay.right:after {
+    border-right-color: #000;
+    left: -29%; }
+  .tlDraggingDisplay.left:after {
+    border-left-color: #000;
+    left: 97%; }
 
 .tlDraggingEvent {
   box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.4);
@@ -168,12 +144,10 @@
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
-  z-index: 1;
-}
+  z-index: 1; }
 
 .tlResizableEvent {
-  z-index: 1;
-}
+  z-index: 1; }
 
 .tlResizeHandle {
   position: absolute;
@@ -184,12 +158,10 @@
   top: 0;
   background-color: #fdfdfd;
   opacity: 0.8;
-  border-radius: 3px;
-}
-.tlResizeHandle.tlBottom {
-  top: 100%;
-  margin-top: -18px;
-}
+  border-radius: 3px; }
+  .tlResizeHandle.tlBottom {
+    top: 100%;
+    margin-top: -18px; }
 
 .tlEventDisplay {
   width: 100%;
@@ -198,5 +170,4 @@
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
-  cursor: default;
-}
+  cursor: default; }

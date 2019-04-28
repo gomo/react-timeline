@@ -169,6 +169,7 @@ class App extends React.Component
           }}
           eventDidClick={data => {
             console.log('left', data);
+            data.component.update({vars: {foobar: 'hoge'}})
           }}
           eventDidRightClick={data => {
             data.event.preventDefault();

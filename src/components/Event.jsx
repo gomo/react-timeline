@@ -105,7 +105,9 @@ class Event extends React.Component
     }
 
     if(values.vars){
-      this.vars = values.vars;
+      Object.keys(values.vars).forEach(key => {
+        this.vars[key] = values.vars[key]
+      })
     }
 
     this.setState(newState);
