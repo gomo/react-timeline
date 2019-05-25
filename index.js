@@ -9907,7 +9907,7 @@ function (_React$Component) {
     _this.draggingPosition = null;
     _this.resizingTimeSpan = null;
     _this.resizing = false;
-    _this.vars = _this.props.vars;
+    _this.vars = _this.props.vars || {};
     _this.element = null; // 初期フロートのイベントはlineIdを持っていません。これはキャンセルした時にフローとした状態に戻したいからです。
     // 代わりにfloatの値を保持し、そこにフロートのまま戻すようにしています。
 
@@ -9919,7 +9919,7 @@ function (_React$Component) {
       draggable: _this.props.float === undefined ? false : true,
       resizable: false,
       draggingDisplay: '',
-      display: _this.props.initialDisplay
+      display: _this.props.initialDisplay || []
     };
 
     if (_this.props.float) {
@@ -10468,10 +10468,6 @@ function (_React$Component) {
   return Event;
 }(__WEBPACK_IMPORTED_MODULE_0_react___default.a.Component);
 
-Event.defaultProps = {
-  initialDisplay: [],
-  vars: {}
-};
 /* harmony default export */ __webpack_exports__["a"] = (Object(__WEBPACK_IMPORTED_MODULE_3_react_dnd__["DragSource"])("Event", source, collect)(Event));
 
 /***/ })

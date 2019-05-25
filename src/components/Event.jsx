@@ -34,7 +34,7 @@ class Event extends React.Component
     this.draggingPosition = null;
     this.resizingTimeSpan = null;
     this.resizing = false;
-    this.vars = this.props.vars;
+    this.vars = this.props.vars || {};
     this.element = null;
     // 初期フロートのイベントはlineIdを持っていません。これはキャンセルした時にフローとした状態に戻したいからです。
     // 代わりにfloatの値を保持し、そこにフロートのまま戻すようにしています。
@@ -47,7 +47,7 @@ class Event extends React.Component
       draggable: this.props.float === undefined ? false : true,
       resizable: false,
       draggingDisplay: '',
-      display: this.props.initialDisplay,
+      display: this.props.initialDisplay || [],
     }
 
     if(this.props.float){
@@ -487,10 +487,5 @@ class Event extends React.Component
     );
   }
 }
-
-Event.defaultProps = {
-  initialDisplay: [],
-  vars: {}
-};
 
 export default DragSource("Event", source, collect)(Event);
